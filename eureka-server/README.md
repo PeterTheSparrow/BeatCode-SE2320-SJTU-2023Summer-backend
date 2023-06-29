@@ -1,0 +1,9 @@
+# Eureka-Server
+这是服务注册机，需要在其余服务运行前开启运行。  
+如果出现以下报错：
+```
+EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE
+UP WHEN THEY'RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND
+HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.
+```
+意思是有一个注册的服务消失了一段时间。如果期间你修改并重新启动了某个服务，可以忽略这个报错。

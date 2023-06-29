@@ -1,0 +1,13 @@
+server:
+  port: 8763
+  address: localhost
+
+spring:
+  application:
+    name: producer-user
+
+eureka:
+  client:
+    service-url:
+      # where the registry server is
+      defaultZone: http://localhost:8761/eureka

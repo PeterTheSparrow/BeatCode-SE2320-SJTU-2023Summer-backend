@@ -1,0 +1,14 @@
+server:
+  port: 8764
+  address: localhost
+
+spring:
+  application:
+    name: producer-question-bank
+
+eureka:
+  client:
+    service-url:
+      # where the registry server is
+      defaultZone: http://localhost:8761/eureka
+

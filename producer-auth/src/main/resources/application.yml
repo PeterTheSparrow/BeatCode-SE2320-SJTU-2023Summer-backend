@@ -1,0 +1,13 @@
+server:
+  port: 8762
+  address: localhost
+
+spring:
+  application:
+    name: producer-auth
+
+eureka:
+  client:
+    service-url:
+      # where the registry server is
+      defaultZone: http://localhost:8761/eureka
