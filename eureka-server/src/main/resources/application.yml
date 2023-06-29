@@ -1,0 +1,17 @@
+# single registry center
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # whether to get registry info from Eureka Server
+    # I'm a single registry center, don't need to synchronize with other eurekas.
+    fetch-registry: false
+
+    # whether to register myself
+    # I'm eureka, not service
+    register-with-eureka: false
+    service-url:
+      # default addr of Eureka Server. use ',' for multiple servers.
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
