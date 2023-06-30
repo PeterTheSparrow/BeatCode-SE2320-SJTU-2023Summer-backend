@@ -15,8 +15,8 @@ public class ConsumerTestController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @RequestMapping("hello")
     public String hello() {
-        return restTemplate.getForEntity("http://producer-judge/hello", String.class).getBody();
+        return restTemplate.getForObject("http://producer-judge/helloPORT", String.class);
     }
 }

@@ -19,8 +19,8 @@ public class JudgeTestController {
     @Value("${server.port}")
     private int serverPort = 0;
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String hello() {
+    @RequestMapping("helloPORT")
+    public String helloPORT() {
         this.logger.info("/hello, instanceId:{}, host:{}", eurekaInstanceConfig.getInstanceId(), eurekaInstanceConfig.getHostName(false));
         return "Hello, Spring Cloud! My port is " + String.valueOf(serverPort);
     }
