@@ -21,7 +21,7 @@ import java.net.UnknownHostException;
  * 需要注意的是，这些字段的值是由代理服务器或反向代理服务器添加的，因此在某些情况下可能会被伪造或篡改。
  * 所以在使用这些字段时，需要进行适当的验证和处理。
  */
-public class IpUtil {
+public class IpInHttp {
     private static final String UNKNOWN = "unknown";
     private static final String LOCALHOST = "127.0.0.1";
 
