@@ -1,4 +1,4 @@
-package team.beatcode.auth.utils.msg;
+package sjtu.reins.web.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,12 +13,12 @@ public class Message {
     @Getter @Setter
     private Object data;
 
-    public Message(MessageEnum msg, Object data){
+    public Message(MessageEnumInterface msg, Object data){
         this.status = msg.getStatus();
         this.msg = msg.getMsg();
         this.data = data;
     }
-    public Message(MessageEnum msg){
+    public Message(MessageEnumInterface msg){
         this.status = msg.getStatus();
         this.msg = msg.getMsg();
         this.data = "";
