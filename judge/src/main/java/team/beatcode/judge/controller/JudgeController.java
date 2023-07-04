@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,7 +17,8 @@ public class JudgeController {
     private int serverPort = 0;
 
     @RequestMapping("judge")
-    public String judgeBySid(@RequestBody String sid_s) {
-        return sid_s;
+    public String judgeBySid(@RequestParam("sid") int sid, @RequestParam("jid") int jid) {
+
+        return "";
     }
 }
