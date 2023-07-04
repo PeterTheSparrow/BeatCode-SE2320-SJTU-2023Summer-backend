@@ -16,5 +16,7 @@ eureka:
     service-url:
       # where the registry server is
       defaultZone: http://localhost:8761/eureka
+judge:
+  baseDirectory: /usr/tmp/judge/1
 
 
