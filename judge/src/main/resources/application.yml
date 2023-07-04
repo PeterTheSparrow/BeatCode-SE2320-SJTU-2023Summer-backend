@@ -4,7 +4,7 @@ server:
 spring:
   application:
     # the name of service to be provoked by consumer
-    name: producer-judge
+    name: judge
 
 eureka:
   client:
