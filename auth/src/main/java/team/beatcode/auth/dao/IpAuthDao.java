@@ -13,7 +13,7 @@ public class IpAuthDao {
     IpAuthRepository ipAuthRepository;
 
     public IpAuth getByIp(@NonNull String ipStr) {
-        return ipAuthRepository.getIpAuthByIpAddr(IpInStr.ipAddrStrToHex(ipStr));
+        return ipAuthRepository.findById(IpInStr.ipAddrStrToHex(ipStr)).orElse(null);
     }
 
     public IpAuth save(@NonNull IpAuth ipAuth) {

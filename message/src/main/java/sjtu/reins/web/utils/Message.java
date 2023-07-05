@@ -2,15 +2,16 @@ package sjtu.reins.web.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
-    @Getter @Setter
     private int status;
-    @Getter @Setter
     private String msg;
-    @Getter @Setter
     private Object data;
 
     public Message(MessageEnumInterface msg, Object data){

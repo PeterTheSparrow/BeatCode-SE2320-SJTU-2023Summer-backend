@@ -88,9 +88,12 @@ public class LogController {
             return new Message(MessageEnum.IP_FAULT);
 
         IpAuth auth = ipAuthDao.getByIp(ip_str);
-        // 手动过期
-        auth.setLastFresh(0);
-        ipAuthDao.save(auth);
+        if (auth != null) {
+            // 没登录过也可以登出
+            // 手动过期
+            auth.setLastFresh(0);
+            ipAuthDao.save(auth);
+        }
 
         return new Message(MessageEnum.SUCCESS);
     }
