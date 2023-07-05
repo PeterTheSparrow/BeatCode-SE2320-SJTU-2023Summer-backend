@@ -5,10 +5,19 @@ spring:
   application:
     # the name of service to be provoked by consumer
     name: judge
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: BeatCode
 
 eureka:
   client:
     service-url:
       # where the registry server is
       defaultZone: http://localhost:8761/eureka
+judge:
+  judgeDirectory: /usr/tmp/BeatCode/judge/1
+  dataDirectory: /usr/tmp/BeatCode/data
+
 
