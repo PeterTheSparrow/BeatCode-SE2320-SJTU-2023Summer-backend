@@ -1,4 +1,4 @@
-package team.beatcode.auth.utils;
+package team.beatcode.auth.utils.ip;
 
 import lombok.NonNull;
 

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.beatcode.auth.entity.IpAuth;
 import team.beatcode.auth.repository.IpAuthRepository;
-import team.beatcode.auth.utils.IpInStr;
+import team.beatcode.auth.utils.ip.IpInStr;
 
 @Repository
 public class IpAuthDao {

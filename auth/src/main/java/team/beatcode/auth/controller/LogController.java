@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sjtu.reins.web.utils.Message;
 import team.beatcode.auth.dao.IpAuthDao;
 import team.beatcode.auth.dao.UserAuthDao;
 import team.beatcode.auth.entity.IpAuth;
 import team.beatcode.auth.entity.UserAuth;
 import team.beatcode.auth.feign.UserFeign;
-import team.beatcode.auth.utils.IpInHttp;
-import team.beatcode.auth.utils.IpInStr;
+import team.beatcode.auth.utils.ip.IpInHttp;
+import team.beatcode.auth.utils.ip.IpInStr;
 import team.beatcode.auth.utils.Macros;
-import team.beatcode.auth.utils.msg.Message;
 import team.beatcode.auth.utils.msg.MessageEnum;
 
 import java.util.Map;
@@ -59,8 +59,6 @@ public class LogController {
             // 无法解析的
             if (ip_str == null)
                 return new Message(MessageEnum.IP_FAULT);
-
-            System.out.println(ip_str);
 
             // 检查密码
             UserAuth auth = userAuthDao.getUserAuthByName(name);

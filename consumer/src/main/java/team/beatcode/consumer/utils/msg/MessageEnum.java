@@ -1,4 +1,4 @@
-package team.beatcode.auth.utils.msg;
+package team.beatcode.consumer.utils.msg;
 
 import sjtu.reins.web.utils.MessageEnumInterface;
 
@@ -10,7 +10,9 @@ public enum MessageEnum implements MessageEnumInterface {
     PARAM_FAIL(100, "缺少参数"),
     IP_FAULT(101, "无法解析访问者ip"),
     USER_NOT_FOUND_FAULT(1000, "找不到指定的用户"),
-    USER_BAD_PASS_FAIL(1001, "密码错误")
+    USER_BAD_PASS_FAIL(1001, "密码错误"),
+
+    AUTH_FAIL(401, "权限不足，尝试登录"),
 
     ;
 

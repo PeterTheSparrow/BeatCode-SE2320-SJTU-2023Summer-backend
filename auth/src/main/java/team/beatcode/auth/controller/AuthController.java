@@ -8,7 +8,7 @@ import team.beatcode.auth.dao.IpAuthDao;
 import team.beatcode.auth.dao.UserAuthDao;
 import team.beatcode.auth.entity.IpAuth;
 import team.beatcode.auth.entity.UserAuth;
-import team.beatcode.auth.utils.IpInHttp;
+import team.beatcode.auth.utils.ip.IpInHttp;
 import team.beatcode.auth.utils.Macros;
 
 @RestController
@@ -55,8 +55,6 @@ public class AuthController {
             ipAuthDao.save(ipAuth);
             return Macros.AUTH_CHECK_SUCCESS;
         } else return Macros.AUTH_CHECK_FAIL;
-
-
     }
 
     @RequestMapping("/CheckUser")

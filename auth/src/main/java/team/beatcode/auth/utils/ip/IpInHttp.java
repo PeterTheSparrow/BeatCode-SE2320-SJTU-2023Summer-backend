@@ -1,6 +1,7 @@
-package team.beatcode.auth.utils;
+package team.beatcode.auth.utils.ip;
 
 import jakarta.servlet.http.HttpServletRequest;
+import team.beatcode.auth.utils.Macros;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -36,15 +37,14 @@ public class IpInHttp {
     }
 
     public static String getIpAddr(HttpServletRequest request) {
-        System.out.println(request);
         try {
-            String xri = request.getHeader("x-real-ip");
+            String xri = request.getHeader(Macros.X_REAL_IP);
             if (checkIpValid(xri)) return xri;
-            String xff = request.getHeader("x-forwarded-for");
+            String xff = request.getHeader(Macros.X_FORWARDED_FOR);
             if (checkIpValid(xff)) return toSingleIp(xff);
-            String pci = request.getHeader("Proxy-Client-IP");
+            String pci = request.getHeader(Macros.PROXY_CLIENT_IP);
             if (checkIpValid(pci)) return pci;
-            String wl_pci = request.getHeader("WL-Proxy-Client-IP");
+            String wl_pci = request.getHeader(Macros.WL_PROXY_CLIENT_IP);
             if (checkIpValid(wl_pci)) return wl_pci;
             String ra = request.getRemoteAddr();
             if (LOCALHOST.equals(ra)) {
