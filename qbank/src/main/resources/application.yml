@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: producer-question-bank
+    name: question-bank
 
 eureka:
   client:
