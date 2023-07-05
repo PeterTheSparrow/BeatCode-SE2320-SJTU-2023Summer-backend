@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -14,11 +15,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/user")
-    public User getUser(@RequestParam Integer id) {
-        return userService.getUser(id);
+    @RequestMapping("/user")
+    public User getUser(@RequestBody Map<String, Object> data)
+    {
+        // 获得user_id
+        Integer userid = (Integer) data.get("userid");
+        return userService.getUser(userid);
     }
-
-
 
 }

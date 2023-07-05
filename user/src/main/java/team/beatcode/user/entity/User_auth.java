@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "user_auth")
-public class User_admin {
+public class User_auth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
