@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class User_record {
     @Id
     @Column(name = "user_id", nullable = false)
-    private Integer user_id;
+    private Integer userId;
 
     @Column(name = "accept_num", nullable = false)
     private Integer accept_num;

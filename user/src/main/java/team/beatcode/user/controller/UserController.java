@@ -1,6 +1,7 @@
 package team.beatcode.user.controller;
 
 import team.beatcode.user.entity.User;
+import team.beatcode.user.entity.User_record;
 import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/user")
-    public User getUser(@RequestBody Map<String, Object> data)
-    {
-        // 获得user_id
-        Integer userid = (Integer) data.get("userid");
-        return userService.getUser(userid);
+    @GetMapping("/user")
+    public User getUser(@RequestBody Map<String, Object> data) {
+        Integer userId = (Integer) data.get("userId");
+
+        return userService.getUser(userId);
     }
+
+//    @GetMapping("/ranks")
+//    public List<User_record> getRanks() {
+//        return userService.getRanks();
+//    }
+
 
 }

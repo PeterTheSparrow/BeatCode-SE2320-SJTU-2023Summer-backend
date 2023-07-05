@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface User_authRepository extends JpaRepository<User_auth, Integer>{
 
-    Optional<User_auth> findUser_authByUserId(Integer id);
+    Optional<User_auth> findUser_authByUserId(Integer userId);
 
 }
