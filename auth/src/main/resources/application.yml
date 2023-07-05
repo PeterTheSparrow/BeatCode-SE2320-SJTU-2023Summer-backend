@@ -3,7 +3,20 @@ server:
 
 spring:
   application:
-    name: producer-auth
+    name: auth
+  datasource:
+    url: jdbc:mysql://localhost:3306/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: BeatCode
+    password: BeatCode2023summer
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: validate
+        dialect: org.hibernate.dialect.MySQLDialect
 
 eureka:
   client:

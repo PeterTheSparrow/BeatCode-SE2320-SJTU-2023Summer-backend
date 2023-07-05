@@ -8,11 +8,11 @@
         <version>3.1.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>team.beatcode.producer</groupId>
+    <groupId>team.beatcode</groupId>
     <artifactId>qbank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>producer-qbank</name>
-    <description>producer-qbank</description>
+    <name>qbank</name>
+    <description>qbank</description>
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>

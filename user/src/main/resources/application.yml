@@ -3,8 +3,19 @@ server:
 
 spring:
   application:
-    name: producer-user
-
+    name: user
+  datasource:
+    url: jdbc:mysql://localhost:3306/beatcode_mysql?serverTimeZone=UTC;
+    username: BeatCode
+    password: BeatCode2023summer
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 eureka:
   client:
     service-url:

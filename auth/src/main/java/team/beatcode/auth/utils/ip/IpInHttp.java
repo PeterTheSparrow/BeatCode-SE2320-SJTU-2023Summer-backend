@@ -1,6 +1,7 @@
-package team.beatcode.auth.utils;
+package team.beatcode.auth.utils.ip;
 
 import jakarta.servlet.http.HttpServletRequest;
+import team.beatcode.auth.utils.Macros;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,7 +22,7 @@ import java.net.UnknownHostException;
  * 需要注意的是，这些字段的值是由代理服务器或反向代理服务器添加的，因此在某些情况下可能会被伪造或篡改。
  * 所以在使用这些字段时，需要进行适当的验证和处理。
  */
-public class IpUtil {
+public class IpInHttp {
     private static final String UNKNOWN = "unknown";
     private static final String LOCALHOST = "127.0.0.1";
 
@@ -36,15 +37,14 @@ public class IpUtil {
     }
 
     public static String getIpAddr(HttpServletRequest request) {
-        System.out.println(request);
         try {
-            String xri = request.getHeader("x-real-ip");
+            String xri = request.getHeader(Macros.X_REAL_IP);
             if (checkIpValid(xri)) return xri;
-            String xff = request.getHeader("x-forwarded-for");
+            String xff = request.getHeader(Macros.X_FORWARDED_FOR);
             if (checkIpValid(xff)) return toSingleIp(xff);
-            String pci = request.getHeader("Proxy-Client-IP");
+            String pci = request.getHeader(Macros.PROXY_CLIENT_IP);
             if (checkIpValid(pci)) return pci;
-            String wl_pci = request.getHeader("WL-Proxy-Client-IP");
+            String wl_pci = request.getHeader(Macros.WL_PROXY_CLIENT_IP);
             if (checkIpValid(wl_pci)) return wl_pci;
             String ra = request.getRemoteAddr();
             if (LOCALHOST.equals(ra)) {
