@@ -17,6 +17,7 @@ eureka:
       # where the registry server is
       defaultZone: http://localhost:8761/eureka
 judge:
-  baseDirectory: /usr/tmp/judge/1
+  judgeDirectory: /usr/tmp/BeatCode/judge/1
+  dataDirectory: /usr/tmp/BeatCode/data
 
 

@@ -20,5 +20,5 @@ public class Submission {
     private String result_time;
     private String result_memory;
     private String conf;
-
+    private String full_result;
 }
