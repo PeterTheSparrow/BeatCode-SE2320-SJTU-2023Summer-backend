@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: producer-user
+    name: user
   datasource:
     url: jdbc:mysql://localhost:3306/beatcode_mysql?serverTimeZone=UTC;
     username: BeatCode
