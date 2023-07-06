@@ -15,6 +15,7 @@ import team.beatcode.auth.utils.ip.IpInHttp;
 import team.beatcode.auth.utils.ip.IpInStr;
 import team.beatcode.auth.utils.Macros;
 import team.beatcode.auth.utils.msg.MessageEnum;
+import net.sf.json.JSONObject;
 
 import java.util.Map;
 
@@ -70,7 +71,21 @@ public class LogController {
             // 记录
             saveLogin(ip_str, auth.getId());
 
-            return new Message(MessageEnum.SUCCESS);
+
+            // 检查是否是管理员
+            if (auth.getRole() == 0)
+            {
+                // 生成json，作为返回data
+                JSONObject json = new JSONObject();
+                json.put("is_admin", 0);
+                return new Message(MessageEnum.SUCCESS, json);
+            }
+            else
+            {
+                JSONObject json = new JSONObject();
+                json.put("is_admin", 1);
+                return new Message(MessageEnum.SUCCESS, json);
+            }
         } catch (NullPointerException e) {
             // 缺少参数
             return new Message(MessageEnum.PARAM_FAIL);

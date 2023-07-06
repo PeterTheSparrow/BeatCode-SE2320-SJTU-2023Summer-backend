@@ -4,6 +4,7 @@ import sjtu.reins.web.utils.MessageEnumInterface;
 
 public enum MessageEnum implements MessageEnumInterface {
     SUCCESS(0, "成功"),
+
     FAIL(1, "失败"),
     FAULT(2, "出错"),
 
