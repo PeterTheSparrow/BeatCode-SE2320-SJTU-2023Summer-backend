@@ -12,11 +12,11 @@ public class User_record {
     private Integer userId;
 
     @Column(name = "accept_num", nullable = false)
-    private Integer accept_num;
+    private Integer acceptNum;
 
     @Column(name = "accept_submit", nullable = false)
-    private Integer accept_submit;
+    private Integer acceptSubmit;
 
     @Column(name = "submit_num", nullable = false)
-    private Integer submit_num;
+    private Integer submitNum;
 }

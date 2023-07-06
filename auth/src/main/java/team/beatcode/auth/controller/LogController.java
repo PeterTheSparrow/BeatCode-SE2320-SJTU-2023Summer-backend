@@ -120,7 +120,6 @@ public class LogController {
      *            &emsp;&emsp;"pass": string,  // 密码<br/>
      *            &emsp;&emsp;"email": string,  //邮箱<br/>
      *            &emsp;&emsp;"phone": string,  //电话<br/>
-     *            &emsp;&emsp;以及user服务记录用户信息所需的更多参数<br/>
      *            }<br/>
      * @return bookstore经典Message格式，不含数据
      */
@@ -135,6 +134,13 @@ public class LogController {
             // 无法解析的
             if (ip_str == null)
                 return new Message(MessageEnum.IP_FAULT);
+
+            // 检查用户名是否重复
+            UserAuth checkExistAuth = userAuthDao.getUserAuthByName(name);
+
+            if (checkExistAuth != null)
+                return new Message(MessageEnum.USER_EXIST_FAULT);
+
 
             // 生成新用户
             UserAuth auth = new UserAuth();
