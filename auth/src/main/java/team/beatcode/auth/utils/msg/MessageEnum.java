@@ -8,6 +8,8 @@ public enum MessageEnum implements MessageEnumInterface {
     FAIL(1, "失败"),
     FAULT(2, "出错"),
 
+    USER_EXIST_FAULT(3, "用户名已存在"),
+
     PARAM_FAIL(100, "缺少参数"),
     IP_FAULT(101, "无法解析访问者ip"),
     USER_NOT_FOUND_FAULT(1000, "找不到指定的用户"),

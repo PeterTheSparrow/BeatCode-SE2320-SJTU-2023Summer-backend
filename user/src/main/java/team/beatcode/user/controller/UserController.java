@@ -24,18 +24,12 @@ public class UserController {
 
     @RequestMapping("/register")
     public void register(@RequestBody Map<String, Object> data) {
-        Integer userId = (Integer) data.get("id");
+        Integer userId = (Integer) data.get("user_id");
         String userName = (String) data.get("name");
-        String eamil = (String) data.get("email");
+        String email = (String) data.get("email");
         String phone = (String) data.get("phone");
 
-        userService.register(userId, userName, eamil, phone);
+        userService.register(userId, userName, email, phone);
     }
-
-//    @GetMapping("/ranks")
-//    public List<User_record> getRanks() {
-//        return userService.getRanks();
-//    }
-
 
 }
