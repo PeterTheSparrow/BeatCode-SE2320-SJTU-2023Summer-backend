@@ -11,6 +11,7 @@ import java.util.Map;
 @FeignClient(value="user",configuration =
         {FeignClientsConfiguration.class})
 public interface UserFeign {
-    @RequestMapping("update")
-    void update(@RequestBody Map<String, Object> map);
+    @RequestMapping("register")
+    void registerUser(@RequestBody Map<String, Object> map);
 }
+

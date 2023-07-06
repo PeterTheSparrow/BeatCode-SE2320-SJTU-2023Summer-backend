@@ -118,6 +118,8 @@ public class LogController {
      *            {<br/>
      *            &emsp;&emsp;"name": string, // 用户名<br/>
      *            &emsp;&emsp;"pass": string,  // 密码<br/>
+     *            &emsp;&emsp;"email": string,  //邮箱<br/>
+     *            &emsp;&emsp;"phone": string,  //电话<br/>
      *            &emsp;&emsp;以及user服务记录用户信息所需的更多参数<br/>
      *            }<br/>
      * @return bookstore经典Message格式，不含数据
@@ -148,7 +150,7 @@ public class LogController {
             // 调用user服务记录更多信息
             map.remove(KEY_PASSWORD);
             map.put("user_id", id);
-            userFeign.update(map);
+            userFeign.registerUser(map);
 
             return new Message(MessageEnum.SUCCESS);
         } catch (NullPointerException e) {
