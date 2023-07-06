@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
         User user = new User();
 //        user.setUser_name(userAuth.getUser_name());
 //        user.setPassword(userAuth.getPassword());
-        user.setUser_name(userInfo.getUserName());
+        user.setUserName(userInfo.getUserName());
         user.setEmail(userInfo.getEmail());
         user.setPhone(userInfo.getPhone());
         user.setAccept_num(userRecord.getAccept_num());
@@ -32,6 +32,17 @@ public class UserServiceImpl implements UserService{
         user.setSubmit_num(userRecord.getSubmit_num());
 
         return user;
+    }
+
+    @Override
+    public void register(String userName, String email, String phone) {
+        User user = new User();
+        user.setUserName(userName);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setAccept_num(0);
+        user.setAccept_submit(0);
+        user.setSubmit_num(0);
     }
 
 //    @Override

@@ -10,17 +10,25 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/user")
+    @RequestMapping("/user")
     public User getUser(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get("userId");
 
         return userService.getUser(userId);
+    }
+
+    @RequestMapping("/register")
+    public void register(@RequestBody Map<String, Object> data) {
+        String userName = (String) data.get("userName");
+        String eamil = (String) data.get("email");
+        String phone = (String) data.get("phone");
+
+        userService.register(userName, eamil, phone);
     }
 
 //    @GetMapping("/ranks")
