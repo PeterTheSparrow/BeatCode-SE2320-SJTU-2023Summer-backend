@@ -30,11 +30,11 @@ public class UserDaoImpl implements UserDao {
         return user_info.orElse(null);
     }
 
-    @Override
-    public User_auth getUser_auth(Integer userId){
-        Optional<User_auth> user_auth = user_authRepository.findUser_authByUserId(userId);
-        return user_auth.orElse(null);
-    }
+//    @Override
+//    public User_auth getUser_auth(Integer userId){
+//        Optional<User_auth> user_auth = user_authRepository.findUser_authByUserId(userId);
+//        return user_auth.orElse(null);
+//    }
 
     @Override
     public User_record getUser_record(Integer userId){

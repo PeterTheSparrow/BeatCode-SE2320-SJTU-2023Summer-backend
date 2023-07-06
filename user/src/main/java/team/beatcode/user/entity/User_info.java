@@ -11,6 +11,9 @@ public class User_info {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "email")
     private String email;
 

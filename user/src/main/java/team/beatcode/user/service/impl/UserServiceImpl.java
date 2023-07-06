@@ -18,12 +18,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUser(Integer userId){
         User_info userInfo = userDao.getUser_info(userId);
-        User_auth userAuth = userDao.getUser_auth(userId);
+//        User_auth userAuth = userDao.getUser_auth(userId);
         User_record userRecord = userDao.getUser_record(userId);
 
         User user = new User();
-        user.setUser_name(userAuth.getUser_name());
-        user.setPassword(userAuth.getPassword());
+//        user.setUser_name(userAuth.getUser_name());
+//        user.setPassword(userAuth.getPassword());
+        user.setUser_name(userInfo.getUserName());
         user.setEmail(userInfo.getEmail());
         user.setPhone(userInfo.getPhone());
         user.setAccept_num(userRecord.getAccept_num());
