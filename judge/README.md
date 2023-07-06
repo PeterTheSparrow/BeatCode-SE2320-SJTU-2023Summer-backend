@@ -43,3 +43,32 @@
 #### 4.其他说明和todo
 1.题目数据文件更新逻辑
 2.评测错误状态处理
+
+
+*对于两个conf文件内容的说明*
+>#### *problem.conf文件内容*
+>例：
+use_builtin_judger on
+use_builtin_checker ncmp
+n_tests 10
+n_ex_tests 5
+n_sample_tests 1
+input_pre www
+input_suf in
+output_pre www
+output_suf out
+time_limit 1
+memory_limit 256
+output_limit 64
+**测评类型**：*use_builtin_judger on*制定了使用内置的测评器。一般情况下还是使用内置测评器，自定义测评器实现可放在之后实现。
+**输入输出文件**：题目数据的输入输出文件名为 "pre%d.suf"。若没有在conf文件中特定指定该类型，则默认输入输出文件为"input%d.txt"和"output%d.txt".
+**额外数据，样例数据**：支持相关功能，但暂时没有实现的必要，故不作说明。因此conf里相关的行也可以不写。
+**答案检查器(checker)**：数据配置文件中，use_builtin_checker ncmp 的意思是将本题的 checker 设置为 ncmp。checker 是指判断选手输出是否正确的答案检查器。一般来说，如果输出结果为整数序列，那么用 ncmp 就够了。ncmp 会比较标准答案的整数序列和选手输出的整数序列。如果是忽略所有空白字符，进行字符串序列的比较，可以用 wcmp。如果你想按行比较（不忽略行末空格，但忽略文末回车），可以使用 fcmp。
+**时空限制**：time_limit 控制的是一个测试点的时间限制，单位为秒，可以是小数（至多三位小数，即最高精确到毫秒）。
+memory_limit 控制的是一个测试点的空间限制，单位为 MB。output_limit 控制的是程序的输出长度限制，单位也为 MB。注意这两个限制都不能为小数。
+
+>#### *submission.conf文件内容*
+>例：
+problem_id 1
+language C++
+目前仅需这两项即可
