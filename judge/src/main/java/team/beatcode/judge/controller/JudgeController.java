@@ -102,7 +102,6 @@ public class JudgeController {
         String result = Files.readString(new File(resultFilePath).toPath());
         submission.setCase_n(problem.getCase_n());
         Submission resSubmission=ParseResult(submission,result);
-        resSubmission.setFull_result(result);
         submissionService.saveSubmission(resSubmission);
 
         /*---------------------------------------------
@@ -152,6 +151,14 @@ public class JudgeController {
 
     private Submission ParseResult(Submission sub,String res)
     {
+        Pattern resultPattern=Pattern.compile("([\\s\\S]*)<tests>");
+        Matcher resultMatcher=resultPattern.matcher(res);
+        if(resultMatcher.find())
+        {
+            sub.setFull_result(resultMatcher.group(1));
+        }
+
+
         List<Result> ResultDetails = new ArrayList<>();
 
         Pattern scorePattern=Pattern.compile("score\\s+(.*)");
