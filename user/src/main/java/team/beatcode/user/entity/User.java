@@ -5,7 +5,6 @@ import lombok.Data;
 public class User {
     private Integer userId;
     private String userName;
-//    private String password;
     private String email;
     private String phone;
     private Integer accept_num;
