@@ -7,7 +7,6 @@ import team.beatcode.user.entity.User_info;
 import team.beatcode.user.entity.User_auth;
 import team.beatcode.user.entity.User_record;
 import team.beatcode.user.repository.User_infoRepository;
-import team.beatcode.user.repository.User_authRepository;
 import team.beatcode.user.repository.User_recordRepository;
 
 import java.util.Optional;
@@ -17,9 +16,6 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     User_infoRepository user_infoRepository;
-
-    @Autowired
-    User_authRepository user_authRepository;
 
     @Autowired
     User_recordRepository user_recordRepository;
