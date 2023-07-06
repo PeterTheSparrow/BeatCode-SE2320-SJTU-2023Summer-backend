@@ -54,7 +54,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                     Macros.implResponse(response);
                     // 回敬一个失败
                     try (PrintWriter writer = response.getWriter()) {
-                        writer.print(new Message(MessageEnum.AUTH_FAIL));
+                        writer.print(new Message(MessageEnum.AUTH_FAIL,
+                                methodAnnotation.type() == RequireLogin.Type.ADMIN ? 1 : 0));
                     } catch (IOException e) {
                         System.out.println("IOE in Admin Interceptor");
                     }
