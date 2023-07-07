@@ -1,5 +1,6 @@
 package team.beatcode.consumer.interceptors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.consumer.feign.AuthFeign;
 import team.beatcode.consumer.utils.Macros;
-import team.beatcode.consumer.utils.UserContextHolder;
+import team.beatcode.consumer.utils.context.UserContext;
+import team.beatcode.consumer.utils.context.UserContextHolder;
 import team.beatcode.consumer.utils.msg.MessageEnum;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.lang.reflect.Method;
 @AllArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
     private AuthFeign authFeign;
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request,
@@ -51,7 +55,15 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
             // 鉴权成功，放行
             else if (rt.getStatus() == MessageEnum.AUTH_AUTH_SUCCESS.getStatus()) {
-                UserContextHolder.setUserAccount((Integer) rt.getData());
+                try {
+                    UserContext context = objectMapper.convertValue(
+                            rt.getData(), UserContext.class);
+                    UserContextHolder.setUserAccount(context);
+                }
+                catch (IllegalArgumentException e) {
+                    System.out.printf("Conflict Message: %s\n", rt);
+                    e.printStackTrace();
+                }
                 return true;
             }
             // 鉴权失败，拦截并返回”未登录“

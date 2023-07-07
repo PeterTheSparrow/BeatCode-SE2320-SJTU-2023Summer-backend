@@ -13,6 +13,9 @@ import team.beatcode.auth.utils.ip.IpInHttp;
 import team.beatcode.auth.utils.Macros;
 import team.beatcode.auth.utils.msg.MessageEnum;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 @RestController
 public class AuthController {
 
@@ -56,7 +59,12 @@ public class AuthController {
             ipAuth.setLastFresh(currentTime);
             ipAuthDao.save(ipAuth);
             System.out.println(ipAuth.getUserId());
-            return new Message(MessageEnum.AUTH_SUCCESS, ipAuth.getUserId());
+            // 返回USER上下文
+            Map<String, Object> map = new TreeMap<>();
+            map.put(Macros.USER_CONTEXT_ID, userAuth.getId());
+            map.put(Macros.USER_CONTEXT_NAME, userAuth.getName());
+            map.put(Macros.USER_CONTEXT_ROLE, userAuth.getRole());
+            return new Message(MessageEnum.AUTH_SUCCESS, map);
         } else  return new Message(MessageEnum.AUTH_FAIL);
     }
 
