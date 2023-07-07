@@ -13,7 +13,6 @@ public class Problem {
 
     private int problem_id;
     private int case_n;
-    private List<Testcase> test_cases;
 
     private String conf;
 

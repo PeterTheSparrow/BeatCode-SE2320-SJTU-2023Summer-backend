@@ -10,7 +10,6 @@ import java.util.List;
 public class Submission {
     @Id
     private String _id;
-    private int submission_id;
     private String submission_code;
 
     private int problem_id;
