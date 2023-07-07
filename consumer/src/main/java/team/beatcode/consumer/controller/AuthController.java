@@ -29,4 +29,14 @@ public class AuthController {
     public Message register(@RequestBody Map<String, Object> map) {
         return authFeign.register(map);
     }
+
+//    @RequestMapping("/CheckUser")
+//    public String checkUser() {
+//        return authFeign.checkUser();
+//    }
+//
+//    @RequestMapping("/CheckAdmin")
+//    public String checkAdmin() {
+//        return authFeign.checkAdmin();
+//    }
 }
