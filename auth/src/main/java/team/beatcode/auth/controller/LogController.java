@@ -15,6 +15,7 @@ import team.beatcode.auth.utils.ip.IpInHttp;
 import team.beatcode.auth.utils.ip.IpInStr;
 import team.beatcode.auth.utils.Macros;
 import team.beatcode.auth.utils.msg.MessageEnum;
+import net.sf.json.JSONObject;
 
 import java.util.Map;
 
@@ -70,7 +71,21 @@ public class LogController {
             // 记录
             saveLogin(ip_str, auth.getId());
 
-            return new Message(MessageEnum.SUCCESS);
+
+            // 检查是否是管理员
+            if (auth.getRole() == 0)
+            {
+                // 生成json，作为返回data
+                JSONObject json = new JSONObject();
+                json.put("is_admin", 0);
+                return new Message(MessageEnum.SUCCESS, json);
+            }
+            else
+            {
+                JSONObject json = new JSONObject();
+                json.put("is_admin", 1);
+                return new Message(MessageEnum.SUCCESS, json);
+            }
         } catch (NullPointerException e) {
             // 缺少参数
             return new Message(MessageEnum.PARAM_FAIL);
@@ -103,7 +118,8 @@ public class LogController {
      *            {<br/>
      *            &emsp;&emsp;"name": string, // 用户名<br/>
      *            &emsp;&emsp;"pass": string,  // 密码<br/>
-     *            &emsp;&emsp;以及user服务记录用户信息所需的更多参数<br/>
+     *            &emsp;&emsp;"email": string,  //邮箱<br/>
+     *            &emsp;&emsp;"phone": string,  //电话<br/>
      *            }<br/>
      * @return bookstore经典Message格式，不含数据
      */
@@ -119,6 +135,13 @@ public class LogController {
             if (ip_str == null)
                 return new Message(MessageEnum.IP_FAULT);
 
+            // 检查用户名是否重复
+            UserAuth checkExistAuth = userAuthDao.getUserAuthByName(name);
+
+            if (checkExistAuth != null)
+                return new Message(MessageEnum.USER_EXIST_FAULT);
+
+
             // 生成新用户
             UserAuth auth = new UserAuth();
             auth.setName(name);
@@ -133,7 +156,7 @@ public class LogController {
             // 调用user服务记录更多信息
             map.remove(KEY_PASSWORD);
             map.put("user_id", id);
-            userFeign.update(map);
+            userFeign.registerUser(map);
 
             return new Message(MessageEnum.SUCCESS);
         } catch (NullPointerException e) {

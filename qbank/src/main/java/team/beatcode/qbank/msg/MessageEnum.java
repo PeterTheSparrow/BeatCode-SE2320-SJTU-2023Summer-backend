@@ -1,19 +1,11 @@
-package team.beatcode.auth.utils.msg;
+package team.beatcode.qbank.msg;
 
 import sjtu.reins.web.utils.MessageEnumInterface;
 
 public enum MessageEnum implements MessageEnumInterface {
     SUCCESS(0, "成功"),
-
     FAIL(1, "失败"),
     FAULT(2, "出错"),
-
-    USER_EXIST_FAULT(3, "用户名已存在"),
-
-    PARAM_FAIL(100, "缺少参数"),
-    IP_FAULT(101, "无法解析访问者ip"),
-    USER_NOT_FOUND_FAULT(1000, "找不到指定的用户"),
-    USER_BAD_PASS_FAIL(1001, "密码错误")
 
     ;
 

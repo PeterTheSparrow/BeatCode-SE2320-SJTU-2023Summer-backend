@@ -4,6 +4,25 @@ server:
 spring:
   application:
     name: question-bank
+  data:
+    mongodb:
+      uri: mongodb://121.37.162.88:1025/BeatCode
+      username: BeatCode
+      password: BeatCode2023summer
+  datasource:
+    url: jdbc:mysql://121.37.162.88:1023/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: BeatCode
+    password: BeatCode2023summer
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: validate
+        dialect: org.hibernate.dialect.MySQLDialect
+
 
 eureka:
   client:

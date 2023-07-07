@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserService {
     User getUser(Integer userId);
 
+    void register(Integer userId, String userName, String email, String phone);
+
 //    List<User_record> getRanks();
 
 }

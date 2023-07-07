@@ -5,7 +5,7 @@ spring:
   application:
     name: auth
   datasource:
-    url: jdbc:mysql://localhost:3306/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://121.37.162.88:1023/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: BeatCode
     password: BeatCode2023summer
     driver-class-name: com.mysql.cj.jdbc.Driver
