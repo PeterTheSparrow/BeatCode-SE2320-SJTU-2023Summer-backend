@@ -36,11 +36,6 @@ public class ProblemController {
                 .body(responseBody);
     }
 
-    @GetMapping("/getDataTest")
-    public ResponseEntity<StreamingResponseBody> getDataTest() {
-        return gt("D:\\Work\\from");
-    }
-
     /**
      * 通过流传输得到最新的test-case压缩包
      * @param pid 题目的id

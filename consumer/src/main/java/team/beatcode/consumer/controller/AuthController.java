@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.consumer.feign.AuthFeign;
-import team.beatcode.consumer.interceptors.RequireLogin;
 
 import java.util.Map;
 

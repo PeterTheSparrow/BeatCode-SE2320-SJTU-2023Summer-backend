@@ -14,6 +14,9 @@ public enum MessageEnum implements MessageEnumInterface {
 
     AUTH_FAIL(401, "权限不足，尝试登录"),
 
+    AUTH_AUTH_SUCCESS(200, "yes"),
+    AUTH_AUTH_FAIL(201, "no"),
+    AUTH_AUTH_ERROR(202, "wtf")
     ;
 
     private final int status;

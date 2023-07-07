@@ -9,6 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.consumer.feign.AuthFeign;
 import team.beatcode.consumer.utils.Macros;
+import team.beatcode.consumer.utils.UserContextHolder;
 import team.beatcode.consumer.utils.msg.MessageEnum;
 
 import java.io.IOException;
@@ -40,15 +41,21 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (methodAnnotation != null) {
             // 这写你拦截需要干的事儿，比如取缓存，SESSION，权限判断等
             // 远程请求
-            String rt =
+            Message rt =
                 methodAnnotation.type() == RequireLogin.Type.ADMIN ? authFeign.checkAdmin() :
                 methodAnnotation.type() == RequireLogin.Type.USER ? authFeign.checkUser() :
                 null;
+            // auth爆了
+            if (rt == null || rt.getStatus() == MessageEnum.AUTH_AUTH_ERROR.getStatus()) {
+                System.out.println("Auth-app Boom!");
+            }
             // 鉴权成功，放行
-            if (Macros.AUTH_CHECK_SUCCESS.equals(rt))
+            else if (rt.getStatus() == MessageEnum.AUTH_AUTH_SUCCESS.getStatus()) {
+                UserContextHolder.setUserAccount((Integer) rt.getData());
                 return true;
+            }
             // 鉴权失败，拦截并返回”未登录“
-            else if (Macros.AUTH_CHECK_FAIL.equals(rt)) {
+            else if (rt.getStatus() == MessageEnum.AUTH_AUTH_FAIL.getStatus()) {
                 if (response != null) {
                     // 添加必要的Header
                     Macros.implResponse(response);
@@ -62,13 +69,17 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
                 return false;
             }
-            // auth爆了
-            else {
-                System.out.println("Auth-app Boom!");
-            }
             return false;
         }
         // 没有注解则跳过
         else return true;
+    }
+
+    @Override
+    public void afterCompletion(@Nullable HttpServletRequest request,
+                                @Nullable HttpServletResponse response,
+                                @Nullable Object handler,
+                                @Nullable Exception ex) {
+        UserContextHolder.clear();
     }
 }

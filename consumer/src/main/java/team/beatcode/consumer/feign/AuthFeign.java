@@ -12,9 +12,9 @@ import java.util.Map;
         {AuthFeignConfig.class})
 public interface AuthFeign {
     @RequestMapping("/CheckUser")
-    String checkUser();
+    Message checkUser();
     @RequestMapping("/CheckAdmin")
-    String checkAdmin();
+    Message checkAdmin();
 
     @RequestMapping("/Login")
     Message login(@RequestBody Map<String, Object> map);

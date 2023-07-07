@@ -3,10 +3,6 @@ package team.beatcode.consumer.utils;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class Macros {
-    public static final String AUTH_CHECK_SUCCESS = "yes";
-    public static final String AUTH_CHECK_FAIL    = "no";
-    public static final String AUTH_CHECK_ERROR   = "wtf";
-
 
     public static final String X_REAL_IP = "x-real-ip";
     public static final String X_FORWARDED_FOR = "x-forwarded-for";
