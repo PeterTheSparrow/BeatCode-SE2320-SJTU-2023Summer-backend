@@ -38,7 +38,7 @@ public class JudgeController {
     private String judgeDirectory;
 
     @RequestMapping("judge")
-    public String judgeBySid(@RequestParam("sid") int sid) throws IOException, InterruptedException {
+    public String judgeBySid(@RequestParam("sid") String sid) throws IOException, InterruptedException {
         Submission submission=submissionService.getSubmission(sid);
         int pid=submission.getProblem_id();
         Problem problem=problemService.getProblem(pid);

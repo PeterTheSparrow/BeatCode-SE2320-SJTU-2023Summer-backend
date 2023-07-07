@@ -1,10 +1,10 @@
-package team.beatcode.judge.daoimpl;
+package team.beatcode.daoimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.beatcode.judge.dao.SubmissionDao;
-import team.beatcode.judge.entity.Submission;
-import team.beatcode.judge.repository.SubmissionRepository;
+import team.beatcode.dao.SubmissionDao;
+import team.beatcode.entity.Submission;
+import team.beatcode.repository.SubmissionRepository;
 
 @Repository
 public class SubmissionDaoImpl implements SubmissionDao {
