@@ -7,8 +7,10 @@ spring:
     name: judge
   data:
     mongodb:
-      host: localhost
-      port: 27017
+      host: 121.37.162.88
+      port: 1025
+      username: BeatCode
+      password: BeatCode2023summer
       database: BeatCode
 
 eureka:
