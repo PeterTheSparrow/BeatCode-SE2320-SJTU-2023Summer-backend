@@ -23,7 +23,7 @@ public class ProblemController {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                    System.out.write(buffer, 0, bytesRead);
+                    // System.out.write(buffer, 0, bytesRead);
                     outputStream.write(buffer, 0, bytesRead);
                 }
             } catch (IOException e) {
@@ -48,6 +48,6 @@ public class ProblemController {
      */
     @RequestMapping("/GetTestCase")
     public ResponseEntity<StreamingResponseBody> getTestCase(@RequestParam int pid) {
-        return gt(Macros.getTestCases(pid));
+        return gt(Macros.getTestCaseFilePath(pid));
     }
 }
