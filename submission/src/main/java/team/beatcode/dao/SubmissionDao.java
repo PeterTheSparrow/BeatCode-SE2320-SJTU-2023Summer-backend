@@ -1,6 +1,7 @@
-package team.beatcode.judge.dao;
+package team.beatcode.dao;
 
-import team.beatcode.judge.entity.Submission;
+
+import team.beatcode.entity.Submission;
 
 public interface SubmissionDao {
     public Submission findBySid(String sid);

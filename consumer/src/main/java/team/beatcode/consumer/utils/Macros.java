@@ -3,15 +3,15 @@ package team.beatcode.consumer.utils;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class Macros {
-    public static final String AUTH_CHECK_SUCCESS = "yes";
-    public static final String AUTH_CHECK_FAIL    = "no";
-    public static final String AUTH_CHECK_ERROR   = "wtf";
-
 
     public static final String X_REAL_IP = "x-real-ip";
     public static final String X_FORWARDED_FOR = "x-forwarded-for";
     public static final String PROXY_CLIENT_IP = "proxy-client-ip";
     public static final String WL_PROXY_CLIENT_IP = "wl-proxy-client-ip";
+
+    public static final String USER_CONTEXT_ID = "user_id";
+    public static final String USER_CONTEXT_NAME = "user_name";
+    public static final String USER_CONTEXT_ROLE = "user_role";
 
     public static void implResponse(HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");

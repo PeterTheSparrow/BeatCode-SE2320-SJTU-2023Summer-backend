@@ -13,8 +13,11 @@ public enum MessageEnum implements MessageEnumInterface {
     PARAM_FAIL(100, "缺少参数"),
     IP_FAULT(101, "无法解析访问者ip"),
     USER_NOT_FOUND_FAULT(1000, "找不到指定的用户"),
-    USER_BAD_PASS_FAIL(1001, "密码错误")
+    USER_BAD_PASS_FAIL(1001, "密码错误"),
 
+    AUTH_SUCCESS(200, "yes"),
+    AUTH_FAIL(201, "no"),
+    AUTH_ERROR(202, "wtf")
     ;
 
     private final int status;

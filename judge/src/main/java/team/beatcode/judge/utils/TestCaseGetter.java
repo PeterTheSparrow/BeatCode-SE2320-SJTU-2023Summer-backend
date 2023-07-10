@@ -1,22 +1,26 @@
-package team.beatcode.judge.serviceImpl;
+package team.beatcode.judge.utils;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import team.beatcode.judge.service.TestCaseGetterService;
 
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-import java.util.zip.*;
-
-@Service
-public class TestCaseGetterServiceImpl implements TestCaseGetterService {
-    private String localZip(int pid, String dir) {
-        return String.format("%s/%d.zip", dir, pid);
+/**
+ * 工具：得到与解压test-case文件<br/>
+ * 设计逻辑：得到压缩包与解压分开，允许分别指定下载压缩包的位置与解压的位置
+ */
+public class TestCaseGetter {
+    private static String getTestCaseFilePath(int pid, String dir) {
+        return String.format("%s%s%d.zip", dir, File.separator, pid);
+    }
+    private static String getTestCaseDirPath(int pid, String dir) {
+        return String.format("%s%s%d", dir, File.separator, pid);
     }
 
-    public static boolean rmdir_r(String dir) {
+    private static boolean rmdir_r(String dir) {
         // 如果dir不以文件分隔符结尾，自动添加文件分隔符
 		if (!dir.endsWith(File.separator))
 			dir = dir + File.separator;
@@ -68,10 +72,16 @@ public class TestCaseGetterServiceImpl implements TestCaseGetterService {
         return destFolder;
     }
 
-    @Override
-    public boolean downloadTestCasesZip(RestTemplate restTemplate, int pid, String dir) {
+    /**
+     * 从题库下载zip格式的压缩包
+     * @param restTemplate 记得用@LoadBalanced包装，这里Feign用不了
+     * @param pid 题目的题号
+     * @param dir 将下载的压缩包放到这个目录，同名文件会被覆盖
+     * @return 出错则返回false，懒得区分不同错误原因
+     */
+    public static boolean downloadTestCasesZip(RestTemplate restTemplate, int pid, String dir) {
         String url_r = String.format("http://question-bank/GetTestCase?pid=%d", pid);
-        String url_l = localZip(pid, dir);
+        String url_l = getTestCaseFilePath(pid, dir);
 
         ResponseEntity<Resource> response = restTemplate.getForEntity(url_r, Resource.class);
         Resource resource = response.getBody();
@@ -79,11 +89,7 @@ public class TestCaseGetterServiceImpl implements TestCaseGetterService {
 
         try (InputStream inputStream = resource.getInputStream();
              FileOutputStream outputStream = new FileOutputStream(url_l)) {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
+            inputStream.transferTo(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -92,23 +98,46 @@ public class TestCaseGetterServiceImpl implements TestCaseGetterService {
         return true;
     }
 
-    @Override
-    public boolean updateLocalTestCase(int pid, String zd, String fd) {
+    /**
+     * 从题库下载zip格式的压缩包<br/>
+     * 举例：<br/>
+     * 源压缩包被下载到D:/foo/1.zip<br/>
+     * 源压缩包的内容为<br/>
+     * 1.zip<br/>
+     * &emsp;&emsp;bar<br/>
+     * &emsp;&emsp;&emsp;&emsp;input1.txt<br/>
+     * &emsp;&emsp;&emsp;&emsp;output1.txt<br/>
+     * &emsp;&emsp;conf.txt<br/>
+     * 调用updateLocalTestCase(1, D:/foo, D:/bar)后D:/bar中出现<br/>
+     * 1<br/>
+     * &emsp;&emsp;bar<br/>
+     * &emsp;&emsp;&emsp;&emsp;input1.txt<br/>
+     * &emsp;&emsp;&emsp;&emsp;output1.txt<br/>
+     * &emsp;&emsp;conf.txt<br/>
+     * 警 告 ！如 果 D:/bar 中 此 前 存 在 文 件 夹 /1，文 件 夹 内 的 内 容 会 被 清 空
+     * @param pid 题目的题号
+     * @param zd 源压缩包所在的本地文件路径
+     * @param fd 解压到的文件夹
+     * @return 出错则返回false，懒得区分不同错误原因
+     */
+    public static boolean updateLocalTestCase(int pid, String zd, String fd) {
         // 找到读取压缩包文件
-        File srcZip = new File(localZip(pid, zd));
-
-        // 清理并创建目标文件夹
-        File destFolder = ensureCleanDir(fd);
-        if (destFolder == null) return false;
+        File srcZip = new File(getTestCaseFilePath(pid, zd));
 
         // 创建ZipInputStream对象
         try (ZipInputStream zipInputStream =
                      new ZipInputStream(new FileInputStream(srcZip))) {
+            String destPath = getTestCaseDirPath(pid, fd);
+
+            // 清理并创建目标文件夹
+            File destFolder = ensureCleanDir(destPath);
+            if (destFolder == null) return false;
+
             // 逐个解压ZIP文件中的条目
             ZipEntry zipEntry = zipInputStream.getNextEntry();
             while (zipEntry != null) {
                 String entryName = zipEntry.getName();
-                String filePath = fd + File.separator + entryName;
+                String filePath = destPath + File.separator + entryName;
 
                 // 如果条目是文件夹，则创建对应的文件夹
                 if (zipEntry.isDirectory()) {

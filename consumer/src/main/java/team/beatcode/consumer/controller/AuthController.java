@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.consumer.feign.AuthFeign;
-import team.beatcode.consumer.interceptors.RequireLogin;
 
 import java.util.Map;
 
@@ -30,4 +29,14 @@ public class AuthController {
     public Message register(@RequestBody Map<String, Object> map) {
         return authFeign.register(map);
     }
+
+//    @RequestMapping("/CheckUser")
+//    public String checkUser() {
+//        return authFeign.checkUser();
+//    }
+//
+//    @RequestMapping("/CheckAdmin")
+//    public String checkAdmin() {
+//        return authFeign.checkAdmin();
+//    }
 }
