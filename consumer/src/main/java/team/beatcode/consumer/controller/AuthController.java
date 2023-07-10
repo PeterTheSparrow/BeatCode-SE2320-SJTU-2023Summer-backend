@@ -30,13 +30,18 @@ public class AuthController {
         return authFeign.register(map);
     }
 
-//    @RequestMapping("/CheckUser")
-//    public String checkUser() {
-//        return authFeign.checkUser();
-//    }
-//
-//    @RequestMapping("/CheckAdmin")
-//    public String checkAdmin() {
-//        return authFeign.checkAdmin();
-//    }
+    @RequestMapping("/GetProblemList")
+    public Message getProblemList() {
+        return authFeign.getProblemList();
+    }
+
+    @RequestMapping("/CheckUser")
+    public Message checkUser() {
+        return authFeign.checkUser();
+    }
+
+    @RequestMapping("/CheckAdmin")
+    public Message checkAdmin() {
+        return authFeign.checkAdmin();
+    }
 }

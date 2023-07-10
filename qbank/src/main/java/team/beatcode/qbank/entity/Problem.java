@@ -21,7 +21,7 @@ public class Problem {
     private String memory_limit;
     private Integer problem_id;
 
-    private List<String> tags;
+    private List<Tag> tags;
     private String output_limit;
     private String checker;
     private String description;

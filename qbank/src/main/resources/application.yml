@@ -6,9 +6,15 @@ spring:
     name: question-bank
   data:
     mongodb:
-      uri: mongodb://121.37.162.88:1025/BeatCode
-      username: BeatCode
-      password: BeatCode2023summer
+#      uri: mongodb://121.37.162.88:1025/BeatCode
+#      username: BeatCode
+#      password: BeatCode2023summer
+        host: 121.37.162.88
+        port: 1025
+        database: BeatCode
+        username: BeatCode
+        password: BeatCode2023summer
+        authenticationDatabase: admin
   datasource:
     url: jdbc:mysql://121.37.162.88:1023/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: BeatCode

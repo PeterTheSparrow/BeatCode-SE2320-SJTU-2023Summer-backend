@@ -22,4 +22,6 @@ public interface AuthFeign {
     Message logout();
     @RequestMapping("/Register")
     Message register(@RequestBody Map<String, Object> map);
+    @RequestMapping("/GetProblemList")
+    Message getProblemList();
 }
