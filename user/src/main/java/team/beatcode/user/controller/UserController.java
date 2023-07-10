@@ -32,4 +32,8 @@ public class UserController {
         userService.register(userId, userName, email, phone);
     }
 
+    @RequestMapping("/ranks")
+    public List<User_record> getRanks() {
+        return userService.getRanks();
+    }
 }

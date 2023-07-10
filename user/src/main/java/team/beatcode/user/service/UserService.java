@@ -10,6 +10,6 @@ public interface UserService {
 
     void register(Integer userId, String userName, String email, String phone);
 
-//    List<User_record> getRanks();
+    List<User_record> getRanks();
 
 }
