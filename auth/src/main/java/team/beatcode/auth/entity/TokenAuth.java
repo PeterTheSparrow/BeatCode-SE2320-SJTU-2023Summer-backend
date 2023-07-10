@@ -8,11 +8,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(schema = "beatcode_mysql", name = "ip_auth")
-public class IpAuth {
+@Table(schema = "beatcode_mysql", name = "token_auth")
+public class TokenAuth {
     @Id
-    @Column(name = "ip_addr")
-    private byte[] ipAddr;
+    @Column(name = "token")
+    private byte[] token;
 
     @Column(name = "last_login")
     private long lastLogin;

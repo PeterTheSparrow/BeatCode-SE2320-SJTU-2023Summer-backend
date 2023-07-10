@@ -11,7 +11,7 @@ public enum MessageEnum implements MessageEnumInterface {
     USER_EXIST_FAULT(3, "用户名已存在"),
 
     PARAM_FAIL(100, "缺少参数"),
-    IP_FAULT(101, "无法解析访问者ip"),
+    TOKEN_FAULT(101, "无法解析访问者token"),
     USER_NOT_FOUND_FAULT(1000, "找不到指定的用户"),
     USER_BAD_PASS_FAIL(1001, "密码错误"),
 

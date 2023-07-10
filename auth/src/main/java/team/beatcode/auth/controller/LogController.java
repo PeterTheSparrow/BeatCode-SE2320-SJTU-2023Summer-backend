@@ -6,18 +6,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjtu.reins.web.utils.Message;
-import team.beatcode.auth.dao.IpAuthDao;
+import team.beatcode.auth.dao.TokenAuthDao;
 import team.beatcode.auth.dao.UserAuthDao;
-import team.beatcode.auth.entity.IpAuth;
+import team.beatcode.auth.entity.TokenAuth;
 import team.beatcode.auth.entity.UserAuth;
 import team.beatcode.auth.feign.UserFeign;
-import team.beatcode.auth.utils.ip.IpInHttp;
-import team.beatcode.auth.utils.ip.IpInStr;
 import team.beatcode.auth.utils.Macros;
+import team.beatcode.auth.utils.UUIDUtils;
 import team.beatcode.auth.utils.msg.MessageEnum;
-import net.sf.json.JSONObject;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 public class LogController {
@@ -28,18 +27,18 @@ public class LogController {
     private UserFeign userFeign;
 
     @Autowired
-    private IpAuthDao ipAuthDao;
+    private TokenAuthDao tokenAuthDao;
     @Autowired
     private UserAuthDao userAuthDao;
 
-    private void saveLogin(String ip, int uid) {
+    private void saveLogin(byte[] token, int uid) {
         long currentTime = System.currentTimeMillis();
-        IpAuth ipAuth = new IpAuth();
-        ipAuth.setIpAddr(IpInStr.ipAddrStrToHex(ip));
-        ipAuth.setUserId(uid);
-        ipAuth.setLastLogin(currentTime);
-        ipAuth.setLastFresh(currentTime);
-        ipAuthDao.save(ipAuth);
+        TokenAuth tokenAuth = new TokenAuth();
+        tokenAuth.setToken(token);
+        tokenAuth.setUserId(uid);
+        tokenAuth.setLastLogin(currentTime);
+        tokenAuth.setLastFresh(currentTime);
+        tokenAuthDao.save(tokenAuth);
     }
 
     /**
@@ -56,11 +55,6 @@ public class LogController {
             String name = map.get("name").toString();
             String pass = map.get("pass").toString();
 
-            String ip_str = IpInHttp.getIpAddr(request);
-            // 无法解析的
-            if (ip_str == null)
-                return new Message(MessageEnum.IP_FAULT);
-
             // 检查密码
             UserAuth auth = userAuthDao.getUserAuthByName(name);
             if (auth == null)
@@ -69,23 +63,15 @@ public class LogController {
                 return new Message(MessageEnum.USER_BAD_PASS_FAIL);
 
             // 记录
-            saveLogin(ip_str, auth.getId());
+            byte[] token = UUIDUtils.generate();
+            saveLogin(token, auth.getId());
 
-
+            Map<String, Object> data = new TreeMap<>();
             // 检查是否是管理员
-            if (auth.getRole() == 0)
-            {
-                // 生成json，作为返回data
-                JSONObject json = new JSONObject();
-                json.put("is_admin", 0);
-                return new Message(MessageEnum.SUCCESS, json);
-            }
-            else
-            {
-                JSONObject json = new JSONObject();
-                json.put("is_admin", 1);
-                return new Message(MessageEnum.SUCCESS, json);
-            }
+            data.put("is_admin", auth.getRole());
+            // 放入刚刚生成的Token
+            data.put(Macros.TOKEN_NAME, UUIDUtils.BytesToString(token));
+            return new Message(MessageEnum.SUCCESS, data);
         } catch (NullPointerException e) {
             // 缺少参数
             return new Message(MessageEnum.PARAM_FAIL);
@@ -97,17 +83,16 @@ public class LogController {
      */
     @RequestMapping("/Logout")
     public Message logout() {
-        String ip_str = IpInHttp.getIpAddr(request);
-        // 无法解析的
-        if (ip_str == null)
-            return new Message(MessageEnum.IP_FAULT);
+        String token = request.getHeader(Macros.TOKEN_NAME);
+        if (token == null)
+            return new Message(MessageEnum.TOKEN_FAULT);
 
-        IpAuth auth = ipAuthDao.getByIp(ip_str);
+        TokenAuth auth = tokenAuthDao.getByToken(token);
         if (auth != null) {
             // 没登录过也可以登出
             // 手动过期
             auth.setLastFresh(0);
-            ipAuthDao.save(auth);
+            tokenAuthDao.save(auth);
         }
 
         return new Message(MessageEnum.SUCCESS);
@@ -130,17 +115,11 @@ public class LogController {
             String name = map.get("name").toString();
             String pass = map.get(KEY_PASSWORD).toString();
 
-            String ip_str = IpInHttp.getIpAddr(request);
-            // 无法解析的
-            if (ip_str == null)
-                return new Message(MessageEnum.IP_FAULT);
-
             // 检查用户名是否重复
             UserAuth checkExistAuth = userAuthDao.getUserAuthByName(name);
 
             if (checkExistAuth != null)
                 return new Message(MessageEnum.USER_EXIST_FAULT);
-
 
             // 生成新用户
             UserAuth auth = new UserAuth();
@@ -151,14 +130,20 @@ public class LogController {
 
             // 记录
             Integer id = auth.getId();
-            saveLogin(ip_str, id);
+            byte[] token = UUIDUtils.generate();
+            saveLogin(token, id);
 
             // 调用user服务记录更多信息
             map.remove(KEY_PASSWORD);
             map.put("user_id", id);
             userFeign.registerUser(map);
 
-            return new Message(MessageEnum.SUCCESS);
+            Map<String, Object> data = new TreeMap<>();
+            // 不是管理员
+            data.put("is_admin", Macros.AUTH_CODE_USER);
+            // 放入刚刚生成的Token
+            data.put(Macros.TOKEN_NAME, UUIDUtils.BytesToString(token));
+            return new Message(MessageEnum.SUCCESS, data);
         } catch (NullPointerException e) {
             // 缺少参数
             return new Message(MessageEnum.PARAM_FAIL);

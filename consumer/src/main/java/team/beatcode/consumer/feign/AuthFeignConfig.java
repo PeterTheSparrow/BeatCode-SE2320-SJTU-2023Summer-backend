@@ -42,7 +42,7 @@ public class AuthFeignConfig {
     }
 
     @Bean
-    public RequestInterceptor ipPasser() {
-        return new IpPassInterceptor();
+    public RequestInterceptor tokenPasser() {
+        return new TokenPassInterceptor();
     }
 }
