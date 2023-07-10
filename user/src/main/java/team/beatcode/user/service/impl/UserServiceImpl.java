@@ -8,6 +8,8 @@ import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -35,10 +37,9 @@ public class UserServiceImpl implements UserService{
         userDao.register(userId, userName, email, phone);
     }
 
-//    @Override
-//    List<User_record> getRanks(){
-//
-//
-//    }
+    @Override
+    public List<User_record> getRanks(){
+        return userDao.getRecords();
+    }
 
 }
