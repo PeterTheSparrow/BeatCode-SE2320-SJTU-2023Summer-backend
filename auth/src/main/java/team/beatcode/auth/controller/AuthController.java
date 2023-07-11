@@ -33,7 +33,7 @@ public class AuthController {
      */
     private Message checkAuth(int code) {
         String tokenStr = request.getHeader(Macros.TOKEN_NAME);
-        if (tokenStr == null) return new Message(MessageEnum.TOKEN_FAULT);
+        if (tokenStr == null) return new Message(MessageEnum.AUTH_ERROR);
 
         TokenAuth tokenAuth = tokenAuthDao.getByToken(tokenStr);
         // 不存在的TOKEN

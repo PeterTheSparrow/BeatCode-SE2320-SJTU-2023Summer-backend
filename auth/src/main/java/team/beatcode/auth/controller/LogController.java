@@ -45,7 +45,11 @@ public class LogController {
      * @param map 参数：<br/>
      *            {<br/>
      *            &emsp;&emsp;"name": string, // 用户名<br/>
-     *            &emsp;&emsp;"pass": string  // 密码<br/>
+     *            &emsp;&emsp;"pass": string, // 密码<br/>
+     *            &emsp;&emsp;"data": { // 额外信息<br/>
+     *            &emsp;&emsp;&emsp;&emsp;"golden-class-token": string, // Token(base64)，不要动，不用改<br/>
+     *            &emsp;&emsp;&emsp;&emsp;"is_admin": number // role<br/>
+     *            &emsp;&emsp;}<br/>
      *            }<br/>
      * @return bookstore经典Message格式，不含数据
      */

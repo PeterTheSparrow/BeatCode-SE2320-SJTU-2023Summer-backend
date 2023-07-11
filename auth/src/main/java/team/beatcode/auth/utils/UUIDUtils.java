@@ -21,7 +21,7 @@ public class UUIDUtils {
 
     public static byte[] StringToBytes(String str) {
         try {
-            return decoder.decode(str);
+            return str == null ? null : decoder.decode(str);
         }
         catch (IllegalArgumentException e) {
             // 格式错误

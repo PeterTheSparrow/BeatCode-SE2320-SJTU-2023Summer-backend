@@ -12,7 +12,7 @@ public class TokenAuthDao {
     @Autowired
     TokenAuthRepository tokenAuthRepository;
 
-    public TokenAuth getByToken(@NonNull String token) {
+    public TokenAuth getByToken(String token) {
         byte[] bytes = UUIDUtils.StringToBytes(token);
         if (bytes == null) return null;
         else return tokenAuthRepository.findById(bytes).orElse(null);
