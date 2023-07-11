@@ -3,19 +3,21 @@ package team.beatcode.consumer.feign;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sjtu.reins.web.utils.Message;
+import team.beatcode.user.entity.User;
+import team.beatcode.user.entity.User_record;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(value = "user", configuration = UserFeignConfig.class)
 public interface UserFeign {
     @RequestMapping("/user")
-    Message getUser(@RequestBody Map<String, Object> map);
+    User getUser(@RequestBody Map<String, Object> map);
 
     @RequestMapping("/register")
-    Message register(@RequestBody Map<String, Object> data);
+    void register(@RequestBody Map<String, Object> data);
 
     @RequestMapping("/ranks")
-    Message getRanks();
+    List<User_record> getRanks();
 }
 
