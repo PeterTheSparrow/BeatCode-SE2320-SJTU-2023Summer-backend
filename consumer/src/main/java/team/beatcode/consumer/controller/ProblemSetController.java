@@ -8,8 +8,12 @@ import team.beatcode.qbank.entity.ProblemReturn;
 import java.util.List;
 import java.util.Map;
 
+/*
+* 这里不加crossOrigin，浏览器是无法访问的，因为跨域了
+* 但是如果单纯设置3000端口，其他端口都被block了，所以这里设置为*
+* */
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class ProblemSetController {
     @Autowired
     ProblemSetFeign problemSetFeign;
