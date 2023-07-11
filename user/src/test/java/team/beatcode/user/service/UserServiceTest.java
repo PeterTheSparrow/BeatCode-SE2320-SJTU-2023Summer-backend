@@ -54,14 +54,22 @@ public class UserServiceTest {
         Integer userId = 1;
         User_info userInfo = new User_info();
         userInfo.setUserId(userId);
+        userInfo.setUserName("John");
+        userInfo.setEmail("john@example.com");
+        userInfo.setPhone("1234567890");
         // 根据需要设置其他属性
+
+        // 模拟userDao.getUser_info(userId)方法的行为
+        when(userDao.getUser_info(userId)).thenReturn(userInfo);
 
         User_record userRecord = new User_record();
         userRecord.setUserId(userId);
+        userRecord.setAcceptNum(32);
+        userRecord.setAcceptSubmit(45);
+        userRecord.setSubmitNum(76);
         // 根据需要设置其他属性
 
-//        when(userDao.getUser_info(userId)).thenReturn(Optional.of(userInfo));
-//        when(userDao.getUser_record(userId)).thenReturn(Optional.of(userRecord));
+        when(userDao.getUser_record(userId)).thenReturn(userRecord);
 
         // 执行对userService.getUser()的方法调用，并验证返回结果是否符合预期
         User user = userService.getUser(userId);

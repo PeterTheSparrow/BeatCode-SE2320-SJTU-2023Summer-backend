@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService{
         User_record userRecord = userDao.getUser_record(userId);
 
         User user = new User();
+        user.setUserId(userInfo.getUserId());
         user.setUserName(userInfo.getUserName());
         user.setEmail(userInfo.getEmail());
         user.setPhone(userInfo.getPhone());

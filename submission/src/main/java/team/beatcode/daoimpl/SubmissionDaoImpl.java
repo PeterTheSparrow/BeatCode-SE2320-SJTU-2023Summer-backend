@@ -1,10 +1,17 @@
 package team.beatcode.daoimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import team.beatcode.dao.SubmissionDao;
 import team.beatcode.entity.Submission;
 import team.beatcode.repository.SubmissionRepository;
+
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class SubmissionDaoImpl implements SubmissionDao {
@@ -20,4 +27,30 @@ public class SubmissionDaoImpl implements SubmissionDao {
     {
         submissionRepository.save(res);
     }
+    @Override
+    public Page<Submission> findByUname(String uname, Pageable pageable)
+    {return submissionRepository.findAllByUserName(uname,pageable);}
+    @Override
+    public Page<Submission> findByPid(String pid, Pageable pageable)
+    {return submissionRepository.findAllByProblemId(pid,pageable);}
+    @Override
+    public Page<Submission> findByPname(String pname, Pageable pageable)
+    {return submissionRepository.findAllByProblemName(pname,pageable);}
+
+    @Override
+    public Page<Submission> findByUnameAndPid(String uname,String pid, Pageable pageable)
+    {return submissionRepository.findAllByUserNameAndProblemId(uname,pid,pageable);}
+    @Override
+    public Page<Submission> findByUnameAndPname(String uname,String pname, Pageable pageable)
+    {return submissionRepository.findAllByUserNameAndProblemName(uname,pname,pageable);}
+    @Override
+    public Page<Submission> findByPidAndPname(String pid,String pname, Pageable pageable)
+    {return submissionRepository.findAllByProblemIdAndProblemName(pid,pname,pageable);}
+
+    @Override
+    public Page<Submission> findByUnameAndPidAndPname(String uname,String pid,String pname, Pageable pageable)
+    {return submissionRepository.findAllByUserNameAndProblemIdAndProblemName(uname,pid,pname,pageable);}
+    @Override
+    public Page<Submission> findAll(Pageable pageable)
+    {return submissionRepository.findAll(pageable);}
 }

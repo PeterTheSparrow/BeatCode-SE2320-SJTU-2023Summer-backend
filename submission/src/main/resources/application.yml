@@ -11,18 +11,8 @@ spring:
       database: BeatCode
       username: BeatCode
       password: BeatCode2023summer
-  datasource:
-    url: jdbc:mysql://121.37.162.88:1023/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: BeatCode
-    password: BeatCode2023summer
-  jpa:
-    database: mysql
-    show-sql: true
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: validate
-        dialect: org.hibernate.dialect.MySQLDialect
+      authenticationDatabase: admin
+
 
 eureka:
   client:
