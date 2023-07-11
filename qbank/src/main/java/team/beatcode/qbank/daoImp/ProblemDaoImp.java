@@ -34,6 +34,11 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
         return mongoTemplate.find(query, Problem.class);
     }
 
+    @Override
+    public List<Problem> findProblemsByDifficulty(String difficulty) {
+        return problemRepository.findProblemsByDifficultyContaining(difficulty);
+    }
+
 
     @Override
     public List<Problem> findProblemsByTitleContaining(String title) {

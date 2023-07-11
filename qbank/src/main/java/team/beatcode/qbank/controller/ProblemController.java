@@ -72,6 +72,10 @@ public class ProblemController {
      * pageSize: 每页的记录数目
      * searchIndex: 根据什么来搜索
      * searchKeyWord: 搜索的关键词（用户输入的）
+     * "pageIndex": "1",
+     * "pageSize": "10",
+     * "searchIndex": "title",
+     * "searchKeyWord": "和"
      * */
     @RequestMapping("/GetProblemList")
     public List<ProblemReturn> getProblemList(@RequestBody Map<String, Object> map) {

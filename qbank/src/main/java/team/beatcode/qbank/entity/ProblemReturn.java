@@ -16,4 +16,5 @@ public class ProblemReturn {
     String id;
     String title;
     List<Tag> tags;
+    String difficulty;
 }
