@@ -12,7 +12,7 @@ import team.beatcode.auth.entity.TokenAuth;
 import team.beatcode.auth.entity.UserAuth;
 import team.beatcode.auth.feign.UserFeign;
 import team.beatcode.auth.utils.Macros;
-import team.beatcode.auth.utils.UUIDUtils;
+import team.beatcode.auth.utils.TokenUtils;
 import team.beatcode.auth.utils.msg.MessageEnum;
 
 import java.util.Map;
@@ -67,14 +67,14 @@ public class LogController {
                 return new Message(MessageEnum.USER_BAD_PASS_FAIL);
 
             // 记录
-            byte[] token = UUIDUtils.generate();
+            byte[] token = TokenUtils.generate();
             saveLogin(token, auth.getId());
 
             Map<String, Object> data = new TreeMap<>();
             // 检查是否是管理员
-            data.put("is_admin", auth.getRole());
+            data.put(Macros.IS_ADMIN, auth.getRole());
             // 放入刚刚生成的Token
-            data.put(Macros.TOKEN_NAME, UUIDUtils.BytesToString(token));
+            data.put(Macros.TOKEN_NAME, TokenUtils.BytesToString(token));
             return new Message(MessageEnum.SUCCESS, data);
         } catch (NullPointerException e) {
             // 缺少参数
@@ -91,12 +91,14 @@ public class LogController {
         if (token == null)
             return new Message(MessageEnum.TOKEN_FAULT);
 
-        TokenAuth auth = tokenAuthDao.getByToken(token);
+        byte[] bytes = TokenUtils.StringToBytes(token);
+        if (bytes == null)
+            return new Message(MessageEnum.TOKEN_FAULT);
+
+        TokenAuth auth = tokenAuthDao.getByTokenBytes(bytes);
         if (auth != null) {
             // 没登录过也可以登出
-            // 手动过期
-            auth.setLastFresh(0);
-            tokenAuthDao.save(auth);
+            tokenAuthDao.remove(token);
         }
 
         return new Message(MessageEnum.SUCCESS);
@@ -134,7 +136,7 @@ public class LogController {
 
             // 记录
             Integer id = auth.getId();
-            byte[] token = UUIDUtils.generate();
+            byte[] token = TokenUtils.generate();
             saveLogin(token, id);
 
             // 调用user服务记录更多信息
@@ -144,9 +146,9 @@ public class LogController {
 
             Map<String, Object> data = new TreeMap<>();
             // 不是管理员
-            data.put("is_admin", Macros.AUTH_CODE_USER);
+            data.put(Macros.IS_ADMIN, Macros.AUTH_CODE_USER);
             // 放入刚刚生成的Token
-            data.put(Macros.TOKEN_NAME, UUIDUtils.BytesToString(token));
+            data.put(Macros.TOKEN_NAME, TokenUtils.BytesToString(token));
             return new Message(MessageEnum.SUCCESS, data);
         } catch (NullPointerException e) {
             // 缺少参数

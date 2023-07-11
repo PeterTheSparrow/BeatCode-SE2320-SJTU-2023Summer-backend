@@ -12,6 +12,7 @@ import lombok.Data;
 public class TokenAuth {
     @Id
     @Column(name = "token")
+    // 这玩意没有被覆盖想必是可以理解的
     private byte[] token;
 
     @Column(name = "last_login")
