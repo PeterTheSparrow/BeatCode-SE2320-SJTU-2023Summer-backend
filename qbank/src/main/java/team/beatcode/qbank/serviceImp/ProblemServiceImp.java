@@ -22,7 +22,7 @@ public class ProblemServiceImp implements ProblemService {
         // 题目名称（title）、标签（tag）
         // 然后还需要根据分页做一个筛选
 
-        List<Problem> problemList = null;
+        List<Problem> problemList = new java.util.ArrayList<>();
         List<Problem> problemList2;
 
         // 1. 如果关键词类型是title
@@ -33,6 +33,11 @@ public class ProblemServiceImp implements ProblemService {
         else if (searchIndex.equals("tag")) {
             problemList = problemDao.findByTagsTag_nameContainingIgnoreCase(searchKeyWord);
         }
+        else if (searchIndex.equals("difficulty")) {
+            problemList = problemDao.findProblemsByDifficulty(searchKeyWord);
+        }
+
+
         // 3. 根据分页做筛选
         // 筛选出list中序号为：(pageIndex-1)*pageSize ~ pageIndex*pageSize-1 的元素
         // 如果为空，就直接返回
@@ -54,8 +59,8 @@ public class ProblemServiceImp implements ProblemService {
             ProblemReturn problemReturn = new ProblemReturn();
             problemReturn.setId(problem.getId());
             problemReturn.setTitle(problem.getTitle());
-            // 这样出来的tags是空的
             problemReturn.setTags(problem.getTags());
+            problemReturn.setDifficulty(problem.getDifficulty());
 
 
             problemReturnList.add(problemReturn);

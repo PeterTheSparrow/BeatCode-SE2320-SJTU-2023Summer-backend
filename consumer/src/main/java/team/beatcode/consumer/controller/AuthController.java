@@ -28,11 +28,6 @@ public class AuthController {
         return authFeign.register(map);
     }
 
-    @RequestMapping("/GetProblemList")
-    public Message getProblemList() {
-        return authFeign.getProblemList();
-    }
-
     @RequestMapping("/CheckUser")
     public Message checkUser() {
         return authFeign.checkUser();

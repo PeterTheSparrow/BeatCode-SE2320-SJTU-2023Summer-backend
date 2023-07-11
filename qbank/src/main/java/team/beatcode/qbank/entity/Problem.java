@@ -27,4 +27,5 @@ public class Problem {
     private String description;
     private String time_limit;
     private String title;
+    private String difficulty;
 }

@@ -9,4 +9,6 @@ public interface ProblemDao {
 
 
     List<Problem> findByTagsTag_nameContainingIgnoreCase(String tagName);
+
+    List<Problem> findProblemsByDifficulty(String difficulty);
 }
