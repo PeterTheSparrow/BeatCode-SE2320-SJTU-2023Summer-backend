@@ -3,58 +3,116 @@ package team.beatcode.user.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import team.beatcode.user.entity.User;
+import team.beatcode.user.entity.User_record;
 import team.beatcode.user.service.UserService;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class  UserControllerTest {
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private UserService userService;
 
     @InjectMocks
     private UserController userController;
 
-    private MockMvc mockMvc;
-
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
-        // 初始化mockMvc，如果需要的话
     }
 
     @Test
-    public void testGetUser() {
-        // 设置测试数据和模拟行为
+    public void testGetUser() throws Exception {
+        // 模拟数据
         Integer userId = 1;
         User user = new User();
         user.setUserId(userId);
-        // 根据需要设置其他属性
+        user.setUserName("John Doe");
+        user.setEmail("john.doe@example.com");
+        user.setPhone("1234567890");
 
+        // 模拟服务方法调用
         when(userService.getUser(userId)).thenReturn(user);
 
-        // 执行对UserController.getUser()的API请求，并使用mockMvc或直接方法调用来验证结果
-        // 断言预期结果
+        // 执行测试
+        mockMvc.perform(MockMvcRequestBuilders.get("/user")
+                        .content("{\"userId\": 1}")
+                        .contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(userId))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userName").value("John Doe"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("john.doe@example.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phone").value("1234567890"))
+                .andDo(print());
     }
 
     @Test
-    public void testRegister() {
-        // 设置测试数据和模拟行为
-        Integer userId = 1;
-        String userName = "John";
-        String email = "john@example.com";
-        String phone = "1234567890";
+    public void testRegister() throws Exception {
+        // 模拟数据
+        Integer userId = 2;
+        String userName = "Jane Smith";
+        String email = "jane.smith@example.com";
+        String phone = "9876543210";
 
-        // 执行对UserController.register()的API请求，并使用mockMvc或直接方法调用来验证结果
-        // 断言预期行为，例如验证userService.register()是否使用正确的参数进行调用
+        // 执行测试
+        mockMvc.perform(MockMvcRequestBuilders.post("/register")
+                        .content("{\"user_id\": 2, \"name\": \"Jane Smith\", \"email\": \"jane.smith@example.com\", \"phone\": \"9876543210\"}")
+                        .contentType("application/json"))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        // 验证服务方法是否被调用
+        verify(userService).register(userId, userName, email, phone);
     }
 
+    @Test
+    public void testGetRanks() throws Exception {
+        // 模拟数据
+        User_record record1 = new User_record();
+        record1.setUserId(1);
+        record1.setAcceptNum(4);
+        record1.setAcceptSubmit(6);
+        record1.setSubmitNum(13);
+        User_record record2 = new User_record();
+        record2.setUserId(2);
+        record2.setAcceptNum(2);
+        record2.setAcceptSubmit(5);
+        record2.setSubmitNum(15);
+        List<User_record> userRecords = Arrays.asList(record1, record2);
+
+        // 模拟服务方法调用
+        when(userService.getRanks()).thenReturn(userRecords);
+
+        // 执行测试
+        mockMvc.perform(MockMvcRequestBuilders.get("/ranks"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].acceptNum").value(4))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].acceptSubmit").value(6))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].submitNum").value(13))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].userId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].acceptNum").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].acceptSubmit").value(5))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].submitNum").value(15))
+                .andDo(print());
+    }
 }
+
+
