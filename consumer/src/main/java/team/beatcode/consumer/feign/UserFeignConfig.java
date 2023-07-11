@@ -6,6 +6,12 @@ import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 
+/*
+   鸣谢：https://zhuanlan.zhihu.com/p/197707903?utm_id=0
+ */
+
+// @Configuration注解将使它全局生效
+// 启用自动的log对象
 @Slf4j
 public class UserFeignConfig {
     @Bean
@@ -36,7 +42,7 @@ public class UserFeignConfig {
     }
 
     @Bean
-    public RequestInterceptor ipPasser() {
-        return new IpPassInterceptor();
+    public RequestInterceptor tokenPasser() {
+        return new TokenPassInterceptor();
     }
 }
