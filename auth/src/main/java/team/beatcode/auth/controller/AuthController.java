@@ -49,7 +49,7 @@ public class AuthController {
         UserAuth userAuth = userAuthDao.getUserAuthById(tokenAuth.getUserId());
         if (userAuth == null) {
             System.out.printf("USER ABSENT IN TOKEN_AUTH: TOKEN = %s\n", tokenStr);
-            return new Message(MessageEnum.AUTH_FAIL);
+            return new Message(MessageEnum.AUTH_ERROR);
         }
 
         // 身份
