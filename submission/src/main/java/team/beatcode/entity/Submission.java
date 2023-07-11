@@ -22,6 +22,7 @@ public class Submission {
     private String submission_code;
     private String submission_language;
     private String submission_time;
+
     @Field("user_id")
     private String userId;
     @Field("user_name")

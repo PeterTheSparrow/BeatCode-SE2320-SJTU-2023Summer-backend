@@ -36,11 +36,16 @@ public class JudgeController {
 
     @Value("${judge.judgeDirectory}")
     private String judgeDirectory;
+    @Value("${judge.judgerDirectory}")
+    private String judgerDirectory;
 
-    @RequestMapping("judge")
-    public String judgeBySid(@RequestParam("sid") String sid) throws IOException, InterruptedException {
+    @RequestMapping("Judge")
+    public String Judge(@RequestParam("sid") String sid) throws IOException, InterruptedException {
+
+System.out.println("starting judge "+sid);
+
         Submission submission=submissionService.getSubmission(sid);
-        int pid=submission.getProblem_id();
+        int pid= Integer.parseInt(submission.getProblem_id());
         Problem problem=problemService.getProblem(pid);
 
 
@@ -56,7 +61,7 @@ public class JudgeController {
         /*------------------------------------------------------------------
         //Copy the judging executable files to work path
         -------------------------------------------------------------------*/
-        String JudgerPath = resourceLoader.getResource("classpath:judger").getURI().getPath();
+        String JudgerPath = judgerDirectory;
         File JudgerDirectory = new File(JudgerPath);
         copyDirectory(JudgerDirectory,WorkDirectory);
 
@@ -107,11 +112,11 @@ public class JudgeController {
         /*---------------------------------------------
         //delete directory
         ---------------------------------------------*/
-        deleteDirectory(WorkDirectory);
+//        deleteDirectory(WorkDirectory);
         return result;
     }
     private void copyDirectory(File sourceDirectory, File targetDirectory) throws IOException {
-
+        System.out.println("copying "+sourceDirectory.toPath()+" to "+targetDirectory.toPath());
         if (Files.isSymbolicLink(sourceDirectory.toPath())) {
             Files.copy(sourceDirectory.toPath(), targetDirectory.toPath(), LinkOption.NOFOLLOW_LINKS);
         } else {
@@ -151,7 +156,7 @@ public class JudgeController {
 
     private Submission ParseResult(Submission sub,String res)
     {
-        Pattern resultPattern=Pattern.compile("([\\s\\S]*)<tests>");
+        Pattern resultPattern=Pattern.compile("([\\s\\S]*)details");
         Matcher resultMatcher=resultPattern.matcher(res);
         if(resultMatcher.find())
         {
