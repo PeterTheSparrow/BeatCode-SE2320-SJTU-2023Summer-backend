@@ -72,24 +72,26 @@ public class ProblemController {
      * pageSize: 每页的记录数目
      * searchIndex: 根据什么来搜索
      * searchKeyWord: 搜索的关键词（用户输入的）
-     * "pageIndex": "1",
-     * "pageSize": "10",
+     * "pageIndex": 1,
+     * "pageSize": 10,
      * "searchIndex": "title",
      * "searchKeyWord": "和"
      * */
     @RequestMapping("/GetProblemList")
     public List<ProblemReturn> getProblemList(@RequestBody Map<String, Object> map) {
         // 解析参数，如果缺少，就返回null
-        if (map.get("pageIndex") == null || map.get("pageSize") == null ||
-                map.get("searchIndex") == null || map.get("searchKeyWord") == null) {
+        if (map.get(Macros.PARAM_PAGE) == null ||
+                map.get(Macros.PARAM_PAGE_SIZE) == null ||
+                map.get(Macros.PARAM_SEARCH_TYPE) == null ||
+                map.get(Macros.PARAM_KEYWORD) == null) {
             return null;
         }
 
-        Integer pageIndex = (Integer) map.get("pageIndex");
-        Integer pageSize = (Integer) map.get("pageSize");
+        Integer pageIndex = (Integer) map.get(Macros.PARAM_PAGE);
+        Integer pageSize = (Integer) map.get(Macros.PARAM_PAGE_SIZE);
 
-        String searchIndex = (String) map.get("searchIndex");
-        String searchKeyWord = (String) map.get("searchKeyWord");
+        String searchIndex = (String) map.get(Macros.PARAM_SEARCH_TYPE);
+        String searchKeyWord = (String) map.get(Macros.PARAM_KEYWORD);
 
         return problemService.getProblemList(pageIndex, pageSize, searchIndex, searchKeyWord);
     }

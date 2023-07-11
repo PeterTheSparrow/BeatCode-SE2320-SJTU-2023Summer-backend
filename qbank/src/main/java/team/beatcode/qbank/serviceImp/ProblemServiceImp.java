@@ -22,20 +22,17 @@ public class ProblemServiceImp implements ProblemService {
         // 题目名称（title）、标签（tag）
         // 然后还需要根据分页做一个筛选
 
-        List<Problem> problemList = new java.util.ArrayList<>();
         List<Problem> problemList2;
 
         // 1. 如果关键词类型是title
-        if (searchIndex.equals("title")) {
-            problemList = problemDao.findProblemsByTitleContaining(searchKeyWord);
-        }
-        // 2. 如果关键词类型是tag
-        else if (searchIndex.equals("tag")) {
-            problemList = problemDao.findByTagsTag_nameContainingIgnoreCase(searchKeyWord);
-        }
-        else if (searchIndex.equals("difficulty")) {
-            problemList = problemDao.findProblemsByDifficulty(searchKeyWord);
-        }
+        List<Problem> problemList = switch (searchIndex) {
+            case "title" -> problemDao.findProblemsByTitleContaining(searchKeyWord);
+
+            // 2. 如果关键词类型是tag
+            case "tag" -> problemDao.findByTagsTag_nameContainingIgnoreCase(searchKeyWord);
+            case "difficulty" -> problemDao.findProblemsByDifficulty(searchKeyWord);
+            default -> new java.util.ArrayList<>();
+        };
 
 
         // 3. 根据分页做筛选
@@ -56,13 +53,7 @@ public class ProblemServiceImp implements ProblemService {
 
         // 4. 将problemList2转换成problemReturnList
         for (Problem problem : problemList2) {
-            ProblemReturn problemReturn = new ProblemReturn();
-            problemReturn.setId(problem.getId());
-            problemReturn.setTitle(problem.getTitle());
-            problemReturn.setTags(problem.getTags());
-            problemReturn.setDifficulty(problem.getDifficulty());
-
-
+            ProblemReturn problemReturn = new ProblemReturn(problem);
             problemReturnList.add(problemReturn);
         }
 
