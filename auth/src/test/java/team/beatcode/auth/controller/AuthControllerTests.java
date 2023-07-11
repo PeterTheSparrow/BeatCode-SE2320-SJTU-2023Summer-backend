@@ -23,7 +23,7 @@ import team.beatcode.auth.dao.UserAuthDao;
 import team.beatcode.auth.entity.TokenAuth;
 import team.beatcode.auth.entity.UserAuth;
 import team.beatcode.auth.utils.Macros;
-import team.beatcode.auth.utils.UUIDUtils;
+import team.beatcode.auth.utils.TokenUtils;
 import team.beatcode.auth.utils.msg.MessageEnum;
 
 import java.util.Map;
@@ -56,7 +56,7 @@ public class AuthControllerTests {
     private Message run(String tokenStr, int user, long ll, long lf,
                         String name, int role, String pass,
                         String url) throws Exception {
-        byte[] tokenBys = UUIDUtils.StringToBytes(tokenStr);
+        byte[] tokenBys = TokenUtils.StringToBytes(tokenStr);
 
         if (tokenBys != null) {
             TokenAuth ipAuth = new TokenAuth();

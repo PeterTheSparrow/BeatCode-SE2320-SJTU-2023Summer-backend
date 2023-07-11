@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.Base64;
 import java.util.UUID;
 
-public class UUIDUtils {
+public class TokenUtils {
     private static final Base64.Decoder decoder = Base64.getDecoder();
     private static final Base64.Encoder encoder = Base64.getEncoder();
     public static byte[] generate() {

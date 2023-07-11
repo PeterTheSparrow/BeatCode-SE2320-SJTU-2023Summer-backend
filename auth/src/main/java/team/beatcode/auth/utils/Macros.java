@@ -12,11 +12,7 @@ public class Macros {
     public static final long AUTH_MAX_REFRESH = 864000000; // 10 days
 
     public static final String TOKEN_NAME = "golden-class-token";
-
-    public static final String X_REAL_IP = "x-real-ip";
-    public static final String X_FORWARDED_FOR = "x-forwarded-for";
-    public static final String PROXY_CLIENT_IP = "proxy-client-ip";
-    public static final String WL_PROXY_CLIENT_IP = "wl-proxy-client-ip";
+    public static final String IS_ADMIN = "is_admin";
 
     public static final String USER_CONTEXT_ID = "user_id";
     public static final String USER_CONTEXT_NAME = "user_name";
