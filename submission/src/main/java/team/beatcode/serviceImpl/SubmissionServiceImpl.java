@@ -24,6 +24,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     public void saveSubmission(Submission sub)
     {
+        sub.build_conf();
         submissionDao.SaveResult(sub);
         sub.getStringId();
         submissionDao.SaveResult(sub);

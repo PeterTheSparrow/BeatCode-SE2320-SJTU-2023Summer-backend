@@ -12,6 +12,7 @@ spring:
       database: BeatCode
       username: BeatCode
       password: BeatCode2023summer
+      authenticationDatabase: admin
 
 eureka:
   client:
@@ -21,5 +22,6 @@ eureka:
 judge:
   judgeDirectory: /usr/tmp/BeatCode/judge/1
   dataDirectory: /usr/tmp/BeatCode/data
+  judgerDirectory: /usr/tmp/BeatCode/judger
 
 
