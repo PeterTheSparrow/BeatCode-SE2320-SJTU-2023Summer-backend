@@ -11,6 +11,7 @@ import team.beatcode.entity.Submission;
 import team.beatcode.service.SubmissionService;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService {
@@ -40,6 +41,10 @@ public class SubmissionServiceImpl implements SubmissionService {
         String user_name=SearchMaps.get("user_name");
         String problem_id=SearchMaps.get("problem_id");
         String problem_name=SearchMaps.get("problem_name");
+        if(Objects.equals(user_name, ""))user_name=null;
+        if(Objects.equals(problem_id, ""))problem_id=null;
+        if(Objects.equals(problem_name, ""))problem_name=null;
+
 
         int page=Integer.parseInt(SearchMaps.get("page"));
         int pageSize=Integer.parseInt(SearchMaps.get("pageSize"));
