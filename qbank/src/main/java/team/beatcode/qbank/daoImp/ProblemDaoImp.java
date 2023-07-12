@@ -1,10 +1,10 @@
 package team.beatcode.qbank.daoImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-//import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import team.beatcode.qbank.entity.Problem;
 import team.beatcode.qbank.repository.ProblemRepository;
@@ -22,26 +22,26 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
     }
 
 
-    /*
-    * 根据tag_name模糊搜索适配的题目
-    * */
-    public List<Problem> findByTagsTag_nameContainingIgnoreCase(String tagName) {
-        // Criteria: 用于封装条件
-        Criteria criteria = new Criteria();
-        // regex: 正则表达式，i: 忽略大小写
-        criteria.and("tags.tag_name").regex(tagName, "i");
-        Query query = Query.query(criteria);
-        return mongoTemplate.find(query, Problem.class);
-    }
-
+    /**
+     * 高级查找
+     * @param title 标题包含此内容，可以填空串
+     * @param difficulty 难度，为空时返回全部
+     * @param page 页码，从0开始
+     * @param perPage 每页大小
+     * @return List
+     */
     @Override
-    public List<Problem> findProblemsByDifficulty(String difficulty) {
-        return problemRepository.findProblemsByDifficultyContaining(difficulty);
-    }
-
-    @Override
-    public List<Problem> findProblemsByTitleContaining(String title) {
-        return problemRepository.findProblemByTitleNameContaining(title);
+    public List<Problem> findByAll(String title, String difficulty, Integer page, Integer perPage) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        Page<Problem> problems = problemRepository
+                .findProblemByTitleNameContainingAndDifficultyContaining(
+                        title, difficulty, pageable
+                );
+        if (problems == null) {
+            return null;
+        }
+        else
+            return problems.stream().toList();
     }
 
     @Override

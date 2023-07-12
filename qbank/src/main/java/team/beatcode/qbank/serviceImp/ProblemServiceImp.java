@@ -5,6 +5,9 @@ import team.beatcode.qbank.dao.ProblemDao;
 import team.beatcode.qbank.entity.ProblemReturn;
 import team.beatcode.qbank.entity.Problem;
 import team.beatcode.qbank.service.ProblemService;
+import team.beatcode.qbank.utils.Macros;
+import team.beatcode.qbank.utils.msg.MessageEnum;
+import team.beatcode.qbank.utils.msg.MessageException;
 
 import java.util.List;
 
@@ -17,49 +20,21 @@ public class ProblemServiceImp implements ProblemService {
     }
 
     @Override
-    public List<ProblemReturn> getProblemList(Integer pageIndex,
-                                              Integer pageSize,
-                                              String searchIndex,
-                                              String searchKeyWord) {
-        // 分类讨论，根据关键词的类型，分类，去dao里面找
-        // 题目名称（title）、标签（tag）
-        // 然后还需要根据分页做一个筛选
+    public List<ProblemReturn> getProblemListEx(String titleContains,
+                                                String difficulty,
+                                                Integer pageIndex,
+                                                Integer pageSize)
+            throws MessageException {
+        if (Macros.correctHardLevel(difficulty)) {
+            List<Problem> problems = problemDao.findByAll(titleContains,
+                    difficulty, pageIndex, pageSize);
+            if (problems == null)
+                throw new MessageException(MessageEnum.SEARCH_PAGE_FAULT);
 
-        List<Problem> problemList2;
-
-        // 1. 如果关键词类型是title
-        List<Problem> problemList = switch (searchIndex) {
-            case "title" -> problemDao.findProblemsByTitleContaining(searchKeyWord);
-            // 2. 如果关键词类型是tag
-            case "tag" -> problemDao.findByTagsTag_nameContainingIgnoreCase(searchKeyWord);
-            case "difficulty" -> problemDao.findProblemsByDifficulty(searchKeyWord);
-            default -> new java.util.ArrayList<>();
-        };
-
-
-        // 3. 根据分页做筛选
-        // 筛选出list中下标为：(pageIndex-1)*pageSize ~ pageIndex*pageSize-1 的元素
-        // 如果为空，就直接返回
-        if (problemList == null) {
-            return null;
+            return problems.stream().map(ProblemReturn::new).toList();
         }
-        if (problemList.size() < pageIndex*pageSize-1) {
-            // 如果不够一页，就直接返回
-            problemList2 = problemList;
-        }
-        else {
-            problemList2 = problemList.subList((pageIndex-1)*pageSize, pageIndex*pageSize-1);
-        }
-
-        List<ProblemReturn> problemReturnList = new java.util.ArrayList<>();
-
-        // 4. 将problemList2转换成problemReturnList
-        for (Problem problem : problemList2) {
-            ProblemReturn problemReturn = new ProblemReturn(problem);
-            problemReturnList.add(problemReturn);
-        }
-
-        return problemReturnList;
+        else
+            throw new MessageException(MessageEnum.SEARCH_DIFFICULTY_UNKNOWN);
     }
 
     @Override

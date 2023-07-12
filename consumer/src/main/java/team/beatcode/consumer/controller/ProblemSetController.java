@@ -1,11 +1,12 @@
 package team.beatcode.consumer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.consumer.feign.ProblemSetFeign;
-import team.beatcode.qbank.entity.ProblemReturn;
 
-import java.util.List;
 import java.util.Map;
 
 /*
@@ -19,7 +20,7 @@ public class ProblemSetController {
     ProblemSetFeign problemSetFeign;
 
     @RequestMapping("/GetProblemList")
-    public List<ProblemReturn> getProblemList(@RequestBody Map<String, Object> map) {
+    public Map<String, Object> getProblemList(@RequestBody Map<String, Object> map) {
         return problemSetFeign.getProblemList(map);
     }
 

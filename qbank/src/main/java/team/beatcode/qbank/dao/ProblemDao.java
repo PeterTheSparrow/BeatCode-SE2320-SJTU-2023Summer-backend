@@ -5,12 +5,8 @@ import team.beatcode.qbank.entity.Problem;
 import java.util.List;
 
 public interface ProblemDao {
-    List<Problem> findProblemsByTitleContaining(String title);
 
-
-    List<Problem> findByTagsTag_nameContainingIgnoreCase(String tagName);
-
-    List<Problem> findProblemsByDifficulty(String difficulty);
-
+    List<Problem> findByAll
+            (String title, String difficulty, Integer page, Integer perPage);
     Problem findProblemById(Integer id);
 }
