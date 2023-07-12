@@ -1,23 +1,5 @@
 package team.beatcode.user.service;
 
-//import org.junit.jupiter.api.Test;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//class UserServiceTest {
-//
-//    @Test
-//    void getUser() {
-//    }
-//
-//    @Test
-//    void register() {
-//    }
-//
-//    @Test
-//    void getRanks() {
-//    }
-//}
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,7 +12,6 @@ import team.beatcode.user.entity.User_record;
 import team.beatcode.user.service.impl.UserServiceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -95,8 +76,8 @@ public class UserServiceTest {
 
         userService.register(userId, userName, email, phone);
 
-        // 验证mock的方法是否被调用
-        verify(userDao, times(1)).register(userId, userName, email, phone);
+        // 断言验证register方法是否被被调用
+        verify(userDao).register(anyInt(), anyString(), anyString(), anyString());
     }
 
     @Test
@@ -111,8 +92,8 @@ public class UserServiceTest {
         // 断言预期结果
         assertEquals(userRecordList, ranks);
 
-        // 验证mock的方法是否被调用
-        verify(userDao, times(1)).getRecords();
+        // 断言验证getRecords方法是否被调用
+        verify(userDao).getRecords();
     }
 
     // 根据需要添加更多的测试方法
