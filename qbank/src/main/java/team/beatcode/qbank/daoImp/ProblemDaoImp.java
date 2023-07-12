@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 import team.beatcode.qbank.entity.Problem;
 import team.beatcode.qbank.repository.ProblemRepository;
 
-import java.util.List;
-
 @Repository
 public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
     ProblemRepository problemRepository;
@@ -31,17 +29,12 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
      * @return List
      */
     @Override
-    public List<Problem> findByAll(String title, String difficulty, Integer page, Integer perPage) {
+    public Page<Problem> findByAll(String title, String difficulty, Integer page, Integer perPage) {
         Pageable pageable = PageRequest.of(page, perPage);
-        Page<Problem> problems = problemRepository
+        return problemRepository
                 .findProblemByTitleNameContainingAndDifficultyContaining(
                         title, difficulty, pageable
                 );
-        if (problems == null) {
-            return null;
-        }
-        else
-            return problems.stream().toList();
     }
 
     @Override

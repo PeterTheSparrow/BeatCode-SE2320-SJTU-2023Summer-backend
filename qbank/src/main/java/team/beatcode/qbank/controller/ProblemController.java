@@ -10,7 +10,6 @@ import team.beatcode.qbank.utils.Macros;
 import team.beatcode.qbank.utils.msg.MessageEnum;
 import team.beatcode.qbank.utils.msg.MessageException;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,7 +47,7 @@ public class ProblemController {
             if (pageSize <= 1)
                 return new Message(MessageEnum.SEARCH_PAGE_MALICE);
 
-            List<ProblemReturn> result =
+            ProblemReturn.Paged result =
                     problemService.getProblemListEx(
                             titleContains, hardLevel, pageIndex - 1, pageSize);
 

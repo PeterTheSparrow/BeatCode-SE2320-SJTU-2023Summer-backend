@@ -38,4 +38,11 @@ public class ProblemReturn {
             this.memory_limit = problem.getConfig().getMLimit();
         }
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class Paged {
+        List<ProblemReturn> page;
+        Integer total;
+    }
 }
