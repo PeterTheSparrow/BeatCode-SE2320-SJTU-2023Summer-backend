@@ -17,7 +17,10 @@ public class ProblemServiceImp implements ProblemService {
     }
 
     @Override
-    public List<ProblemReturn> getProblemList(Integer pageIndex, Integer pageSize, String searchIndex, String searchKeyWord) {
+    public List<ProblemReturn> getProblemList(Integer pageIndex,
+                                              Integer pageSize,
+                                              String searchIndex,
+                                              String searchKeyWord) {
         // 分类讨论，根据关键词的类型，分类，去dao里面找
         // 题目名称（title）、标签（tag）
         // 然后还需要根据分页做一个筛选
@@ -27,7 +30,6 @@ public class ProblemServiceImp implements ProblemService {
         // 1. 如果关键词类型是title
         List<Problem> problemList = switch (searchIndex) {
             case "title" -> problemDao.findProblemsByTitleContaining(searchKeyWord);
-
             // 2. 如果关键词类型是tag
             case "tag" -> problemDao.findByTagsTag_nameContainingIgnoreCase(searchKeyWord);
             case "difficulty" -> problemDao.findProblemsByDifficulty(searchKeyWord);
@@ -36,7 +38,7 @@ public class ProblemServiceImp implements ProblemService {
 
 
         // 3. 根据分页做筛选
-        // 筛选出list中序号为：(pageIndex-1)*pageSize ~ pageIndex*pageSize-1 的元素
+        // 筛选出list中下标为：(pageIndex-1)*pageSize ~ pageIndex*pageSize-1 的元素
         // 如果为空，就直接返回
         if (problemList == null) {
             return null;
@@ -58,5 +60,15 @@ public class ProblemServiceImp implements ProblemService {
         }
 
         return problemReturnList;
+    }
+
+    @Override
+    public ProblemReturn.Detail getProblemDetail(Integer problemId) {
+        Problem p = problemDao.findProblemById(problemId);
+        if (p == null)
+            return null;
+        else {
+            return new ProblemReturn.Detail(p);
+        }
     }
 }

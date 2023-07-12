@@ -95,4 +95,9 @@ public class ProblemController {
 
         return problemService.getProblemList(pageIndex, pageSize, searchIndex, searchKeyWord);
     }
+
+    @RequestMapping("/GetProblemDetail")
+    public ProblemReturn.Detail getProblemDetail(@RequestBody Integer pid) {
+        return problemService.getProblemDetail(pid);
+    }
 }

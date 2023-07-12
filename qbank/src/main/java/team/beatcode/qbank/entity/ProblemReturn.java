@@ -13,22 +13,29 @@ import java.util.List;
 public class ProblemReturn {
     Integer id;
     String title;
-    List<Tag> tags;
+    List<Problem.Tag> tags;
     String difficulty;
 
     public ProblemReturn(Problem problem) {
-        this.id = problem.getProblem_id();
-        this.title = problem.getTitle();
+        this.id = problem.getTitle().getId();
+        this.title = problem.getTitle().getName();
         this.tags = problem.getTags();
         this.difficulty = problem.getDifficulty();
     }
 
-    public static class DetailReturn extends ProblemReturn {
+    // 不加Getter注解会害了你
+    @Getter
+    @Setter
+    public static class Detail extends ProblemReturn {
         String detail;
+        Integer time_limit;
+        Integer memory_limit;
 
-        public DetailReturn(Problem problem) {
+        public Detail(Problem problem) {
             super(problem);
-            this.detail = problem.getDescription();
+            this.detail = problem.getDetail();
+            this.time_limit = problem.getConfig().getTLimit();
+            this.memory_limit = problem.getConfig().getMLimit();
         }
     }
 }

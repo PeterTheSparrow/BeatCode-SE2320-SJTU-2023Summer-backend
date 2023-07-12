@@ -1,31 +1,63 @@
 package team.beatcode.qbank.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@Setter
-@Getter
 @Data
 @Document(collection = "problem_mongo")
 public class Problem {
     @Id
+    @Field("_id")
     private String id;
 
-    private Integer case_n;
-    private String conf;
-    private String memory_limit;
-    private Integer problem_id;
+    @Data
+    public static class Title {
+        @Field("name")
+        private String name;
+        @Field("id")
+        private Integer id;
+    }
+    @Field("title")
+    private Title title;
 
-    private List<Tag> tags;
-    private String output_limit;
-    private String checker;
-    private String description;
-    private String time_limit;
-    private String title;
+    @Field("description")
+    private String detail;
+    @Field("difficulty")
     private String difficulty;
+
+    @Data
+    public static class Tag {
+        @Field("name")
+        private String tag;
+        @Field("description")
+        private String caption;
+        @Field("color")
+        private String color;
+    }
+    @Field("tags")
+    private List<Tag> tags;
+
+    @Data
+    public static class Config {
+        @Field("type")
+        private String type;
+        @Field("test_num")
+        private Integer tests;
+        @Field("time_limit")
+        private Integer tLimit;
+        @Field("memory_limit")
+        private Integer mLimit;
+        @Field("output_limit")
+        private Integer oLimit;
+        @Field("use_builtin_judger")
+        private String builtinJ;
+        @Field("use_builtin_checker")
+        private String builtinC;
+    }
+    @Field("config")
+    private Config config;
 }

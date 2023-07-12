@@ -39,9 +39,13 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
         return problemRepository.findProblemsByDifficultyContaining(difficulty);
     }
 
-
     @Override
     public List<Problem> findProblemsByTitleContaining(String title) {
-        return problemRepository.findProblemsByTitleContaining(title);
+        return problemRepository.findProblemByTitleNameContaining(title);
+    }
+
+    @Override
+    public Problem findProblemById(Integer id) {
+        return problemRepository.findProblemByTitleId(id);
     }
 }
