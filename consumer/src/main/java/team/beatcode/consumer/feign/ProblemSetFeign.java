@@ -14,4 +14,7 @@ public interface ProblemSetFeign {
 
     @RequestMapping ("/GetProblemList")
     List<ProblemReturn> getProblemList(@RequestBody Map<String, Object> map);
+
+    @RequestMapping ("/GetProblemDetail")
+    Map<String, Object> getProblemDetail(@RequestBody int pid);
 }

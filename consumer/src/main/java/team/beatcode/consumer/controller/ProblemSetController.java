@@ -22,4 +22,9 @@ public class ProblemSetController {
     public List<ProblemReturn> getProblemList(@RequestBody Map<String, Object> map) {
         return problemSetFeign.getProblemList(map);
     }
+
+    @RequestMapping("/GetProblemDetail")
+    public Map<String, Object> getProblemDetail(@RequestBody int pid) {
+        return problemSetFeign.getProblemDetail(pid);
+    }
 }
