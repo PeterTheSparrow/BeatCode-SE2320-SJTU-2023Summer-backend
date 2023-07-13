@@ -47,8 +47,14 @@ public class Problem {
         private String type;
         @Field("test_num")
         private Integer tests;
+        /**
+         * 单位是毫秒，但评测机用的是秒+三位小数
+         */
         @Field("time_limit")
         private Integer tLimit;
+        /**
+         * 单位是MB
+         */
         @Field("memory_limit")
         private Integer mLimit;
         @Field("output_limit")

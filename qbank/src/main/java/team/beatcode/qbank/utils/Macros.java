@@ -22,6 +22,16 @@ public class Macros {
     public static final String TEST_CASE_DIRECTORY =
             "D:\\Work\\Software-School-Projects\\BeatCode-test-case";
 
+    public static class ProblemType {
+        public static final String CONVENTIONAL = "conventional";
+    }
+
+    public static class CheckerType {
+        public static final String IntegerSequence = "ncmp";
+        public static final String StringIgnoringBlank = "wcmp";
+        public static final String LineIgnoringEnter = "fcmp";
+    }
+
     public static String getTestCaseFilePath(int pid) {
         return String.format("%s%d.zip", TEST_CASE_DIRECTORY, pid);
     }
