@@ -33,7 +33,7 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
     public Page<Problem> findByAll(String title, String difficulty, Integer page, Integer perPage) {
         Pageable pageable = PageRequest.of(page, perPage);
         return problemRepository
-                .findProblemByTitleNameContainingAndDifficultyContaining(
+                .findProblemByTitleNameContainingAndDifficultyContainingOrderByTitleIdAsc(
                         title, difficulty, pageable
                 );
     }
