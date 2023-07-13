@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.beatcode.entity.Problem;
 import team.beatcode.entity.Submission;
+import team.beatcode.service.ProblemService;
 import team.beatcode.service.SubmissionService;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class SubmitController {
     @Autowired
     SubmissionService submissionService;
+    @Autowired
+    ProblemService problemService;
     @RequestMapping("Submit")
     public String Submit(@RequestBody Map<String,Object> data)
     {
@@ -29,17 +33,21 @@ public class SubmitController {
         String lang=data.get("language").toString();
         String code=data.get("code").toString();
         String problem_id=data.get("problem_id").toString();
-        String problem_name=data.get("problem_name").toString();
         String user_id=data.get("user_id").toString();
         String user_name=data.get("user_name").toString();
 
         submission.setSubmission_language(lang);
         submission.setSubmission_code(code);
         submission.setProblemId(problem_id);
-        submission.setProblemName(problem_name);
         submission.setUserId(user_id);
         submission.setUserName(user_name);
 
+        submission.setState("judging...");
+
+        int pid= Integer.parseInt(problem_id);
+        Problem problem=problemService.getProblem(pid);
+        submission.setCase_n(problem.getConfig().getTests());
+        submission.setProblemName(problem.getTitle().getName());
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime convertedDateTime=currentDateTime
@@ -48,7 +56,6 @@ public class SubmitController {
                 .toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = convertedDateTime.format(formatter);
-        System.out.println(formattedDateTime);
         submission.setSubmission_time(formattedDateTime);
 
         submissionService.saveSubmission(submission);

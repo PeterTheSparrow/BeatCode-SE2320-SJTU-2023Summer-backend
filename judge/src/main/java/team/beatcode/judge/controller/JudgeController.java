@@ -2,16 +2,12 @@ package team.beatcode.judge.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import team.beatcode.judge.entity.Problem;
 import team.beatcode.judge.entity.Result;
 import team.beatcode.judge.entity.Submission;
-import team.beatcode.judge.service.ProblemService;
 import team.beatcode.judge.service.SubmissionService;
 
 import java.io.File;
@@ -21,6 +17,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,11 +25,6 @@ import java.util.regex.Pattern;
 public class JudgeController {
     @Autowired
     SubmissionService submissionService;
-    @Autowired
-    ProblemService problemService;
-    @Autowired
-    @Qualifier("customResourceLoader")
-    private ResourceLoader resourceLoader;
 
     @Value("${judge.judgeDirectory}")
     private String judgeDirectory;
@@ -45,8 +37,6 @@ public class JudgeController {
 System.out.println("starting judge "+sid);
 
         Submission submission=submissionService.getSubmission(sid);
-        int pid= Integer.parseInt(submission.getProblem_id());
-        Problem problem=problemService.getProblem(pid);
 
 
         /*------------------------------------------------------------------
@@ -105,7 +95,6 @@ System.out.println("starting judge "+sid);
         ---------------------------------------------*/
         String resultFilePath = WorkPath + File.separator + "result"+File.separator+"result.txt";
         String result = Files.readString(new File(resultFilePath).toPath());
-        submission.setCase_n(problem.getCase_n());
         Submission resSubmission=ParseResult(submission,result);
         submissionService.saveSubmission(resSubmission);
 
@@ -161,9 +150,37 @@ System.out.println("starting judge "+sid);
         if(resultMatcher.find())
         {
             sub.setFull_result(resultMatcher.group(1));
+            Pattern errorPattern=Pattern.compile("<error>([\\s\\S]*)</error>");
+            Matcher errorMatcher=errorPattern.matcher(res);
+            if(resultMatcher.group(1).contains("error Judgment Failed"))
+            {
+                sub.setState("Judgement Failed");
+                sub.setResult_score("0");
+                sub.setResult_time("0");
+                sub.setResult_memory("0");
+                if(errorMatcher.find()){
+                    sub.setError(errorMatcher.group(1));
+                }
+                return sub;
+            }
+            if(resultMatcher.group(1).contains("error Compile Error"))
+            {
+                sub.setState("Compile Error");
+                sub.setResult_score("0");
+                sub.setResult_time("0");
+                sub.setResult_memory("0");
+                if(errorMatcher.find()){
+                    String errorMessage=errorMatcher.group(1);
+                    String prefix1 = "/usr/tmp/BeatCode/judge/1/\\w+/work/answer\\.\\w+:";
+                    String prefix2 = "answer\\.\\w+:";
+
+                    sub.setError(errorMessage.replaceAll(prefix1,"").replaceAll(prefix2,""));
+                }
+                return sub;
+            }
         }
 
-
+        String stateFlag="Accepted";
         List<Result> ResultDetails = new ArrayList<>();
 
         Pattern scorePattern=Pattern.compile("score\\s+(.*)");
@@ -204,8 +221,8 @@ System.out.println("starting judge "+sid);
         Pattern infPattern=Pattern.compile("info=\"([^\"]*)\"");
         Pattern timPattern=Pattern.compile("time=\"([^\"]*)\"");
         Pattern memPattern=Pattern.compile("memory=\"([^\"]*)\"");
-        Pattern inPattern=Pattern.compile("<in>([\\s\\S]*?)</in>");
-        Pattern outPattern=Pattern.compile("<out>([\\s\\S]*?)</out>");
+//        Pattern inPattern=Pattern.compile("<in>([\\s\\S]*?)</in>");
+//        Pattern outPattern=Pattern.compile("<out>([\\s\\S]*?)</out>");
         Pattern resPattern=Pattern.compile("<res>([\\s\\S]*?)</res>");
         while(testMatcher.find())
         {
@@ -223,6 +240,8 @@ System.out.println("starting judge "+sid);
             Matcher infMatcher=infPattern.matcher(detail);
             if(infMatcher.find()){
                 result.setInfo(infMatcher.group(1));
+                if(!Objects.equals(infMatcher.group(1), "Accepted") && Objects.equals(stateFlag, "Accepted"))
+                    stateFlag=infMatcher.group(1);
             }
             Matcher timMatcher=timPattern.matcher(detail);
             if(timMatcher.find()){
@@ -232,14 +251,14 @@ System.out.println("starting judge "+sid);
             if(memMatcher.find()){
                 result.setMemory(memMatcher.group(1));
             }
-            Matcher inMatcher=inPattern.matcher(detail);
-            if(inMatcher.find()){
-                result.setIn(inMatcher.group(1));
-            }
-            Matcher outMatcher=outPattern.matcher(detail);
-            if(outMatcher.find()){
-                result.setOut(outMatcher.group(1));
-            }
+//            Matcher inMatcher=inPattern.matcher(detail);
+//            if(inMatcher.find()){
+//                result.setIn(inMatcher.group(1));
+//            }
+//            Matcher outMatcher=outPattern.matcher(detail);
+//            if(outMatcher.find()){
+//                result.setOut(outMatcher.group(1));
+//            }
             Matcher resMatcher=resPattern.matcher(detail);
             if(resMatcher.find()){
                 result.setRes(resMatcher.group(1));
@@ -247,6 +266,7 @@ System.out.println("starting judge "+sid);
             ResultDetails.add(result);
         }
         sub.setDetails(ResultDetails);
+        sub.setState(stateFlag);
         return sub;
     }
 

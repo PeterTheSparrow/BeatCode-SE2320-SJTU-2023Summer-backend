@@ -1,10 +1,11 @@
-package team.beatcode.judge.serviceImpl;
+package team.beatcode.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.beatcode.judge.dao.ProblemDao;
-import team.beatcode.judge.entity.Problem;
-import team.beatcode.judge.service.ProblemService;
+import team.beatcode.dao.ProblemDao;
+import team.beatcode.entity.Problem;
+import team.beatcode.service.ProblemService;
+
 @Service
 public class ProblemServiceImpl implements ProblemService {
     @Autowired

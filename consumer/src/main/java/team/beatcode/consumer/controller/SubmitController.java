@@ -12,7 +12,7 @@ import team.beatcode.consumer.utils.context.UserContextHolder;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://10.180.33.155:3000")
+@CrossOrigin(origins = "*")
 @RestController
 public class SubmitController {
     @Autowired
@@ -20,13 +20,10 @@ public class SubmitController {
     @Autowired
     JudgeFeign judgeFeign;
     @RequestMapping("Submit")
-//    @RequireLogin(type = RequireLogin.Type.USER)
+    @RequireLogin(type = RequireLogin.Type.USER)
     public String Submit(@RequestBody Map<String,Object> data)
     {
-//        UserContext userContext= UserContextHolder.getUserAccount();
-//        data.put("user_id",userContext.getUser_id());
-//        data.put("user_name",userContext.getUser_name());
-
+        UserContext userContext= UserContextHolder.getUserAccount();
         String sid=submitFeign.Submit(data);
 System.out.println("created submission id "+sid);
         judgeFeign.Judge(sid);
@@ -35,13 +32,13 @@ System.out.println("finished judge");
     }
 
     @RequestMapping("GetFullSubmission")
-//    @RequireLogin(type = RequireLogin.Type.USER)
+    @RequireLogin(type = RequireLogin.Type.USER)
     public Submission GetFullSubmission(@RequestBody Map<String,Object> data)
     {
         return submitFeign.GetFullSubmission(data);
     }
     @RequestMapping("GetSubmissions")
-//    @RequireLogin(type = RequireLogin.Type.USER)
+    @RequireLogin(type = RequireLogin.Type.USER)
     public Page<Submission> GetSubmissions(@RequestBody Map<String,String> data)
     {
         return submitFeign.GetSubmissions(data);

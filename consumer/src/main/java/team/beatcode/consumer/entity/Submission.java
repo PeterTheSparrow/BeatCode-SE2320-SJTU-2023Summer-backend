@@ -31,4 +31,7 @@ public class Submission {
     private String result_time;
     private String result_memory;
     private String full_result;
+
+    private String state;
+    private String error;
 }

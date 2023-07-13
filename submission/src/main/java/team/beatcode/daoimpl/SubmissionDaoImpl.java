@@ -35,21 +35,21 @@ public class SubmissionDaoImpl implements SubmissionDao {
     {return submissionRepository.findAllByProblemId(pid,pageable);}
     @Override
     public Page<Submission> findByPname(String pname, Pageable pageable)
-    {return submissionRepository.findAllByProblemName(pname,pageable);}
+    {return submissionRepository.findAllByProblemNameContaining(pname,pageable);}
 
     @Override
     public Page<Submission> findByUnameAndPid(String uname,String pid, Pageable pageable)
     {return submissionRepository.findAllByUserNameAndProblemId(uname,pid,pageable);}
     @Override
     public Page<Submission> findByUnameAndPname(String uname,String pname, Pageable pageable)
-    {return submissionRepository.findAllByUserNameAndProblemName(uname,pname,pageable);}
+    {return submissionRepository.findAllByUserNameAndProblemNameContaining(uname,pname,pageable);}
     @Override
     public Page<Submission> findByPidAndPname(String pid,String pname, Pageable pageable)
-    {return submissionRepository.findAllByProblemIdAndProblemName(pid,pname,pageable);}
+    {return submissionRepository.findAllByProblemIdAndProblemNameContaining(pid,pname,pageable);}
 
     @Override
     public Page<Submission> findByUnameAndPidAndPname(String uname,String pid,String pname, Pageable pageable)
-    {return submissionRepository.findAllByUserNameAndProblemIdAndProblemName(uname,pid,pname,pageable);}
+    {return submissionRepository.findAllByUserNameAndProblemIdAndProblemNameContaining(uname,pid,pname,pageable);}
     @Override
     public Page<Submission> findAll(Pageable pageable)
     {return submissionRepository.findAll(pageable);}

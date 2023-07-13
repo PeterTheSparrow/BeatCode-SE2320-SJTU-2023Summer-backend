@@ -9,8 +9,8 @@ public class Result {
     public String info;
     public String time;
     public String memory;
-    public String in;
-    public String out;
+//    public String in;
+//    public String out;
     public String res;
     public Result(){}
 }
