@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RestController
 public class FileController {
-    private ResponseEntity<StreamingResponseBody> getFileFromPath(String path) {
+    public ResponseEntity<StreamingResponseBody> getFileFromPath(String path) {
         if (path == null) {
             return ResponseEntity.noContent().build();
         }
