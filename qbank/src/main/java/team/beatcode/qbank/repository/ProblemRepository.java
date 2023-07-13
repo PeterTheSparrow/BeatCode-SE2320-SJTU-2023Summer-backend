@@ -7,7 +7,7 @@ import team.beatcode.qbank.entity.Problem;
 
 public interface ProblemRepository extends MongoRepository<Problem, String> {
 
-    Page<Problem> findProblemByTitleNameContainingAndDifficultyContaining(String title_name, String difficulty, Pageable pageable);
+    Page<Problem> findProblemByTitleNameContainingAndDifficultyContainingOrderByTitleIdAsc(String title_name, String difficulty, Pageable pageable);
 
     Problem findProblemByTitleId(Integer id);
 }
