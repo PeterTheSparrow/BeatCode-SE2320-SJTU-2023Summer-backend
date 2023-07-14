@@ -15,7 +15,7 @@ public interface SubmitFeign {
     @RequestMapping("Submit")
     String Submit(@RequestBody Map<String,Object> data);
     @RequestMapping("GetFullSubmission")
-    Submission GetFullSubmission(@RequestBody Map<String,Object> data);
+    Map<String,Object> GetFullSubmission(@RequestBody Map<String,Object> data);
     @RequestMapping("GetSubmissions")
-    Page<Submission> GetSubmissions(@RequestBody Map<String,String> data);
+    Map<String,Object> GetSubmissions(@RequestBody Map<String,String> data);
 }

@@ -24,6 +24,8 @@ public class SubmitController {
     public String Submit(@RequestBody Map<String,Object> data)
     {
         UserContext userContext= UserContextHolder.getUserAccount();
+        data.put("user_id",userContext.getUser_id());
+        data.put("user_name",userContext.getUser_name());
         String sid=submitFeign.Submit(data);
 System.out.println("created submission id "+sid);
         judgeFeign.Judge(sid);
@@ -33,13 +35,13 @@ System.out.println("finished judge");
 
     @RequestMapping("GetFullSubmission")
     @RequireLogin(type = RequireLogin.Type.USER)
-    public Submission GetFullSubmission(@RequestBody Map<String,Object> data)
+    public Map<String,Object> GetFullSubmission(@RequestBody Map<String,Object> data)
     {
         return submitFeign.GetFullSubmission(data);
     }
     @RequestMapping("GetSubmissions")
     @RequireLogin(type = RequireLogin.Type.USER)
-    public Page<Submission> GetSubmissions(@RequestBody Map<String,String> data)
+    public Map<String,Object> GetSubmissions(@RequestBody Map<String,String> data)
     {
         return submitFeign.GetSubmissions(data);
     }

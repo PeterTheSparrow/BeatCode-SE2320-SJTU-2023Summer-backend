@@ -3,6 +3,7 @@ package team.beatcode.auth.dao;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import team.beatcode.auth.entity.TokenAuth;
 import team.beatcode.auth.repository.TokenAuthRepository;
 import team.beatcode.auth.utils.TokenUtils;
@@ -27,6 +28,7 @@ public class TokenAuthDao {
         return tokenAuthRepository.saveAndFlush(tokenAuth);
     }
 
+    @Transactional
     public void remove(String token) {
         byte[] bytes = TokenUtils.StringToBytes(token);
         if (bytes == null) return;

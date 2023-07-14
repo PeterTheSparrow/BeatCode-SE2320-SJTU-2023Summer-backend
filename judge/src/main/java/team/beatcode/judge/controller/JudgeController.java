@@ -101,7 +101,7 @@ System.out.println("starting judge "+sid);
         /*---------------------------------------------
         //delete directory
         ---------------------------------------------*/
-//        deleteDirectory(WorkDirectory);
+        deleteDirectory(WorkDirectory);
         return result;
     }
     private void copyDirectory(File sourceDirectory, File targetDirectory) throws IOException {
