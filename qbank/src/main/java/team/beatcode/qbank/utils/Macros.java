@@ -1,5 +1,6 @@
 package team.beatcode.qbank.utils;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Macros {
@@ -33,6 +34,6 @@ public class Macros {
     }
 
     public static String getTestCaseFilePath(int pid) {
-        return String.format("%s%d.zip", TEST_CASE_DIRECTORY, pid);
+        return String.format("%s%s%d.zip", TEST_CASE_DIRECTORY, File.separator, pid);
     }
 }

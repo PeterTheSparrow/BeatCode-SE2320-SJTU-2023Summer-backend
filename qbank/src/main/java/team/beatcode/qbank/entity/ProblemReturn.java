@@ -30,12 +30,14 @@ public class ProblemReturn {
         String detail;
         Integer time_limit;
         Integer memory_limit;
+        Integer version;
 
         public Detail(Problem problem) {
             super(problem);
             this.detail = problem.getDetail();
             this.time_limit = problem.getConfig().getTLimit();
             this.memory_limit = problem.getConfig().getMLimit();
+            this.version = problem.getVersion();
         }
     }
 
