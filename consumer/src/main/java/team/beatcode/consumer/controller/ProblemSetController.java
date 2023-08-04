@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.consumer.feign.ProblemSetFeign;
+import team.beatcode.consumer.interceptors.RequireLogin;
+import team.beatcode.consumer.utils.context.UserContext;
+import team.beatcode.consumer.utils.context.UserContextHolder;
 
 import java.util.Map;
 
@@ -20,7 +23,10 @@ public class ProblemSetController {
     ProblemSetFeign problemSetFeign;
 
     @RequestMapping("/GetProblemList")
+    @RequireLogin(type = RequireLogin.Type.USER)
     public Map<String, Object> getProblemList(@RequestBody Map<String, Object> map) {
+        UserContext userContext= UserContextHolder.getUserAccount();
+        map.put("user_id",userContext.getUser_id().toString());
         return problemSetFeign.getProblemList(map);
     }
 
