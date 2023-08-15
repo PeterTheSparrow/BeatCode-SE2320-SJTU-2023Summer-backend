@@ -22,4 +22,10 @@ public interface AuthFeign {
     Message logout();
     @RequestMapping("/Register")
     Message register(@RequestBody Map<String, Object> map);
+
+    @RequestMapping("/createCode")
+    String create(@RequestBody Map<String, Object> data);
+
+    @RequestMapping("/checkCode")
+    Integer check(@RequestBody Map<String, Object> data);
 }

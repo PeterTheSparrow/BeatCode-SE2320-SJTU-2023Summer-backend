@@ -1,54 +1,71 @@
 package team.beatcode.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import team.beatcode.auth.Service.CodeService;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/*
+* 鸣谢：
+* 1. https://zhuanlan.zhihu.com/p/321816821
+* 2. https://help.aliyun.com/document_detail/607851.html
+* */
 @RestController
-@RequestMapping("/codes")
+//@RequestMapping("/codes")
 public class CodeController {
     @Autowired
     private CodeService codeService;
 
     /**
      * 生成验证码
-     * @param email 邮箱地址
+     * @param data 邮箱地址
      *
      * @return success：发送成功；fail：发送失败
      * */
-    @RequestMapping("/create")
-    public String create(@RequestParam String email) {
+    @RequestMapping("/createCode")
+    public String create(@RequestBody Map<String, Object> data) {
+        String email = (String) data.get("email");
         // 生成验证码
         String verificationCode = codeService.createCode(email);
 
+        // 生成map
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", email);
+        map.put("code", verificationCode);
+
         // 将验证码发送到用户的邮箱
-        return sendEmail(email, verificationCode);
+        return sendEmail(map);
     }
 
     /**
      * 检查验证码是否合法
-     * @param email 邮箱地址
-     * @param code  验证码
+     * @param data 邮箱地址和验证码
      *
      * @return 0：验证码正确；1：验证码错误；2：验证码过期
      * */
-    @RequestMapping("/check")
-    public Integer check(@RequestParam String email, @RequestParam String code) {
+    @RequestMapping("/checkCode")
+    public Integer check(@RequestBody Map<String, Object> data) {
+        String email = (String) data.get("email");
+        String code = (String) data.get("code");
         // 检查验证码是否正确
         return codeService.checkCode(email, code);
     }
 
     /**
      * 发送邮件
-     * @param email 邮箱地址
-     * @param verificationCode  验证码
+     * @param data 邮箱地址和验证码
      *
      * @return success：发送成功；fail：发送失败
      * */
-    private String sendEmail(String email, String verificationCode) {
+    private String sendEmail(@RequestBody Map<String, Object> data) {
+        String email = (String) data.get("email");
+        String verificationCode = (String) data.get("code");
+
         String url = "http://localhost:8762/emails/send?email=" + email + "&code=" + verificationCode;
         // 发送邮件
         RestTemplate restTemplate = new RestTemplate();
