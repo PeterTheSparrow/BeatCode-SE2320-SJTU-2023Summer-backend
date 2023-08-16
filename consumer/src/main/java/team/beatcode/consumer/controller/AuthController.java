@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     @RequestMapping("/createCode")
-    public String create(@RequestBody Map<String, Object> data) {
+    public Message create(@RequestBody Map<String, Object> data) {
         return authFeign.create(data);
     }
 

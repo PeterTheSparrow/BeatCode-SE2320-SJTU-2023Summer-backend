@@ -54,5 +54,11 @@ public class UserDaoImpl implements UserDao {
         return user_recordRepository.findAll();
     }
 
+    @Override
+    public Boolean checkEmailExist(String email) {
+        Optional<User_info> user_info = user_infoRepository.findUser_infoByEmail(email);
+        return user_info.isPresent();
+    }
+
 
 }

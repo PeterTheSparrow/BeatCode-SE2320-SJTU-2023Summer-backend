@@ -20,5 +20,8 @@ public interface UserFeign {
 
     @RequestMapping("/ranks")
     List<User_record> getRanks();
+
+    @RequestMapping("/checkEmailExist")
+    Boolean checkEmailExist(@RequestBody Map<String, Object> data);
 }
 

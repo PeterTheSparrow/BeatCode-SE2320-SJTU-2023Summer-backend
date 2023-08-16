@@ -12,6 +12,7 @@ public interface UserDao {
 
     void register(Integer userId, String userName, String email, String phone);
 
-    public List<User_record> getRecords();
+    List<User_record> getRecords();
 
+    Boolean checkEmailExist(String email);
 }

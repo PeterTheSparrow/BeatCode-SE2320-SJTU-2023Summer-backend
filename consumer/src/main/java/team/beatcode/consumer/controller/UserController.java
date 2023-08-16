@@ -21,7 +21,7 @@ public class UserController {
     @RequestMapping("/user")
     public User getUser(@RequestBody Map<String, Object> map) {
         return userFeign.getUser(map);
-    };
+    }
 
     @RequestMapping("/register")
     public void register(@RequestBody Map<String, Object> map) {
@@ -31,5 +31,10 @@ public class UserController {
     @RequestMapping("/ranks")
     public List<User_record> getRanks() {
         return userFeign.getRanks();
+    }
+
+    @RequestMapping("/checkEmailExist")
+    public Boolean checkEmailExist(@RequestBody Map<String, Object> map) {
+        return userFeign.checkEmailExist(map);
     }
 }

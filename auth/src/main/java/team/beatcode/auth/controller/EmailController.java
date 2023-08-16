@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.auth.config.EmailConfig;
+import team.beatcode.auth.feign.UserFeign;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -14,8 +18,20 @@ public class EmailController {
     @Autowired
     private EmailConfig emailConfig;
 
+    @Autowired
+    private UserFeign userFeign;
+
     @RequestMapping("/send")
     public String send(@RequestParam String email, @RequestParam String code) {
+        // wrapping para
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", email);
+
+        // 检查邮箱是否已经注册
+        if (userFeign.checkEmailExist(map)) {
+            return "exist";
+        }
+
         boolean result = sendEmail(email, code);
 
         if (result) {

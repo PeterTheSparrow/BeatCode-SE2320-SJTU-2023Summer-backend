@@ -36,4 +36,12 @@ public class UserController {
     public List<User_record> getRanks() {
         return userService.getRanks();
     }
+
+    @RequestMapping("/checkEmailExist")
+    public Boolean checkEmailExist(@RequestBody Map<String, Object> data) {
+        String email = (String) data.get("email");
+
+        return userService.checkEmailExist(email);
+    }
 }
+

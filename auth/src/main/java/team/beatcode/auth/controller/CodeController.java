@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import sjtu.reins.web.utils.Message;
 import team.beatcode.auth.Service.CodeService;
+import team.beatcode.auth.utils.msg.MessageEnum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class CodeController {
      * @return success：发送成功；fail：发送失败
      * */
     @RequestMapping("/createCode")
-    public String create(@RequestBody Map<String, Object> data) {
+    public Message create(@RequestBody Map<String, Object> data) {
         String email = (String) data.get("email");
         // 生成验证码
         String verificationCode = codeService.createCode(email);
@@ -39,7 +41,18 @@ public class CodeController {
         map.put("code", verificationCode);
 
         // 将验证码发送到用户的邮箱
-        return sendEmail(map);
+        String result = sendEmail(map);
+
+        // for debug, print result
+        System.out.println(result);
+
+        if (result.equals("success")) {
+            return new Message(MessageEnum.SUCCESS);
+        } else if (result.equals("exist")) {
+            return new Message(MessageEnum.EMAIL_EXIST_FAULT);
+        } else {
+            return new Message(MessageEnum.FAIL);
+        }
     }
 
     /**
@@ -73,11 +86,3 @@ public class CodeController {
         return restTemplate.getForObject(url, String.class);
     }
 }
-
-/*
-* TODO: 关于邮箱验证服务
-*  1. 首先需要确定的是整个运作的模式，是在注册的时候验证，还是用户在登录之后验证邮箱是合法的
-*     前者需要修改注册服务
-*     后者需要前端稍微多做一点东西
-*  2. 【但都要做的是】，把check和create两个服务都到注册中心去注册
-* */

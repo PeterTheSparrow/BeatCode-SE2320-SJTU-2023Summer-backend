@@ -24,7 +24,7 @@ public interface AuthFeign {
     Message register(@RequestBody Map<String, Object> map);
 
     @RequestMapping("/createCode")
-    String create(@RequestBody Map<String, Object> data);
+    Message create(@RequestBody Map<String, Object> data);
 
     @RequestMapping("/checkCode")
     Integer check(@RequestBody Map<String, Object> data);

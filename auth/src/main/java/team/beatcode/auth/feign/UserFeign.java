@@ -13,5 +13,8 @@ import java.util.Map;
 public interface UserFeign {
     @RequestMapping("register")
     void registerUser(@RequestBody Map<String, Object> map);
+
+    @RequestMapping("checkEmailExist")
+    Boolean checkEmailExist(@RequestBody Map<String, Object> map);
 }
 
