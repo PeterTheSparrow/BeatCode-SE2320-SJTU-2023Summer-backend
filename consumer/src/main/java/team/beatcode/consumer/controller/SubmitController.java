@@ -30,6 +30,8 @@ public class SubmitController {
 System.out.println("created submission id "+sid);
         judgeFeign.Judge(sid);
 System.out.println("finished judge");
+        submitFeign.WindUp(sid);
+System.out.println("finished windup");
         return sid;
     }
 
