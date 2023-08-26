@@ -60,5 +60,17 @@ public class UserDaoImpl implements UserDao {
         return user_info.isPresent();
     }
 
+    @Override
+    public void updateEmail(Integer userId, String email) {
+        Optional<User_info> user_info = user_infoRepository.findUser_infoByUserId(userId);
 
+        if(user_info.isPresent()){
+            User_info user_info1 = user_info.get();
+            user_info1.setEmail(email);
+            user_infoRepository.save(user_info1);
+        }
+        else {
+            System.out.println("User not found");
+        }
+    }
 }

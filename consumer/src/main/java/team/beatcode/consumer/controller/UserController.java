@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sjtu.reins.web.utils.Message;
 import team.beatcode.consumer.feign.UserFeign;
 import team.beatcode.user.entity.User;
 import team.beatcode.user.entity.User_record;
@@ -36,5 +37,10 @@ public class UserController {
     @RequestMapping("/checkEmailExist")
     public Boolean checkEmailExist(@RequestBody Map<String, Object> map) {
         return userFeign.checkEmailExist(map);
+    }
+
+    @RequestMapping("/updateEmail")
+    public Message updateEmail(@RequestBody Map<String, Object> map) {
+        return userFeign.updateEmail(map);
     }
 }

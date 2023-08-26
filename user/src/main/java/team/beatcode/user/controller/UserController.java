@@ -1,10 +1,13 @@
 package team.beatcode.user.controller;
 
+import sjtu.reins.web.utils.Message;
 import team.beatcode.user.entity.User;
 import team.beatcode.user.entity.User_record;
+import team.beatcode.user.feign.AuthFeign;
 import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import team.beatcode.user.utils.MsgEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +16,10 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private AuthFeign authFeign;
 
     @RequestMapping("/user")
     public User getUser(@RequestBody Map<String, Object> data) {
@@ -42,6 +48,44 @@ public class UserController {
         String email = (String) data.get("email");
 
         return userService.checkEmailExist(email);
+    }
+
+    /**
+     * 修改邮箱
+     * @param data 传入的数据
+     *            data中包含的数据：
+     *             userId: 用户id
+     *             email: 新邮箱
+     *             code: 验证码
+     * @return Message 信息
+     * 1. 需要验证邮箱是否已经被注册
+     * 2. 需要验证验证码是否正确
+     * */
+    @RequestMapping("/updateEmail")
+    public Message updateEmail(@RequestBody Map<String, Object> data) {
+        System.out.println("updateEmail: " + data);
+        Integer userId = (Integer) data.get("userId");
+        String email = (String) data.get("email");
+        String code = (String) data.get("code");
+
+        // 验证邮箱是否已经被注册
+        if (userService.checkEmailExist(email)) {
+            return new Message(MsgEnum.EMAIL_EXIST_FAULT);
+        }
+
+        // 调用鉴权服务，验证验证码是否正确
+        // ret: 0-验证码正确，1-验证码错误，2-验证码过期
+        Integer codeResult = authFeign.checkCode(data);
+
+
+        if (codeResult == 0) {
+            userService.updateEmail(userId, email);
+            return new Message(MsgEnum.SUCCESS);
+        } else if (codeResult == 1) {
+            return new Message(MsgEnum.CODE_ERROR);
+        } else {
+            return new Message(MsgEnum.CODE_EXPIRED);
+        }
     }
 }
 

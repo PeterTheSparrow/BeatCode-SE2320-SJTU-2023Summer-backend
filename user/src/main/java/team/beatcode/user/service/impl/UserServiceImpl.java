@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService{
         return userDao.checkEmailExist(email);
     }
 
+    @Override
+    public void updateEmail(Integer userId, String email) {
+        userDao.updateEmail(userId, email);
+    }
+
 }

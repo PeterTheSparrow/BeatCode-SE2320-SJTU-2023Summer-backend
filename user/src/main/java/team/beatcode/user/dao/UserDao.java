@@ -15,4 +15,6 @@ public interface UserDao {
     List<User_record> getRecords();
 
     Boolean checkEmailExist(String email);
+
+    void updateEmail(Integer userId, String email);
 }

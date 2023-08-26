@@ -13,4 +13,6 @@ public interface UserService {
     List<User_record> getRanks();
 
     Boolean checkEmailExist(String email);
+
+    void updateEmail(Integer userId, String email);
 }
