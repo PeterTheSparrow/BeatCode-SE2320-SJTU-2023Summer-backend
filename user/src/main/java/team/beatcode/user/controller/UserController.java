@@ -12,6 +12,8 @@ import team.beatcode.user.utils.MsgEnum;
 import java.util.List;
 import java.util.Map;
 
+import static team.beatcode.user.utils.Macros.*;
+
 @RestController
 public class UserController {
 
@@ -23,7 +25,7 @@ public class UserController {
 
     @RequestMapping("/user")
     public User getUser(@RequestBody Map<String, Object> data) {
-        Integer userId = (Integer) data.get("userId");
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
 
         return userService.getUser(userId);
     }
@@ -31,9 +33,9 @@ public class UserController {
     @RequestMapping("/register")
     public void register(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get("user_id");
-        String userName = (String) data.get("name");
-        String email = (String) data.get("email");
-        String phone = (String) data.get("phone");
+        String userName = (String) data.get(USER_CONTEXT_NAME);
+        String email = (String) data.get(USER_CONTEXT_EMAIL);
+        String phone = (String) data.get(USER_CONTEXT_PHONE);
 
         userService.register(userId, userName, email, phone);
     }
@@ -45,7 +47,7 @@ public class UserController {
 
     @RequestMapping("/checkEmailExist")
     public Boolean checkEmailExist(@RequestBody Map<String, Object> data) {
-        String email = (String) data.get("email");
+        String email = (String) data.get(USER_CONTEXT_EMAIL);
 
         return userService.checkEmailExist(email);
     }
@@ -63,10 +65,9 @@ public class UserController {
      * */
     @RequestMapping("/updateEmail")
     public Message updateEmail(@RequestBody Map<String, Object> data) {
-        System.out.println("updateEmail: " + data);
-        Integer userId = (Integer) data.get("userId");
-        String email = (String) data.get("email");
-        String code = (String) data.get("code");
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
+        String email = (String) data.get(USER_CONTEXT_EMAIL);
+        String code = (String) data.get(USER_CONTEXT_CODE);
 
         // 验证邮箱是否已经被注册
         if (userService.checkEmailExist(email)) {
