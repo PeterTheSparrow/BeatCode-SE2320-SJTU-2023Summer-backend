@@ -1,4 +1,4 @@
-package team.beatcode.entity;
+package team.beatcode.user.entity;
 
 import lombok.Data;
 import org.bson.types.ObjectId;

@@ -18,7 +18,7 @@ public interface UserFeign {
     @RequestMapping("/register")
     void register(@RequestBody Map<String, Object> data);
 
-    @RequestMapping("/ranks")
-    List<User_record> getRanks();
+    @RequestMapping("/getRanking")
+    Map<String,Object> getRanking(@RequestBody Map<String,Object> data);
 }
 
