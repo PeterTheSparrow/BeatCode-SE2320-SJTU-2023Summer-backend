@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import team.beatcode.qbank.utils.Macros;
@@ -74,7 +73,7 @@ public class FileControllerTest {
     @Test
     public void testGetTestCase_从路径读取文件() {
         int pid = 1;
-        String expectedFilePath = Macros.getTestCaseFilePath(pid);
+        String expectedFilePath = Macros.testcaseZippedPath(pid);
 
         // 调用被测试的方法
         ResponseEntity<StreamingResponseBody> response = fileController.getTestCase(pid);

@@ -9,5 +9,4 @@ public interface ProblemDao {
             (String title, String difficulty, Integer page, Integer perPage);
     Problem findProblemById(Integer id);
 
-    String generateConfig(Problem problem);
 }

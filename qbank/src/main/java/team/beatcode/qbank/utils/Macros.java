@@ -20,20 +20,30 @@ public class Macros {
         return Arrays.asList(HARD_LEVEL_LIST).contains(hardLevel);
     }
 
-    public static final String TEST_CASE_DIRECTORY =
-            "D:\\Work\\Software-School-Projects\\BeatCode-test-case";
-
-    public static class ProblemType {
-        public static final String CONVENTIONAL = "conventional";
-    }
-
     public static class CheckerType {
         public static final String IntegerSequence = "ncmp";
         public static final String StringIgnoringBlank = "wcmp";
         public static final String LineIgnoringEnter = "fcmp";
     }
 
-    public static String getTestCaseFilePath(int pid) {
-        return String.format("%s%s%d.zip", TEST_CASE_DIRECTORY, File.separator, pid);
+    public static class JudgerConfDefaults {
+        public static final String input_prefix = "input";
+        public static final String output_prefix = "output";
+        public static final String suffix = "txt";
+    }
+
+    /**
+     题库文件存放在这个文件夹中
+     */
+    public static final String testcaseDirectoryPath =
+            "D:/Test/Testcases".replace("/", File.separator);
+    /**
+     * 注：7z可以自动识别文件的压缩方式和格式，不需要带后缀名。后缀名与实际格式不符会报警
+     * @param pid 题号
+     * @return 题目压缩文件位置
+     */
+    public static String testcaseZippedPath(int pid) {
+        return String.format("%s%s%d",
+                testcaseDirectoryPath, File.separator, pid);
     }
 }
