@@ -13,7 +13,6 @@ import java.util.List;
 @Document(collection = "problem_mongo")
 public class Problem {
     @Id
-    @Field("_id")
     private String id;
 
     @Data

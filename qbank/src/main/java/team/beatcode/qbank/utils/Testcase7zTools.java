@@ -45,7 +45,8 @@ public class Testcase7zTools {
      */
     private static String testcaseTempZippedPath(String task) {
         return String.format("%s%s%s",
-                testcaseTempDirPath(task), File.separator, "data");
+                // 不带后缀名会导致极其傻逼的权限冲突
+                testcaseTempDirPath(task), File.separator, "data.bin");
     }
 
     /**
@@ -76,29 +77,26 @@ public class Testcase7zTools {
         return dir.delete();
     }
 
-    /**
-     * 只是短一点的报错
-     * @param e 异常
-     */
-    private static void reportException(Throwable e) {
-        StackTraceElement traceElement = e.getStackTrace()[1];
-        System.out.printf("%s-line %d: %s", traceElement.getFileName(),
-                traceElement.getLineNumber(), traceElement.getClassName());
-    }
-
     //**********************************************业务
 
     public static boolean downloadToTmp(String task, MultipartFile file) {
         try {
             InputStream stream = file.getInputStream();
+            File dir = new File(testcaseTempUnzipPath(task));
+            // FileOutputStream创建文件不可靠，尝试先创建文件夹，顺便把解压目的地也做了
+            if (!dir.mkdirs()) {
+
+                return false;
+            }
+            File dest = new File(testcaseTempZippedPath(task));
+
             try (FileOutputStream outputStream =
-                    new FileOutputStream(testcaseTempZippedPath(task))) {
+                    new FileOutputStream(dest)) {
                 stream.transferTo(outputStream);
             }
             return true;
         } catch (IOException e) {
-            reportException(e);
-            System.out.printf(": %s\n", task);
+            e.printStackTrace();
             return false;
         }
     }
@@ -149,8 +147,7 @@ public class Testcase7zTools {
                 }
             }
         } catch (IOException | InterruptedException e) {
-            reportException(e);
-            System.out.printf(": %s\n", task);
+            e.printStackTrace();
             return false;
         }
     }
@@ -219,8 +216,7 @@ public class Testcase7zTools {
             report.log_no_conf();
             return report;
         } catch (IOException e) {
-            reportException(e);
-            System.out.printf(": %s\n", task);
+            e.printStackTrace();
             return null;
         }
         // 检查测试集数
@@ -309,8 +305,7 @@ public class Testcase7zTools {
                     StandardCopyOption.REPLACE_EXISTING
                     );
         } catch (IOException e) {
-            reportException(e);
-            System.out.printf(": %s -> %d\n", task, pid);
+            e.printStackTrace();
         }
     }
 
@@ -320,6 +315,6 @@ public class Testcase7zTools {
      */
     public static void cleanse(String task) {
         recursiveRemoveDir(
-                new File(testcaseTempUnzipPath(task)));
+                new File(testcaseTempDirPath(task)));
     }
 }

@@ -28,6 +28,19 @@ public class AdminController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * 更新题干部分。题干与测试集是分开的，必须先上传题干才能上传测试集<br>
+     * config是上传测试集后自动生成的，与此处无关
+     * @param map "problemId": 题号，如果不存在则新建<br>
+     *            "title": 标题<br>
+     *            "detail": 题干的Markdown<br>
+     *            "difficulty": 难度，未检查合法性<br>
+     *            "tags": 标签数组<br>
+     *            &emsp;&emsp;"name": 标签类型<br>
+     *            &emsp;&emsp;"description": 说明<br>
+     *            &emsp;&emsp;"color": 颜色，未检查合法性
+     * @return Message，缺少参数时报错
+     */
     @RequestMapping("UpdateProblem")
     public Message updateProblem(@RequestBody Map<String, Object> map) {
         try {
@@ -42,6 +55,9 @@ public class AdminController {
                 problem.setVersion(0);
                 problem.setLocked(false);
             }
+            else {
+                problem.setVersion(problem.getVersion() + 1);
+            }
 
             problem.getTitle().setId(pid);
             problem.getTitle().setName((String) map.get("title"));
@@ -50,7 +66,7 @@ public class AdminController {
             problem.setDifficulty((String) map.get("difficulty"));
 
             List<Map<String, Object>> tags = objectMapper.convertValue(
-                    map.get("objectArray"), new TypeReference<>() {});
+                    map.get("tags"), new TypeReference<>() {});
             for (Map<String, Object> tag : tags) {
                 Problem.Tag pt = new Problem.Tag();
                 pt.setTag((String) tag.get("name"));
@@ -81,15 +97,18 @@ public class AdminController {
         Problem problem = problemRepository.findProblemByTitleId(pid);
         if (problem == null)
             return new Message(MessageEnum.ADMIN_PROBLEM_NOT_FOUND);
-        if (problem.getLocked())
+        // 兼容之前的数据...不知道怎么拿Compass批量改数据
+        if (problem.getLocked() != null && problem.getLocked())
             return new Message(MessageEnum.ADMIN_PROBLEM_LOCKED);
 
-        problem.setLocked(true);
+        // problem.setLocked(true);
         problemRepository.save(problem);
 
         // generate task
-        String task = String.format("%s-%16x",
-                UUID.randomUUID(), System.currentTimeMillis() & 0xffffff);
+        String task = String.format("%s-%6x",
+                UUID.randomUUID(), System.currentTimeMillis() & 0xffffff)
+                // 路径名带空格是危险的行为
+                .replace(' ', 's');
         if (!Testcase7zTools.downloadToTmp(task, file) ||
             !Testcase7zTools.unzipToTmp(task)) {
             Testcase7zTools.cleanse(task);
