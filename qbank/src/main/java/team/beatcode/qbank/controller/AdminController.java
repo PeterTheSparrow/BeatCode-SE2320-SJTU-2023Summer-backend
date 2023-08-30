@@ -51,7 +51,6 @@ public class AdminController {
 
                 problem.setTitle(new Problem.Title());
                 problem.setConfig(new Problem.Config());
-                problem.setTags(new ArrayList<>());
                 problem.setVersion(0);
                 problem.setLocked(false);
             }
@@ -60,18 +59,43 @@ public class AdminController {
             }
 
             problem.getTitle().setId(pid);
-            problem.getTitle().setName((String) map.get("title"));
 
-            problem.setDetail((String) map.get("detail"));
-            problem.setDifficulty((String) map.get("difficulty"));
+            String title = (String) map.get("title");
+            if (title == null)
+                return new Message(MessageEnum.ADMIN_PROBLEM_LACK_PARAM);
+            problem.getTitle().setName(title);
 
+            String detail = (String) map.get("detail");
+            if (detail == null)
+                return new Message(MessageEnum.ADMIN_PROBLEM_LACK_PARAM);
+            problem.setDetail(detail);
+
+            String difficulty = (String) map.get("difficulty");
+            if (difficulty == null)
+                return new Message(MessageEnum.ADMIN_PROBLEM_LACK_PARAM);
+            problem.setDifficulty(difficulty);
+
+            problem.setTags(new ArrayList<>());
             List<Map<String, Object>> tags = objectMapper.convertValue(
                     map.get("tags"), new TypeReference<>() {});
             for (Map<String, Object> tag : tags) {
                 Problem.Tag pt = new Problem.Tag();
-                pt.setTag((String) tag.get("name"));
-                pt.setCaption((String) tag.get("description"));
-                pt.setColor((String) tag.get("color"));
+
+                String name = (String) tag.get("name");
+                if (name == null)
+                    return new Message(MessageEnum.ADMIN_PROBLEM_LACK_PARAM);
+                pt.setTag(name);
+
+                String description = (String) tag.get("description");
+                if (description == null)
+                    return new Message(MessageEnum.ADMIN_PROBLEM_LACK_PARAM);
+                pt.setCaption(description);
+
+                String color = (String) tag.get("color");
+                if (color == null)
+                    return new Message(MessageEnum.ADMIN_PROBLEM_LACK_PARAM);
+                pt.setColor(color);
+
                 problem.getTags().add(pt);
             }
 
