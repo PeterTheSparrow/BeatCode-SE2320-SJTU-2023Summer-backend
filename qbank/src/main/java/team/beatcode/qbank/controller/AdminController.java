@@ -54,9 +54,6 @@ public class AdminController {
                 problem.setVersion(0);
                 problem.setLocked(false);
             }
-            else {
-                problem.setVersion(problem.getVersion() + 1);
-            }
 
             problem.getTitle().setId(pid);
 
