@@ -11,4 +11,5 @@ public interface ProblemService {
                                          Integer pageSize) throws MessageException;
 
     ProblemReturn.Detail getProblemDetail(Integer problemId);
+    int getProblemVersion(Integer problemId);
 }

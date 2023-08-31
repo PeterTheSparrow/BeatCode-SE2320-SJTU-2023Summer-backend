@@ -10,4 +10,6 @@ public interface ProblemRepository extends MongoRepository<Problem, String> {
     Page<Problem> findProblemByTitleNameContainingAndDifficultyContainingOrderByTitleIdAsc(String title_name, String difficulty, Pageable pageable);
 
     Problem findProblemByTitleId(Integer id);
+
+    VersionProjection findVersionProjectionByTitleId(Integer id);
 }

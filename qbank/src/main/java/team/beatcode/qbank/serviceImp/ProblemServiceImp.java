@@ -47,4 +47,9 @@ public class ProblemServiceImp implements ProblemService {
             return new ProblemReturn.Detail(p);
         }
     }
+
+    @Override
+    public int getProblemVersion(Integer problemId) {
+        return problemDao.findVersionById(problemId);
+    }
 }
