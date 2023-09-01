@@ -36,7 +36,7 @@ public class Testcase7zTools {
      * @param pid 题号
      * @return 题目压缩包下载位置
      */
-    public static String testcaseDownloadPath(int pid) {
+    private static String testcaseDownloadPath(int pid) {
         return String.format("%s%s%d.bin",
                 // 不带后缀名会导致极其傻逼的权限冲突
                 testcaseDownloadDirPath, File.separator, pid);
@@ -46,7 +46,7 @@ public class Testcase7zTools {
      * @param pid 题号
      * @return 测试数据工作位置
      */
-    public static String testcaseWorkingPath(int pid) {
+    private static String testcaseWorkingPath(int pid) {
         return String.format("%s%s%d",
                 testcaseWorkingDirPath, File.separator, pid);
     }
@@ -64,7 +64,8 @@ public class Testcase7zTools {
             if (file.isFile())
                 if (!file.delete())
                     return false;
-                else if (!recursiveRemoveDir(dir))
+            if (file.isDirectory())
+                if (!recursiveRemoveDir(file))
                     return false;
         }
         return dir.delete();
@@ -73,12 +74,16 @@ public class Testcase7zTools {
     private static boolean cleansePath(String path) {
         File dest = new File(path);
         if (dest.isFile())
-            if (!dest.delete()) {
+            if (dest.delete())
+                return true;
+            else {
                 System.out.println("Can't delete file " + path);
                 return false;
             }
-        else if (dest.isDirectory())
-            if (!recursiveRemoveDir(dest)) {
+        if (dest.isDirectory())
+            if (recursiveRemoveDir(dest))
+                return true;
+            else {
                 System.out.println("Can't delete dir " + path);
                 return false;
             }
@@ -142,6 +147,28 @@ public class Testcase7zTools {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 得到下载目标文件，并确保父文件夹存在。
+     * @param pid 题号
+     * @return 目标文件。不保证目标文件存在。
+     */
+    public static File compressed(int pid) {
+        File container = new File(testcaseDownloadDirPath);
+        if (container.isFile()) {
+            if (!container.delete()) {
+                System.out.println("Can't delete file " + testcaseDownloadDirPath);
+                return null;
+            }
+        }
+        if (!container.exists()) {
+            if (!container.mkdirs()) {
+                System.out.println("Can't create dir " + testcaseDownloadDirPath);
+                return null;
+            }
+        }
+        return new File(testcaseDownloadPath(pid));
     }
 
     /**

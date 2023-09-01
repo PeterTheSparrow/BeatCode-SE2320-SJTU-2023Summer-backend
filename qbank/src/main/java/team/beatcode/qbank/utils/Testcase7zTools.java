@@ -71,7 +71,8 @@ public class Testcase7zTools {
             if (file.isFile())
                 if (!file.delete())
                     return false;
-                else if (!recursiveRemoveDir(dir))
+            if (file.isDirectory())
+                if (!recursiveRemoveDir(file))
                     return false;
         }
         return dir.delete();
