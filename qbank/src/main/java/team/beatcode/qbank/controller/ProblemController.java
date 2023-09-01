@@ -66,4 +66,9 @@ public class ProblemController {
     public ProblemReturn.Detail getProblemDetail(@RequestBody Integer pid) {
         return problemService.getProblemDetail(pid);
     }
+
+    @RequestMapping("/GetProblemVersion")
+    public Integer getVersion(@RequestBody Integer pid) {
+        return problemService.getProblemVersion(pid);
+    }
 }

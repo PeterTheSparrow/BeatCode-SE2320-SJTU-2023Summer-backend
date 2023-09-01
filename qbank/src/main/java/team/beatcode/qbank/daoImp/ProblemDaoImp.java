@@ -42,4 +42,14 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
         return problemRepository.findProblemByTitleId(id);
     }
 
+    @Override
+    public Integer findVersionById(Integer id) {
+        try {
+            return problemRepository.findVersionProjectionByTitleId(id).getVersion();
+        }
+        catch (NullPointerException e) {
+            return -1;
+        }
+    }
+
 }

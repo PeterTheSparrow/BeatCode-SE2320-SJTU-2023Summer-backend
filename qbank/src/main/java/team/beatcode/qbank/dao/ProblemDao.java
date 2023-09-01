@@ -8,5 +8,6 @@ public interface ProblemDao {
     Page<Problem> findByAll
             (String title, String difficulty, Integer page, Integer perPage);
     Problem findProblemById(Integer id);
+    Integer findVersionById(Integer id);
 
 }
