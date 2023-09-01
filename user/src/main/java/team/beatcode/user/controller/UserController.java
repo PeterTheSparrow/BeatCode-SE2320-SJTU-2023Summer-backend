@@ -1,6 +1,7 @@
 package team.beatcode.user.controller;
 
 import sjtu.reins.web.utils.Message;
+import team.beatcode.user.entity.Person_info;
 import team.beatcode.user.entity.User;
 import team.beatcode.user.entity.User_record;
 import team.beatcode.user.feign.AuthFeign;
@@ -43,6 +44,37 @@ public class UserController {
     @RequestMapping("/ranks")
     public List<User_record> getRanks() {
         return userService.getRanks();
+    }
+
+    @RequestMapping("/getUserInfo")
+    public Person_info getUserInfo(@RequestBody Map<String, Object> data) {
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
+
+        return userService.getUserInfo(userId);
+    }
+
+    @RequestMapping("/updateUserName")
+    public void updateUserName(@RequestBody Map<String, Object> data) {
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
+        String userName = (String) data.get(USER_CONTEXT_NAME);
+
+        userService.updateUserName(userId, userName);
+    }
+
+    @RequestMapping("/updatePassWord")
+    public void updatePassWord(@RequestBody Map<String, Object> data) {
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
+        String password = (String) data.get("password");
+
+        userService.updatePassword(userId, password);
+    }
+
+    @RequestMapping("/updatePhone")
+    public void updatePhone(@RequestBody Map<String, Object> data) {
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
+        String phone = (String) data.get(USER_CONTEXT_PHONE);
+
+        userService.updatePhone(userId, phone);
     }
 
     @RequestMapping("/checkEmailExist")

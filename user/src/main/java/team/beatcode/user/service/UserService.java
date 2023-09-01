@@ -1,5 +1,6 @@
 package team.beatcode.user.service;
 
+import team.beatcode.user.entity.Person_info;
 import team.beatcode.user.entity.User;
 import team.beatcode.user.entity.User_record;
 
@@ -11,6 +12,14 @@ public interface UserService {
     void register(Integer userId, String userName, String email, String phone);
 
     List<User_record> getRanks();
+
+    Person_info getUserInfo(Integer userId);
+
+    void updateUserName(Integer userId, String userName);
+
+    void updatePassword(Integer userId, String password);
+
+    void updatePhone(Integer userId, String phone);
 
     Boolean checkEmailExist(String email);
 

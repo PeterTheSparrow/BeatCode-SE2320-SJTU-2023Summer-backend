@@ -1,6 +1,7 @@
 package team.beatcode.user.service.impl;
 
 import team.beatcode.user.dao.UserDao;
+import team.beatcode.user.entity.Person_info;
 import team.beatcode.user.entity.User;
 import team.beatcode.user.entity.User_info;
 import team.beatcode.user.entity.User_record;
@@ -41,6 +42,26 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User_record> getRanks(){
         return userDao.getRecords();
+    }
+
+    @Override
+    public Person_info getUserInfo(Integer userId) {
+        return userDao.getUserInfo(userId);
+    }
+
+    @Override
+    public void updateUserName(Integer userId, String userName) {
+        userDao.updateUserName(userId, userName);
+    }
+
+    @Override
+    public void updatePassword(Integer userId, String password) {
+        userDao.updatePassword(userId, password);
+    }
+
+    @Override
+    public void updatePhone(Integer userId, String phone) {
+        userDao.updatePhone(userId, phone);
     }
 
     @Override
