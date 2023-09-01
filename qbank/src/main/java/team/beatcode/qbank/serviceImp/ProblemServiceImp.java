@@ -1,5 +1,6 @@
 package team.beatcode.qbank.serviceImp;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import team.beatcode.qbank.dao.ProblemDao;
@@ -38,9 +39,22 @@ public class ProblemServiceImp implements ProblemService {
             throw new MessageException(MessageEnum.SEARCH_DIFFICULTY_UNKNOWN);
     }
 
+    /**
+     * 试验：加入缓存
+     *
+     * 测试加缓存和不加缓存的查询时间；
+     * 缓存的value是problem，key是"problemid"+problemId
+     *
+     * 注解：
+     * @Cacheable(value = "problem", key = "'problemid' + #problemId")
+     * value: 缓存的名字
+     * key: 缓存的键
+     * */
+//    @Cacheable(value = "problem", key = "'problemid' + #problemId")
     @Override
     public ProblemReturn.Detail getProblemDetail(Integer problemId) {
         Problem p = problemDao.findProblemById(problemId);
+
         if (p == null)
             return null;
         else {

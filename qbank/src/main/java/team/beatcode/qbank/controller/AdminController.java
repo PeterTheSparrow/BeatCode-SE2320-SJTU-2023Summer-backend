@@ -3,6 +3,7 @@ package team.beatcode.qbank.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,39 @@ public class AdminController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * @param map 包含的参数：
+     *            problemId: 题目的id
+     *            title: 题目的标题
+     *            detail: 题目的描述
+     *            difficulty: 题目的难度
+     *            objectArray: 题目的标签，是一个数组，每个元素是一个对象，包含以下参数：
+     *            name: 标签的名字
+     *            description: 标签的描述
+     *            color: 标签的颜色
+     *            <p>
+     *            如果problemId不存在，会创建一个新的题目
+     *            如果problemId存在，会更新这个题目
+     *            <p>
+     *
+     * 关于缓存：
+     * 由于这里可能涉及到对于题目的更新，所以需要清除缓存。
+     * @CacheEvict 缓存清除
+     *      key：指定要清除的数据
+     *      allEntries = true：指定清除这个缓存中所有的数据
+     *      beforeInvocation = false：缓存的清除是否在方法之前执行
+     *      默认代表缓存清除操作是在方法执行之后执行;如果出现异常缓存就不会清除
+     *
+     *      beforeInvocation = true：
+     *      代表清除缓存操作是在方法运行之前执行，无论方法是否出现异常，缓存都清除
+     *
+     *            value = "problem"：清除problem的缓存
+     *            key = "'problemid' + #problemId" ：缓存的key是problemid+题目id
+     * 清除缓存的注释：
+     *            @CacheEvict(value = "problem", key = "'problemid' + #problemId")
+     * */
     @RequestMapping("UpdateProblem")
+//    @CacheEvict(value = "problem", key = "'problemid' + #map['problemId']",beforeInvocation = true)
     public Message updateProblem(@RequestBody Map<String, Object> map) {
         try {
             Integer pid = (Integer) map.get("problemId");
@@ -42,6 +75,9 @@ public class AdminController {
                 problem.setVersion(0);
                 problem.setLocked(false);
             }
+
+            // 清空problem的Tags
+            problem.getTags().clear();
 
             problem.getTitle().setId(pid);
             problem.getTitle().setName((String) map.get("title"));
