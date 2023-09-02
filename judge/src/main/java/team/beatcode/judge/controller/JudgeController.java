@@ -60,7 +60,7 @@ System.out.println("starting judge "+sid);
         -------------------------------------------------------------------*/
         //answer.code
         String SubmissionCode=submission.getSubmission_code();
-        String AnswerCode_FilePath = getAnswerCodeFilePath(submission, WorkPath);
+        String AnswerCode_FilePath = WorkPath +File.separator+"work"+File.separator+"answer.code";
         Files.write(new File(AnswerCode_FilePath).toPath(),SubmissionCode.getBytes());
 
         //submission.conf
@@ -103,20 +103,6 @@ System.out.println("starting judge "+sid);
         ---------------------------------------------*/
 //        deleteDirectory(WorkDirectory);
         return result;
-    }
-
-    private static String getAnswerCodeFilePath(Submission submission, String WorkPath) {
-        String SubmissionLanguage= submission.getSubmission_language();
-        String AnswerCode_FilePath= WorkPath +File.separator+"work"+File.separator+"answer";//cpp";
-        if(Objects.equals(SubmissionLanguage, "C++20"))
-            AnswerCode_FilePath+="20.cpp";
-        else if(Objects.equals(SubmissionLanguage,"Python3"))
-            AnswerCode_FilePath+=".py";
-        else if(Objects.equals(SubmissionLanguage,"Pascal"))
-            AnswerCode_FilePath+=".pas";
-        else if(Objects.equals(SubmissionLanguage,"Java17"))
-            AnswerCode_FilePath+="17.java";
-        return AnswerCode_FilePath;
     }
 
     private void copyDirectory(File sourceDirectory, File targetDirectory) throws IOException {
@@ -255,7 +241,8 @@ System.out.println("starting judge "+sid);
             Matcher infMatcher=infPattern.matcher(detail);
             if(infMatcher.find()){
                 result.setInfo(infMatcher.group(1));
-                if(!Objects.equals(infMatcher.group(1), "Accepted") && Objects.equals(stateFlag, "Accepted"))
+                if(!Objects.equals(infMatcher.group(1), "Accepted") && !Objects.equals(infMatcher.group(1), "Extra Test Passed") &&
+                        Objects.equals(stateFlag, "Accepted"))
                     stateFlag=infMatcher.group(1);
             }
             Matcher timMatcher=timPattern.matcher(detail);
