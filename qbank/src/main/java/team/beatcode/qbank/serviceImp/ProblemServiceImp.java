@@ -22,7 +22,8 @@ public class ProblemServiceImp implements ProblemService {
     public ProblemReturn.Paged getProblemListEx(String titleContains,
                                                 String difficulty,
                                                 Integer pageIndex,
-                                                Integer pageSize)
+                                                Integer pageSize,
+                                                String problem_condition)
             throws MessageException {
         if (Macros.correctHardLevel(difficulty)) {
             Page<Problem> problems = problemDao.findByAll(titleContains,
@@ -31,7 +32,7 @@ public class ProblemServiceImp implements ProblemService {
                 throw new MessageException(MessageEnum.SEARCH_PAGE_FAULT);
 
             return new ProblemReturn.Paged(
-                    problems.stream().map(ProblemReturn::new).toList(),
+                    problems.stream().map(p -> new ProblemReturn(p, problem_condition)).toList(),
                     problems.getTotalPages());
         }
         else

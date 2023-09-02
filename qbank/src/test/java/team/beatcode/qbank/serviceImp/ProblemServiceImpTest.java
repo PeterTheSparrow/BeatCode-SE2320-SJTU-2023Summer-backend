@@ -37,7 +37,7 @@ public class ProblemServiceImpTest {
         when(problemDao.findByAll(anyString(), anyString(), anyInt(), anyInt())).thenReturn(mockedPage);
 
         // 调用要测试的方法
-        ProblemReturn.Paged result = problemService.getProblemListEx("标题", "简单", 1, 10);
+        ProblemReturn.Paged result = problemService.getProblemListEx("标题", "简单", 1, 10,"");
 
         // 断言
         Assertions.assertNotNull(result);
@@ -48,7 +48,7 @@ public class ProblemServiceImpTest {
     @Test
     public void testGetProblemListEx_无效难度_抛出MessageException() {
         // 调用要测试的方法，并断言它会抛出 MessageException 异常
-        Assertions.assertThrows(MessageException.class, () -> problemService.getProblemListEx("标题", "无效", 1, 10));
+        Assertions.assertThrows(MessageException.class, () -> problemService.getProblemListEx("标题", "无效", 1, 10,""));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ProblemServiceImpTest {
 
         // 调用要测试的方法，并断言会抛出 MessageException 异常
         Assertions.assertThrows(MessageException.class, () ->
-                problemService.getProblemListEx("标题", "简单", 1, 10));
+                problemService.getProblemListEx("标题", "简单", 1, 10,""));
     }
 
     // 辅助方法，用于创建一个模拟的 Page<Problem> 对象

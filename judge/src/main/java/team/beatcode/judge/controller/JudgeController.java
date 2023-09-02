@@ -60,7 +60,7 @@ System.out.println("starting judge "+sid);
         -------------------------------------------------------------------*/
         //answer.code
         String SubmissionCode=submission.getSubmission_code();
-        String AnswerCode_FilePath=WorkPath+File.separator+"work"+File.separator+"answer.cpp";
+        String AnswerCode_FilePath = WorkPath +File.separator+"work"+File.separator+"answer.code";
         Files.write(new File(AnswerCode_FilePath).toPath(),SubmissionCode.getBytes());
 
         //submission.conf
@@ -101,9 +101,10 @@ System.out.println("starting judge "+sid);
         /*---------------------------------------------
         //delete directory
         ---------------------------------------------*/
-        deleteDirectory(WorkDirectory);
+//        deleteDirectory(WorkDirectory);
         return result;
     }
+
     private void copyDirectory(File sourceDirectory, File targetDirectory) throws IOException {
         System.out.println("copying "+sourceDirectory.toPath()+" to "+targetDirectory.toPath());
         if (Files.isSymbolicLink(sourceDirectory.toPath())) {
@@ -240,7 +241,8 @@ System.out.println("starting judge "+sid);
             Matcher infMatcher=infPattern.matcher(detail);
             if(infMatcher.find()){
                 result.setInfo(infMatcher.group(1));
-                if(!Objects.equals(infMatcher.group(1), "Accepted") && Objects.equals(stateFlag, "Accepted"))
+                if(!Objects.equals(infMatcher.group(1), "Accepted") && !Objects.equals(infMatcher.group(1), "Extra Test Passed") &&
+                        Objects.equals(stateFlag, "Accepted"))
                     stateFlag=infMatcher.group(1);
             }
             Matcher timMatcher=timPattern.matcher(detail);

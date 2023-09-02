@@ -35,7 +35,7 @@ public class Submission {
     private String conf;
     public void build_conf()
     {
-        conf="problem_id "+problemId+"\nlanguage "+submission_language;
+        conf="problem_id "+problemId+"\nanswer_language "+submission_language;
     }
 
     private int case_n;
