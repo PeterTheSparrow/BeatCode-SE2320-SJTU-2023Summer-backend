@@ -39,4 +39,14 @@ public class AuthController {
     public Message checkAdmin() {
         return authFeign.checkAdmin();
     }
+
+    @RequestMapping("/createCode")
+    public Message create(@RequestBody Map<String, Object> data) {
+        return authFeign.create(data);
+    }
+
+    @RequestMapping("/checkCode")
+    public Integer check(@RequestBody Map<String, Object> data) {
+        return authFeign.check(data);
+    }
 }

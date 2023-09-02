@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjtu.reins.web.utils.Message;
+import team.beatcode.auth.Service.CodeService;
 import team.beatcode.auth.dao.TokenAuthDao;
 import team.beatcode.auth.dao.UserAuthDao;
 import team.beatcode.auth.entity.TokenAuth;
@@ -30,6 +31,9 @@ public class LogController {
     private TokenAuthDao tokenAuthDao;
     @Autowired
     private UserAuthDao userAuthDao;
+
+    @Autowired
+    private CodeService codeService;
 
     private void saveLogin(byte[] token, int uid) {
         long currentTime = System.currentTimeMillis();
@@ -126,6 +130,22 @@ public class LogController {
 
             if (checkExistAuth != null)
                 return new Message(MessageEnum.USER_EXIST_FAULT);
+
+            // 检查用户邮箱验证码
+            String email = map.get("email").toString();
+            String code = map.get("code").toString();
+
+            Integer returnVal = codeService.checkCode(email, code);
+
+            if (returnVal == 1) {
+                // 验证码错误
+                return new Message(MessageEnum.VERIFICATION_CODE_ERROR);
+            }
+            else if (returnVal == 2) {
+                // 验证码过期
+                return new Message(MessageEnum.VERIFICATION_CODE_EXPIRED);
+            }
+
 
             // 生成新用户
             UserAuth auth = new UserAuth();

@@ -29,6 +29,9 @@ public class Problem {
     @Field("difficulty")
     private String difficulty;
 
+    @Field("version")
+    private Integer version;
+
     @Data
     public static class Tag {
         @Field("name")

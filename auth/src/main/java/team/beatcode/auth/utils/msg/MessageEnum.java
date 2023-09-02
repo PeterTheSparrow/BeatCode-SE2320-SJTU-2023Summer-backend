@@ -9,6 +9,7 @@ public enum MessageEnum implements MessageEnumInterface {
     FAULT(2, "出错"),
 
     USER_EXIST_FAULT(3, "用户名已存在"),
+    EMAIL_EXIST_FAULT(4, "邮箱已存在"),
 
     PARAM_FAIL(100, "缺少参数"),
     TOKEN_FAULT(101, "无法解析访问者token"),
@@ -17,7 +18,11 @@ public enum MessageEnum implements MessageEnumInterface {
 
     AUTH_SUCCESS(200, "yes"),
     AUTH_FAIL(201, "no"),
-    AUTH_ERROR(202, "wtf")
+    AUTH_ERROR(202, "wtf"),
+
+    VERIFICATION_CODE_ERROR(203, "验证码错误"),
+    VERIFICATION_CODE_EXPIRED(204, "验证码过期"),
+
     ;
 
     private final int status;

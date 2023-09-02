@@ -18,6 +18,20 @@ spring:
           auto: validate
         dialect: org.hibernate.dialect.MySQLDialect
 
+  mail:
+    ##发送邮件服务器
+    host: smtp.qq.com
+    # stmp的端口
+    smtp:
+      port: 587
+
+    # 发送邮件地址，和user一样
+    from: 2268253067@qq.com
+    # 发送邮件的邮箱地址
+    user: 2268253067@qq.com
+    # 客户端授权码，并非邮箱密码，为开启服务时腾讯提供
+    pass: rgxpjjpuwpxhdjda
+
 eureka:
   client:
     service-url:

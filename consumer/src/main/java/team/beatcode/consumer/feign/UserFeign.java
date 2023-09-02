@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sjtu.reins.web.utils.Message;
 import team.beatcode.user.entity.User;
 import team.beatcode.user.entity.User_record;
 
@@ -20,5 +21,11 @@ public interface UserFeign {
 
     @RequestMapping("/getRanking")
     Map<String,Object> getRanking(@RequestBody Map<String,Object> data);
+
+    @RequestMapping("/checkEmailExist")
+    Boolean checkEmailExist(@RequestBody Map<String, Object> data);
+
+    @RequestMapping("/updateEmail")
+    Message updateEmail(@RequestBody Map<String, Object> data);
 }
 
