@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: user
+  data:
+    mongodb:
+      host: 121.37.162.88
+      port: 1025
+      database: BeatCode
+      username: BeatCode
+      password: BeatCode2023summer
+      authenticationDatabase: admin
   datasource:
     url: jdbc:mysql://121.37.162.88:1023/beatcode_mysql?serverTimeZone=UTC;
     username: BeatCode

@@ -8,7 +8,8 @@ public interface ProblemService {
     ProblemReturn.Paged getProblemListEx(String titleContains,
                                          String difficulty,
                                          Integer pageIndex,
-                                         Integer pageSize) throws MessageException;
+                                         Integer pageSize,
+                                         String problem_condition) throws MessageException;
 
     ProblemReturn.Detail getProblemDetail(Integer problemId);
 }

@@ -49,7 +49,7 @@ public class ProblemControllerTest {
 
         // 模拟 problemService.getProblemListEx() 方法返回问题列表
         ProblemReturn.Paged mockedResult = new ProblemReturn.Paged(new ArrayList<>(), 2);
-        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt()))
+        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt(),""))
                 .thenReturn(mockedResult);
 
         // 发送 POST 请求
@@ -101,7 +101,7 @@ public class ProblemControllerTest {
         requestParams.put("hardLevel", "无效"); // 无效的难度值
 
         // 模拟 problemService.getProblemListEx() 方法抛出消息异常
-        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt()))
+        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt(),""))
                 .thenThrow(new MessageException(MessageEnum.SEARCH_DIFFICULTY_UNKNOWN));
 
         // 发送 POST 请求

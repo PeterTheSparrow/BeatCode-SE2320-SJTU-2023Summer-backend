@@ -29,9 +29,9 @@ public class UserController {
         userFeign.register(map);
     }
 
-    @RequestMapping("/ranks")
-    public List<User_record> getRanks() {
-        return userFeign.getRanks();
+    @RequestMapping("/getRanking")
+    public Map<String,Object> getRanking(@RequestBody Map<String,Object> data) {
+        return userFeign.getRanking(data);
     }
 
     @RequestMapping("/checkEmailExist")

@@ -41,11 +41,6 @@ public class UserController {
         userService.register(userId, userName, email, phone);
     }
 
-    @RequestMapping("/ranks")
-    public List<User_record> getRanks() {
-        return userService.getRanks();
-    }
-
     @RequestMapping("/getUserInfo")
     public Person_info getUserInfo(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);

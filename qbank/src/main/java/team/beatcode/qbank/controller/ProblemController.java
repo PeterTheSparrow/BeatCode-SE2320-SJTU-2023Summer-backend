@@ -1,10 +1,13 @@
 package team.beatcode.qbank.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.qbank.entity.ProblemReturn;
+import team.beatcode.qbank.entity.UserCondition;
+import team.beatcode.qbank.service.ConditionService;
 import team.beatcode.qbank.service.ProblemService;
 import team.beatcode.qbank.utils.Macros;
 import team.beatcode.qbank.utils.msg.MessageEnum;
@@ -16,6 +19,8 @@ import java.util.Map;
 public class ProblemController {
 
     ProblemService problemService;
+    @Autowired
+    ConditionService conditionService;
 
     public ProblemController(ProblemService problemService) {
         this.problemService = problemService;
@@ -37,19 +42,22 @@ public class ProblemController {
 
             String titleContains = (String) map.get(Macros.PARAM_TITLE_KEY);
             String hardLevel = (String) map.get(Macros.PARAM_HARD_LEVEL);
-
+            String user_id= (String) map.get(Macros.PARAM_USER_ID);
             if (pageIndex == null || pageSize == null ||
             titleContains == null || hardLevel == null)
                 return new Message(MessageEnum.PARAM_FAIL);
-
             if (pageIndex <= 0)
                 return new Message(MessageEnum.SEARCH_PAGE_NEGATIVE);
             if (pageSize <= 1)
                 return new Message(MessageEnum.SEARCH_PAGE_MALICE);
 
+            //get user-problem condition
+            UserCondition userCondition=conditionService.GetUserCondition(user_id);
+            String user_problem_condition=userCondition.getProblemCondition();
+
             ProblemReturn.Paged result =
                     problemService.getProblemListEx(
-                            titleContains, hardLevel, pageIndex - 1, pageSize);
+                            titleContains, hardLevel, pageIndex - 1, pageSize, user_problem_condition);
 
             return new Message(MessageEnum.SUCCESS, result);
         }
