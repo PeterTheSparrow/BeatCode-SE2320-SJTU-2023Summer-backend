@@ -45,6 +45,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Boolean checkUserExist(Integer userId) {return userDao.checkUserExist(userId); }
+
+    @Override
     public Person_info getUserInfo(Integer userId) {
         return userDao.getUserInfo(userId);
     }

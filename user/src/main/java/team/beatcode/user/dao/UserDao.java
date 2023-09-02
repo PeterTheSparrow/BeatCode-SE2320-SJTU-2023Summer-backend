@@ -15,6 +15,8 @@ public interface UserDao {
 
     List<User_record> getRecords();
 
+    Boolean checkUserExist(Integer userId);
+
     Person_info getUserInfo(Integer userId);
 
     void updateUserName(Integer userId, String userName);

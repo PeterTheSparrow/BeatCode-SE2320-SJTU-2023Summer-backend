@@ -61,6 +61,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public Boolean checkUserExist(Integer userId) {
+        Optional<User_info> user_info = user_infoRepository.findUser_infoByUserId(userId);
+        return user_info.isPresent();
+    }
+
+    @Override
     public Person_info getUserInfo(Integer userId) {
         Optional<User_auth> user_auth = user_authRepository.findUser_authByUserId(userId);
         if(user_auth.isPresent()){

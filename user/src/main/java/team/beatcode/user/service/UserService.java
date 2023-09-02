@@ -13,6 +13,8 @@ public interface UserService {
 
     List<User_record> getRanks();
 
+    Boolean checkUserExist(Integer userId);
+
     Person_info getUserInfo(Integer userId);
 
     void updateUserName(Integer userId, String userName);

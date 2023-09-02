@@ -7,6 +7,8 @@ public enum MsgEnum implements MessageEnumInterface{
 
     FAIL(1, "失败"),
 
+    USER_NOT_EXIST(2, "用户不存在"),
+
     EMAIL_EXIST_FAULT(4, "邮箱已存在"),
 
     CODE_ERROR(5, "验证码错误"),

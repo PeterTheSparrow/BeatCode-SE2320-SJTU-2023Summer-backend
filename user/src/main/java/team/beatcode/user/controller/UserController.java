@@ -46,6 +46,13 @@ public class UserController {
         return userService.getRanks();
     }
 
+    @RequestMapping("/checkUserExist")
+    public Boolean checkUserExist(@RequestBody Map<String, Object> data) {
+        Integer userId = (Integer) data.get(USER_CONTEXT_ID);
+
+        return userService.checkUserExist(userId);
+    }
+
     @RequestMapping("/getUserInfo")
     public Person_info getUserInfo(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
@@ -54,27 +61,45 @@ public class UserController {
     }
 
     @RequestMapping("/updateUserName")
-    public void updateUserName(@RequestBody Map<String, Object> data) {
+    public Message updateUserName(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String userName = (String) data.get(USER_CONTEXT_NAME);
 
-        userService.updateUserName(userId, userName);
+        if(userService.checkUserExist(userId)){
+            userService.updateUserName(userId, userName);
+            return new Message(MsgEnum.SUCCESS);
+        }
+         else{
+            return new Message(MsgEnum.USER_NOT_EXIST);
+        }
     }
 
     @RequestMapping("/updatePassWord")
-    public void updatePassWord(@RequestBody Map<String, Object> data) {
+    public Message updatePassWord(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String password = (String) data.get("password");
 
-        userService.updatePassword(userId, password);
+        if(userService.checkUserExist(userId)){
+            userService.updatePassword(userId, password);
+            return new Message(MsgEnum.SUCCESS);
+        }
+        else{
+            return new Message(MsgEnum.USER_NOT_EXIST);
+        }
     }
 
     @RequestMapping("/updatePhone")
-    public void updatePhone(@RequestBody Map<String, Object> data) {
+    public Message updatePhone(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String phone = (String) data.get(USER_CONTEXT_PHONE);
 
-        userService.updatePhone(userId, phone);
+        if(userService.checkUserExist(userId)){
+            userService.updatePhone(userId, phone);
+            return new Message(MsgEnum.SUCCESS);
+        }
+        else{
+            return new Message(MsgEnum.USER_NOT_EXIST);
+        }
     }
 
     @RequestMapping("/checkEmailExist")
