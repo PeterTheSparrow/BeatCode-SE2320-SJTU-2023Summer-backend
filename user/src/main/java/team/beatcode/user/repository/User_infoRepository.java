@@ -10,4 +10,6 @@ public interface User_infoRepository extends JpaRepository<User_info, Integer>{
     Optional<User_info> findUser_infoByUserId(Integer userId);
 
     Optional<User_info> findUser_infoByEmail(String email);
+
+    Optional<User_info> findUser_infoByUserName(String userName);
 }

@@ -65,6 +65,11 @@ public class UserController {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String userName = (String) data.get(USER_CONTEXT_NAME);
 
+        // 检查用户名是否重复
+        if (userService.checkUserNameExist(userName)) {
+            return new Message(MsgEnum.USER_NAME_EXIST_FAULT);
+        }
+
         if(userService.checkUserExist(userId)){
             userService.updateUserName(userId, userName);
             return new Message(MsgEnum.SUCCESS);

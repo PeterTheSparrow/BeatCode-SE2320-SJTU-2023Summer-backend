@@ -28,4 +28,7 @@ public interface UserDao {
     Boolean checkEmailExist(String email);
 
     void updateEmail(Integer userId, String email);
+
+    // 检查某个用户名是否已经存在
+    Boolean checkUserNameExist(String userName);
 }

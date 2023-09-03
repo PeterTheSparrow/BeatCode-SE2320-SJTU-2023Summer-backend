@@ -53,8 +53,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUserName(Integer userId, String userName) {
+    public Boolean updateUserName(Integer userId, String userName) {
+        // 检查用户名是否重复
+        if (userDao.checkUserNameExist(userName)) {
+            return false;
+        }
         userDao.updateUserName(userId, userName);
+        return true;
     }
 
     @Override
@@ -75,6 +80,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateEmail(Integer userId, String email) {
         userDao.updateEmail(userId, email);
+    }
+
+    @Override
+    public Boolean checkUserNameExist(String userName) {
+        return userDao.checkUserNameExist(userName);
     }
 
 }

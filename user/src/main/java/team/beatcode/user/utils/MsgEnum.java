@@ -11,6 +11,8 @@ public enum MsgEnum implements MessageEnumInterface{
 
     EMAIL_EXIST_FAULT(4, "邮箱已存在"),
 
+    USER_NAME_EXIST_FAULT(3, "用户名已存在"),
+
     CODE_ERROR(5, "验证码错误"),
 
     CODE_EXPIRED(6, "验证码过期"),

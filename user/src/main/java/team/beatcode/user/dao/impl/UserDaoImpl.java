@@ -147,4 +147,10 @@ public class UserDaoImpl implements UserDao {
             System.out.println("User not found");
         }
     }
+
+    @Override
+    public Boolean checkUserNameExist(String userName) {
+        Optional<User_info> user_info = user_infoRepository.findUser_infoByUserName(userName);
+        return user_info.isPresent();
+    }
 }

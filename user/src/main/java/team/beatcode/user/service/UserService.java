@@ -17,7 +17,7 @@ public interface UserService {
 
     Person_info getUserInfo(Integer userId);
 
-    void updateUserName(Integer userId, String userName);
+    Boolean updateUserName(Integer userId, String userName);
 
     void updatePassword(Integer userId, String password);
 
@@ -26,4 +26,6 @@ public interface UserService {
     Boolean checkEmailExist(String email);
 
     void updateEmail(Integer userId, String email);
+
+    Boolean checkUserNameExist(String userName);
 }
