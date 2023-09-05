@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @RequestMapping("/getRanking")
-    public Map<String,Object> getRanking(@RequestBody Map<String,Object> data) {
-        return userFeign.getRanking(data);
+    public Map<String,Object> getRanking(@RequestBody Map<String,Object> map) {
+        return userFeign.getRanking(map);
     }
 
     @RequestMapping("/checkUserExist")
