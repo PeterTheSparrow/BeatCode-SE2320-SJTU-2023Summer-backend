@@ -22,6 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         WebMvcConfigurer.super.addInterceptors(registry);
         // 主要判定交给注解
-        registry.addInterceptor(new LoginInterceptor(authFeign)).addPathPatterns("/**");
+        registry.addInterceptor(new LoginInterceptor(authFeign))
+                .addPathPatterns("/**")
+                // 不拦截内部服务对功能的调用
+                .excludePathPatterns("/socket/**");
     }
 }

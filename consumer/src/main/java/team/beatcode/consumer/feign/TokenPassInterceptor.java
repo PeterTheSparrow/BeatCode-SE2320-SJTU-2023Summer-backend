@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import team.beatcode.consumer.utils.Macros;
+import team.beatcode.consumer.utils.context.UserContextHolder;
 
 public class TokenPassInterceptor implements RequestInterceptor {
     @Override
@@ -14,9 +15,14 @@ public class TokenPassInterceptor implements RequestInterceptor {
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
-            String token = request.getHeader(Macros.TOKEN_NAME);
-            if (token != null)
-                requestTemplate.header(Macros.TOKEN_NAME, token);
+            String tokenInHolder = UserContextHolder.getToken();
+            if (tokenInHolder != null)
+                requestTemplate.header(Macros.TOKEN_NAME, tokenInHolder);
+            else {
+                String token = request.getHeader(Macros.TOKEN_NAME);
+                if (token != null)
+                    requestTemplate.header(Macros.TOKEN_NAME, token);
+            }
         }
     }
 }
