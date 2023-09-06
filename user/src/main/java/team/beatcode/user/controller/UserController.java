@@ -58,7 +58,25 @@ public class UserController {
     public Person_info getUserInfo(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
 
-        return userService.getUserInfo(userId);
+        Person_info personInfo = userService.getUserInfo(userId);
+
+        // set map
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("password", data.get("password"));
+
+        // get password
+        String password = authFeign.getPassword(map);
+
+        if (password == null) {
+            System.out.println("password is null");
+            return null;
+        }
+
+        // set password
+        personInfo.setPassword(password);
+
+        return personInfo;
     }
 
     /**

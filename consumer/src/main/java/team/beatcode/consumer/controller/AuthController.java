@@ -59,4 +59,9 @@ public class AuthController {
     public Boolean updateUserNameForAuth(@RequestBody Map<String, Object> map) {
         return authFeign.updateUserNameForAuth(map);
     }
+
+    @RequestMapping("/getPassword")
+    public String getPassword(@RequestBody Map<String, Object> map) {
+        return authFeign.getPassword(map);
+    }
 }
