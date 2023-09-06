@@ -1,5 +1,6 @@
 package team.beatcode.consumer.socket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
@@ -9,6 +10,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.consumer.feign.AuthFeign;
+import team.beatcode.consumer.utils.context.UserContext;
 import team.beatcode.consumer.utils.context.UserContextHolder;
 import team.beatcode.consumer.utils.msg.MessageEnum;
 
@@ -18,6 +20,8 @@ public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {
 
     @Autowired
     private AuthFeign authFeign;
+
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public boolean beforeHandshake(@NonNull ServerHttpRequest request,
@@ -37,8 +41,16 @@ public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {
                     return false;
                 }
                 else if (rt.getStatus() == MessageEnum.AUTH_AUTH_SUCCESS.getStatus()) {
-                    attributes.put(PushHandler.ATTRIBUTES_TOKEN_STRING, token);
-                    return true;
+                    try {
+                        UserContext context = mapper.convertValue(rt.getData(), UserContext.class);
+                        attributes.put(PushHandler.ATTRIBUTES_USERID_INTEGER, context.getUser_id());
+                        return true;
+                    }
+                    catch (IllegalArgumentException e) {
+                        System.out.printf("Conflict Message: %s\n", rt);
+                        e.printStackTrace();
+                        return false;
+                    }
                 }
                 else
                     return false;
