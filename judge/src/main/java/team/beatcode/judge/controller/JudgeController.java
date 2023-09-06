@@ -1,14 +1,16 @@
 package team.beatcode.judge.controller;
 
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.judge.entity.Result;
 import team.beatcode.judge.entity.Submission;
-import team.beatcode.judge.service.SubmissionService;
+import team.beatcode.judge.feign.SubmitFeign;
+import team.beatcode.judge.service.VersionService;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +26,10 @@ import java.util.regex.Pattern;
 @RestController
 public class JudgeController {
     @Autowired
-    SubmissionService submissionService;
+    VersionService versionService;
+
+    @Autowired
+    SubmitFeign submitFeign;
 
     @Value("${judge.judgeDirectory}")
     private String judgeDirectory;
@@ -32,11 +37,20 @@ public class JudgeController {
     private String judgerDirectory;
 
     @RequestMapping("Judge")
-    public String Judge(@RequestParam("sid") String sid) throws IOException, InterruptedException {
+    public String Judge(@RequestBody Submission submission) throws IOException, InterruptedException {
+        System.out.println(submission);
+        // 版本管理
+        // todo 改数据库数据类型
+        try {
+            versionService.checkVersion(Integer.parseInt(submission.getProblemId()));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return e.toString();
+        }
 
+        // 执行评测
+        String sid = submission.get_id();
 System.out.println("starting judge "+sid);
-
-        Submission submission=submissionService.getSubmission(sid);
 
 
         /*------------------------------------------------------------------
@@ -96,12 +110,15 @@ System.out.println("starting judge "+sid);
         String resultFilePath = WorkPath + File.separator + "result"+File.separator+"result.txt";
         String result = Files.readString(new File(resultFilePath).toPath());
         Submission resSubmission=ParseResult(submission,result);
-        submissionService.saveSubmission(resSubmission);
+        // submissionService.saveSubmission(resSubmission);
 
         /*---------------------------------------------
         //delete directory
         ---------------------------------------------*/
 //        deleteDirectory(WorkDirectory);
+
+        // 结束评测，包括保存结果在内的收尾工作都交给submission服务
+        submitFeign.WindUp(resSubmission);
         return result;
     }
 

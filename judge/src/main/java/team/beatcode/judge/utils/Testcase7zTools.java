@@ -15,21 +15,21 @@ public class Testcase7zTools {
      * 7z运行文件的地址
      */
     private static final String executable7zPath =
-            "D:/MyBox/7-Zip/7z.exe"
+            "7z"
             .replace("/", File.separator);
 
     /**
      * 压缩包下载到的文件夹，不是最终的地址
      */
     private static final String testcaseDownloadDirPath =
-            "D:/Test/TempDownload"
+            "/usr/tmp/BeatCode/Download"
                     .replace("/", File.separator);
 
     /**
      * 压缩包解压到的文件夹，工作位置
      */
     private static final String testcaseWorkingDirPath =
-            "D:/Test/JudgeWorking"
+            "/usr/tmp/BeatCode/data"
                     .replace("/", File.separator);
 
     /**

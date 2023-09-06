@@ -23,7 +23,7 @@ public class Testcase7zTools {
      * 7z运行文件的地址
      */
     private static final String executable7zPath =
-            "D:/MyBox/7-Zip/7z.exe"
+            "7z"
             .replace("/", File.separator);
     private static String configFilePath(String task) {
         return String.format("%s%s%s",
