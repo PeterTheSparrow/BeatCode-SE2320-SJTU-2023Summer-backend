@@ -1,12 +1,11 @@
 package team.beatcode.judge.entity;
+
 import lombok.Data;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
-@Document(collection = "submission_mongo")
 @Data
 public class Submission {
     @Id

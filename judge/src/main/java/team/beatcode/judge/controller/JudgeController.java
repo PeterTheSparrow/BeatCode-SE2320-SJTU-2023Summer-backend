@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.judge.entity.Result;
 import team.beatcode.judge.entity.Submission;
 import team.beatcode.judge.feign.SubmitFeign;
-import team.beatcode.judge.service.SubmissionService;
 import team.beatcode.judge.service.VersionService;
 
 import java.io.File;
@@ -25,8 +24,6 @@ import java.util.regex.Pattern;
 
 @RestController
 public class JudgeController {
-    @Autowired
-    SubmissionService submissionService;
     @Autowired
     VersionService versionService;
 
