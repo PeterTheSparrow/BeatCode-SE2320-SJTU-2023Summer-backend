@@ -37,7 +37,7 @@ public class Macros {
      题库文件存放在这个文件夹中
      */
     public static final String testcaseDirectoryPath =
-            "D:/Test/Testcases".replace("/", File.separator);
+            "/usr/tmp/BeatCode/QBank".replace("/", File.separator);
     /**
      * 注：7z可以自动识别文件的压缩方式和格式，不需要带后缀名。后缀名与实际格式不符会报警
      * @param pid 题号

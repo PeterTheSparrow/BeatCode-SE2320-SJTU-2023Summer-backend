@@ -28,7 +28,7 @@ public class FileVersionMap {
     private static final ObjectMapper mapper;
 
     private static final String jsonFilePath =
-            "D:/Test/version.json"
+            "/usr/tmp/BeatCode/data/version.json"
                     .replace("/", File.separator);
 
     static {

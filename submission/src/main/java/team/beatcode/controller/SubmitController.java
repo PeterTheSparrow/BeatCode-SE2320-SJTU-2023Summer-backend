@@ -62,8 +62,11 @@ public class SubmitController {
         String formattedDateTime = convertedDateTime.format(formatter);
         submission.setSubmission_time(formattedDateTime);
 
+        System.out.println("saved submission before judge1:");
+        System.out.println(submission);
         submissionService.saveSubmission(submission);
-
+        System.out.println("saved submission before judge2:");
+        System.out.println(submission);
         // 调用judge执行评测
         asyncJudge.asyncJudge(submission);
         return submission.getString_id();

@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value="consumer",configuration =
         {FeignClientsConfiguration.class})
 public interface SocketFeign {
-    @RequestMapping("inform")
+    @RequestMapping("/socket/inform")
     void judgeFinished(@RequestParam Integer uid, @RequestParam String msg);
 }

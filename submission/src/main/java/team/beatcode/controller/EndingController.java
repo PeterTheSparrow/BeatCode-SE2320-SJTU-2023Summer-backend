@@ -25,7 +25,11 @@ public class EndingController {
     @RequestMapping("WindUp")
     public void WindUp(@RequestBody Submission submission)
     {
+        System.out.println("saved submission in windup1:");
+        System.out.println(submission);
         submissionService.saveSubmission(submission);
+        System.out.println("saved submission in windup2:");
+        System.out.println(submission);
 
         String userId=submission.getUserId();
         String problemId=submission.getProblemId();

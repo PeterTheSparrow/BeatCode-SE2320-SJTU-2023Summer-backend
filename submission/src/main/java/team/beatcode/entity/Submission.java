@@ -12,11 +12,11 @@ import java.util.List;
 @Data
 public class Submission {
     @Id
-    private ObjectId _id;
+    private String _id;
     private String string_id;
     public void getStringId()
     {
-        string_id=_id.toString();
+        string_id= _id;
     }
 
     private String submission_code;

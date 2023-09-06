@@ -1,6 +1,7 @@
 package team.beatcode.judge.controller;
 
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,17 +38,18 @@ public class JudgeController {
 
     @RequestMapping("Judge")
     public String Judge(@RequestBody Submission submission) throws IOException, InterruptedException {
+        System.out.println(submission);
         // 版本管理
         // todo 改数据库数据类型
         try {
-            versionService.checkVersion(Integer.parseInt(submission.getProblem_id()));
+            versionService.checkVersion(Integer.parseInt(submission.getProblemId()));
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return e.toString();
         }
 
         // 执行评测
-        String sid = submission.get_id().toHexString();
+        String sid = submission.get_id();
 System.out.println("starting judge "+sid);
 
 
