@@ -9,9 +9,9 @@ public enum MsgEnum implements MessageEnumInterface{
 
     USER_NOT_EXIST(2, "用户不存在"),
 
-    EMAIL_EXIST_FAULT(4, "邮箱已存在"),
-
     USER_NAME_EXIST_FAULT(3, "用户名已存在"),
+
+    EMAIL_EXIST_FAULT(4, "邮箱已存在"),
 
     CODE_ERROR(5, "验证码错误"),
 
@@ -19,6 +19,11 @@ public enum MsgEnum implements MessageEnumInterface{
 
     PARAM_FAIL(7, "缺少参数"),
 
+    PAGE_NEGATIVE(7, "页码不能为负数"),
+
+    PAGE_MALICE(8, "页码过小"),
+
+    PROBLEM_NOT_EXIST(9, "题目不存在"),
     ;
 
     private final int status;

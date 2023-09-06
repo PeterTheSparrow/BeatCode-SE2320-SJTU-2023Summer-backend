@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import team.beatcode.qbank.entity.Problem;
 
+import java.util.List;
+
 public interface ProblemRepository extends MongoRepository<Problem, String> {
 
     Page<Problem> findProblemByTitleNameContainingAndDifficultyContainingOrderByTitleIdAsc(String title_name, String difficulty, Pageable pageable);
@@ -12,4 +14,6 @@ public interface ProblemRepository extends MongoRepository<Problem, String> {
     Problem findProblemByTitleId(Integer id);
 
     VersionProjection findVersionProjectionByTitleId(Integer id);
+
+    Page<Problem> findProblemByTitleIdIn(List<Integer> ids, Pageable pageable);
 }

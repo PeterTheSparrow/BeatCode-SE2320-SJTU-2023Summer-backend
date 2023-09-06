@@ -43,5 +43,8 @@ public interface UserFeign {
 
     @RequestMapping("/updateEmail")
     Message updateEmail(@RequestBody Map<String, Object> data);
+
+    @RequestMapping("/getProblemList")
+    Message getProblemList(@RequestBody Map<String, Object> map);
 }
 

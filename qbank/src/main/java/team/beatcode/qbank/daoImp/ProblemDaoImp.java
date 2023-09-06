@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import team.beatcode.qbank.entity.Problem;
 import team.beatcode.qbank.repository.ProblemRepository;
 
+import java.util.List;
+
 @Repository
 public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
     ProblemRepository problemRepository;
@@ -35,6 +37,12 @@ public class ProblemDaoImp implements team.beatcode.qbank.dao.ProblemDao {
                 .findProblemByTitleNameContainingAndDifficultyContainingOrderByTitleIdAsc(
                         title, difficulty, pageable
                 );
+    }
+
+    @Override
+    public Page<Problem> findByIds(List<Integer> ProblemIds, Integer pageIndex, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        return problemRepository.findProblemByTitleIdIn(ProblemIds, pageable);
     }
 
     @Override

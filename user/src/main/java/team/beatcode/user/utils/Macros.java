@@ -10,4 +10,8 @@ public class Macros {
     public static final String USER_CONTEXT_PHONE = "phone";
 
     public static final String USER_CONTEXT_CODE = "code";
+
+    public static final String PAGE_INDEX = "pageIndex";
+
+    public static final String PAGE_SIZE = "pageSize";
 }

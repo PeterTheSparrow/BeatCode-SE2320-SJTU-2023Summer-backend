@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.beatcode.user.dao.UserDao;
 import team.beatcode.user.entity.Person_info;
+import team.beatcode.user.entity.UserCondition;
 import team.beatcode.user.entity.User_info;
 import team.beatcode.user.entity.User_record;
+import team.beatcode.user.repository.ConditionRepository;
 import team.beatcode.user.repository.User_infoRepository;
 import team.beatcode.user.repository.User_recordRepository;
 
@@ -20,6 +22,9 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     User_recordRepository user_recordRepository;
+
+    @Autowired
+    ConditionRepository conditionRepository;
 
     @Override
     public User_info getUser_info(Integer userId){
@@ -149,5 +154,10 @@ public class UserDaoImpl implements UserDao {
             System.out.println("User not found");
             return null;
         }
+    }
+
+    @Override
+    public UserCondition getUserCondition(String userId) {
+        return conditionRepository.findByUserId(userId);
     }
 }

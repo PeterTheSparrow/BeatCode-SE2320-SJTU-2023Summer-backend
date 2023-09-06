@@ -1,8 +1,6 @@
 package team.beatcode.user.service;
 
-import team.beatcode.user.entity.Person_info;
-import team.beatcode.user.entity.User;
-import team.beatcode.user.entity.User_record;
+import team.beatcode.user.entity.*;
 
 import java.util.List;
 
@@ -26,4 +24,8 @@ public interface UserService {
     void updateEmail(Integer userId, String email);
 
     Boolean checkUserNameExist(String userName);
+
+    UserCondition getUserCondition(String userId);
+
+    User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, String problemCondition);
 }

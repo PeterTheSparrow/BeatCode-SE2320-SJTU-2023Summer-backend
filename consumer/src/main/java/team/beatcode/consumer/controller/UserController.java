@@ -59,4 +59,7 @@ public class UserController {
     public Message updateEmail(@RequestBody Map<String, Object> map) {
         return userFeign.updateEmail(map);
     }
+
+    @RequestMapping("/getProblemList")
+    public Message getProblemList(@RequestBody Map<String, Object> map){return userFeign.getProblemList(map);}
 }

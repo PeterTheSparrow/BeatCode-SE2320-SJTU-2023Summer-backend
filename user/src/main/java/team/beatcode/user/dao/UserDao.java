@@ -3,6 +3,7 @@ package team.beatcode.user.dao;
 import team.beatcode.user.entity.Person_info;
 import team.beatcode.user.entity.User_info;
 import team.beatcode.user.entity.User_record;
+import team.beatcode.user.entity.UserCondition;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface UserDao {
     Boolean checkUserNameExist(String userName);
 
     Person_info getUserInfo(Integer userId);
+
+    UserCondition getUserCondition(String userId);
 }

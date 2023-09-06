@@ -11,6 +11,8 @@ import team.beatcode.qbank.utils.Macros;
 import team.beatcode.qbank.utils.msg.MessageEnum;
 import team.beatcode.qbank.utils.msg.MessageException;
 
+import java.util.List;
+
 @Service
 public class ProblemServiceImp implements ProblemService {
     ProblemDao problemDao;
@@ -67,4 +69,10 @@ public class ProblemServiceImp implements ProblemService {
     public int getProblemVersion(Integer problemId) {
         return problemDao.findVersionById(problemId);
     }
+
+    @Override
+    public Page<Problem> getUserProblem(List<Integer> ProblemIds, Integer pageIndex, Integer pageSize) {
+        return problemDao.findByIds(ProblemIds, pageIndex, pageSize);
+    }
+
 }
