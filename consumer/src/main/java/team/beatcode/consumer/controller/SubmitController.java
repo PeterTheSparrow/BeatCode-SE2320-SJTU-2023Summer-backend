@@ -29,10 +29,6 @@ public class SubmitController {
         data.put("user_name",userContext.getUser_name());
         String sid=submitFeign.Submit(data);
 System.out.println("created submission id "+sid);
-        judgeFeign.Judge(sid);
-System.out.println("finished judge");
-        submitFeign.WindUp(sid);
-System.out.println("finished windup");
         return sid;
     }
 

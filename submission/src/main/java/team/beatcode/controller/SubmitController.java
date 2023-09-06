@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.beatcode.async.AsyncJudge;
 import team.beatcode.entity.Problem;
 import team.beatcode.entity.Submission;
 import team.beatcode.service.ProblemService;
@@ -21,6 +22,9 @@ public class SubmitController {
     SubmissionService submissionService;
     @Autowired
     ProblemService problemService;
+    @Autowired
+    AsyncJudge asyncJudge;
+
     @RequestMapping("Submit")
     public String Submit(@RequestBody Map<String,Object> data)
     {
@@ -59,6 +63,9 @@ public class SubmitController {
         submission.setSubmission_time(formattedDateTime);
 
         submissionService.saveSubmission(submission);
+
+        // 调用judge执行评测
+        asyncJudge.asyncJudge(submission);
         return submission.getString_id();
     }
     @RequestMapping("GetFullSubmission")
