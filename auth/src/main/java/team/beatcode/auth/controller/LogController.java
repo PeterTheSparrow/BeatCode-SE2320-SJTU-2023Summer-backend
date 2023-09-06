@@ -238,4 +238,18 @@ public class LogController {
 
     }
 
+    @RequestMapping("/getPassword")
+    public String getPassword(@RequestBody Map<String, Object> map) {
+        Integer userId = (Integer) map.get(Macros.USER_CONTEXT_ID);
+
+        UserAuth userAuth = userAuthDao.getUserAuthById(userId);
+
+        if (userAuth != null) {
+            return userAuth.getPass();
+        }
+        else {
+            return null;
+        }
+    }
+
 }

@@ -51,10 +51,12 @@ public class ProblemController {
             String titleContains = (String) map.get(Macros.PARAM_TITLE_KEY);
             String hardLevel = (String) map.get(Macros.PARAM_HARD_LEVEL);
             String user_id= (String) map.get(Macros.PARAM_USER_ID);
+
+
             if (pageIndex == null || pageSize == null ||
             titleContains == null || hardLevel == null){
                 // 打印日志
-                System.out.println("GetProblemList: 缺少参数");
+                System.out.println("GetProblemList: ~~~缺少参数");
                 System.out.println("pageIndex: " + pageIndex);
                 System.out.println("pageSize: " + pageSize);
                 System.out.println("titleContains: " + titleContains);
@@ -62,25 +64,20 @@ public class ProblemController {
                 return new Message(MessageEnum.PARAM_FAIL);
             }
 
-//            System.out.println("breakpoint1");
 
             if (pageIndex <= 0)
                 return new Message(MessageEnum.SEARCH_PAGE_NEGATIVE);
             if (pageSize <= 1)
                 return new Message(MessageEnum.SEARCH_PAGE_MALICE);
 
-//            System.out.println("breakpoint2");
 
             //get user-problem condition
             UserCondition userCondition=conditionService.GetUserCondition(user_id);
-//            System.out.println("breakpoint3");
             String user_problem_condition=userCondition.getProblemCondition();
-//            System.out.println("breakpoint4");
 
             ProblemReturn.Paged result =
                     problemService.getProblemListEx(
                             titleContains, hardLevel, pageIndex - 1, pageSize, user_problem_condition);
-//            System.out.println("breakpoint5");
             return new Message(MessageEnum.SUCCESS, result);
         }
         catch (NullPointerException e) {

@@ -34,4 +34,7 @@ public interface AuthFeign {
 
     @RequestMapping("/updateUserNameForAuth")
     Boolean updateUserNameForAuth(@RequestBody Map<String, Object> map);
+
+    @RequestMapping("getPassword")
+    String getPassword(@RequestBody Map<String, Object> map);
 }

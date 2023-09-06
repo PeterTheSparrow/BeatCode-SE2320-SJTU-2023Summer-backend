@@ -53,7 +53,7 @@ public class ProblemServiceImp implements ProblemService {
      * value: 缓存的名字
      * key: 缓存的键
      * */
-//    @Cacheable(value = "problem", key = "'problemid' + #problemId")
+    @Cacheable(value = "problem", key = "'problemid' + #problemId")
     @Override
     public ProblemReturn.Detail getProblemDetail(Integer problemId) {
         Problem p = problemDao.findProblemById(problemId);
