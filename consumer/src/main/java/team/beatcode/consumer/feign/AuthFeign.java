@@ -28,4 +28,10 @@ public interface AuthFeign {
 
     @RequestMapping("/checkCode")
     Integer check(@RequestBody Map<String, Object> data);
+
+    @RequestMapping("/updatePassWordForAuth")
+    Boolean updatePassWordForAuth(@RequestBody Map<String, Object> map);
+
+    @RequestMapping("/updateUserNameForAuth")
+    Boolean updateUserNameForAuth(@RequestBody Map<String, Object> map);
 }

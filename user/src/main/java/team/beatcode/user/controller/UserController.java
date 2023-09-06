@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.beatcode.user.utils.MsgEnum;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,43 +61,95 @@ public class UserController {
         return userService.getUserInfo(userId);
     }
 
+    /**
+     * 修改用户名
+     * @param data 传入的数据
+     *            data中包含的数据：
+     *             userId: 用户id
+     *             name: 新用户名
+     * @return Message 信息
+     * 1. 需要验证用户名是否已经被注册
+     * 2. 需要调用鉴权微服务来修改用户名
+     * */
     @RequestMapping("/updateUserName")
     public Message updateUserName(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String userName = (String) data.get(USER_CONTEXT_NAME);
+
+        // 判断解析参数错误
+        if (userId == null || userName == null) {
+            return new Message(MsgEnum.PARAM_FAIL);
+        }
 
         // 检查用户名是否重复
         if (userService.checkUserNameExist(userName)) {
             return new Message(MsgEnum.USER_NAME_EXIST_FAULT);
         }
 
-        if(userService.checkUserExist(userId)){
+        /*
+        * 打包数据：
+        * user_id: 用户id
+        * user_name: 新用户名
+        * */
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+
+        // 调用鉴权微服务来修改用户名
+        if (authFeign.updateUserNameForAuth(map)) {
             userService.updateUserName(userId, userName);
             return new Message(MsgEnum.SUCCESS);
-        }
-         else{
-            return new Message(MsgEnum.USER_NOT_EXIST);
+        } else {
+            return new Message(MsgEnum.FAIL);
         }
     }
 
+    /**
+     * 修改密码
+     * @param data 传入的数据
+     *            data中包含的数据：
+     *             userId: 用户id
+     *             password: 新密码
+     * @return Message 信息
+     * 1. 需要调用鉴权微服务来修改密码
+     * */
     @RequestMapping("/updatePassWord")
     public Message updatePassWord(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String password = (String) data.get("password");
 
-        if(userService.checkUserExist(userId)){
-            userService.updatePassword(userId, password);
-            return new Message(MsgEnum.SUCCESS);
+        if (userId == null || password == null) {
+            return new Message(MsgEnum.PARAM_FAIL);
         }
-        else{
-            return new Message(MsgEnum.USER_NOT_EXIST);
+
+        // 调用鉴权微服务来修改密码
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("password", password);
+
+        if (authFeign.updatePassWordForAuth(map)) {
+            return new Message(MsgEnum.SUCCESS);
+        } else {
+            return new Message(MsgEnum.FAIL);
         }
     }
 
+    /**
+     * 修改手机号
+     * @param data 传入的数据
+     *             data中包含的数据：
+     *             userId: 用户id
+     *             phone: 新手机号
+     * @return Message 信息
+     * */
     @RequestMapping("/updatePhone")
     public Message updatePhone(@RequestBody Map<String, Object> data) {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String phone = (String) data.get(USER_CONTEXT_PHONE);
+
+        if (userId == null || phone == null) {
+            return new Message(MsgEnum.PARAM_FAIL);
+        }
 
         if(userService.checkUserExist(userId)){
             userService.updatePhone(userId, phone);
@@ -130,6 +183,10 @@ public class UserController {
         Integer userId = (Integer) data.get(USER_CONTEXT_ID);
         String email = (String) data.get(USER_CONTEXT_EMAIL);
         String code = (String) data.get(USER_CONTEXT_CODE);
+
+        if (userId == null || email == null || code == null) {
+            return new Message(MsgEnum.PARAM_FAIL);
+        }
 
         // 验证邮箱是否已经被注册
         if (userService.checkEmailExist(email)) {

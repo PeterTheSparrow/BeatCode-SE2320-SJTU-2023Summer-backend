@@ -22,4 +22,5 @@ public class UserAuthDao {
     public UserAuth save(@NonNull UserAuth userAuth) {
         return userAuthRepository.save(userAuth);
     }
+
 }

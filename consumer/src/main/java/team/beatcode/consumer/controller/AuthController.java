@@ -49,4 +49,14 @@ public class AuthController {
     public Integer check(@RequestBody Map<String, Object> data) {
         return authFeign.check(data);
     }
+
+    @RequestMapping("/updatePassWordForAuth")
+    public Boolean updatePassWordForAuth(@RequestBody Map<String, Object> map) {
+        return authFeign.updatePassWordForAuth(map);
+    }
+
+    @RequestMapping("/updateUserNameForAuth")
+    public Boolean updateUserNameForAuth(@RequestBody Map<String, Object> map) {
+        return authFeign.updateUserNameForAuth(map);
+    }
 }

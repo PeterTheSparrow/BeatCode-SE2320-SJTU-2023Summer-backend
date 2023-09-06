@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Person_info getUserInfo(Integer userId) {
+        // 这里直接查表就可以了
         return userDao.getUserInfo(userId);
     }
 
@@ -62,10 +63,6 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
-    @Override
-    public void updatePassword(Integer userId, String password) {
-        userDao.updatePassword(userId, password);
-    }
 
     @Override
     public void updatePhone(Integer userId, String phone) {

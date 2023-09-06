@@ -5,4 +5,6 @@ import team.beatcode.auth.entity.UserAuth;
 
 public interface UserAuthRepository extends JpaRepository<UserAuth, Integer> {
     UserAuth getUserAuthByName(String name);
+
+    UserAuth getUserAuthById(Integer id);
 }

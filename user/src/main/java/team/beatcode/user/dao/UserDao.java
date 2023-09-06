@@ -17,11 +17,9 @@ public interface UserDao {
 
     Boolean checkUserExist(Integer userId);
 
-    Person_info getUserInfo(Integer userId);
 
     void updateUserName(Integer userId, String userName);
 
-    void updatePassword(Integer userId, String password);
 
     void updatePhone(Integer userId, String phone);
 
@@ -31,4 +29,6 @@ public interface UserDao {
 
     // 检查某个用户名是否已经存在
     Boolean checkUserNameExist(String userName);
+
+    Person_info getUserInfo(Integer userId);
 }

@@ -6,10 +6,8 @@ import team.beatcode.user.dao.UserDao;
 import team.beatcode.user.entity.Person_info;
 import team.beatcode.user.entity.User_info;
 import team.beatcode.user.entity.User_record;
-import team.beatcode.auth.entity.UserAuth;
 import team.beatcode.user.repository.User_infoRepository;
 import team.beatcode.user.repository.User_recordRepository;
-import team.beatcode.user.repository.UserAuthRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,9 +21,6 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     User_recordRepository user_recordRepository;
 
-    @Autowired
-    UserAuthRepository userAuthRepository;
-
     @Override
     public User_info getUser_info(Integer userId){
         Optional<User_info> user_info = user_infoRepository.findUser_infoByUserId(userId);
@@ -38,6 +33,9 @@ public class UserDaoImpl implements UserDao {
         return user_record.orElse(null);
     }
 
+    /**
+     * 供auth注册的时候调用；修改用户的信息。
+     * */
     @Override
     public void register(Integer userId, String userName, String email, String phone){
         User_info user_info = new User_info();
@@ -66,25 +64,6 @@ public class UserDaoImpl implements UserDao {
         return user_info.isPresent();
     }
 
-    @Override
-    public Person_info getUserInfo(Integer userId) {
-        Optional<UserAuth> user_auth = userAuthRepository.findUser_authById(userId);
-        if(user_auth.isPresent()){
-            Optional<User_info> user_info = user_infoRepository.findUser_infoByUserId(userId);
-            UserAuth user_auth1 = user_auth.get();
-            User_info user_info1 = user_info.get();
-            Person_info person_info = new Person_info();
-            person_info.setUserName(user_info1.getUserName());
-            person_info.setEmail(user_info1.getEmail());
-            person_info.setPassword(user_auth1.getPass());
-            person_info.setPhone(user_info1.getPhone());
-            return person_info;
-        }
-        else {
-            System.out.println("User not found");
-            return null;
-        }
-    }
 
     @Override
     public void updateUserName(Integer userId, String userName) {
@@ -100,19 +79,20 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
-    public void updatePassword(Integer userId, String password) {
-        Optional<UserAuth> user_auth = userAuthRepository.findUser_authById(userId);
-
-        if(user_auth.isPresent()){
-            UserAuth user_auth1 = user_auth.get();
-            user_auth1.setPass(password);
-            userAuthRepository.save(user_auth1);
-        }
-        else {
-            System.out.println("User not found");
-        }
-    }
+    // TODO this is buggy
+//    @Override
+//    public void updatePassword(Integer userId, String password) {
+//        Optional<UserAuth> user_auth = userAuthRepository.findUser_authById(userId);
+//
+//        if(user_auth.isPresent()){
+//            UserAuth user_auth1 = user_auth.get();
+//            user_auth1.setPass(password);
+//            userAuthRepository.save(user_auth1);
+//        }
+//        else {
+//            System.out.println("User not found");
+//        }
+//    }
 
     @Override
     public void updatePhone(Integer userId, String phone) {
@@ -152,5 +132,22 @@ public class UserDaoImpl implements UserDao {
     public Boolean checkUserNameExist(String userName) {
         Optional<User_info> user_info = user_infoRepository.findUser_infoByUserName(userName);
         return user_info.isPresent();
+    }
+
+    @Override
+    public Person_info getUserInfo(Integer userId) {
+        Optional<User_info> user_info = user_infoRepository.findUser_infoByUserId(userId);
+        if(user_info.isPresent()){
+            User_info user_info1 = user_info.get();
+            Person_info person_info = new Person_info();
+            person_info.setUserName(user_info1.getUserName());
+            person_info.setEmail(user_info1.getEmail());
+            person_info.setPhone(user_info1.getPhone());
+            return person_info;
+        }
+        else {
+            System.out.println("User not found");
+            return null;
+        }
     }
 }

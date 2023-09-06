@@ -17,6 +17,8 @@ public enum MsgEnum implements MessageEnumInterface{
 
     CODE_EXPIRED(6, "验证码过期"),
 
+    PARAM_FAIL(7, "缺少参数"),
+
     ;
 
     private final int status;

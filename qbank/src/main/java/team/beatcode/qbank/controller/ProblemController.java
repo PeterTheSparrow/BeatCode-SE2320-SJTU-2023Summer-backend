@@ -44,25 +44,47 @@ public class ProblemController {
             String hardLevel = (String) map.get(Macros.PARAM_HARD_LEVEL);
             String user_id= (String) map.get(Macros.PARAM_USER_ID);
             if (pageIndex == null || pageSize == null ||
-            titleContains == null || hardLevel == null)
+            titleContains == null || hardLevel == null){
+                // 打印日志
+                System.out.println("GetProblemList: 缺少参数");
+                System.out.println("pageIndex: " + pageIndex);
+                System.out.println("pageSize: " + pageSize);
+                System.out.println("titleContains: " + titleContains);
+                System.out.println("hardLevel: " + hardLevel);
                 return new Message(MessageEnum.PARAM_FAIL);
+            }
+
+//            System.out.println("breakpoint1");
+
             if (pageIndex <= 0)
                 return new Message(MessageEnum.SEARCH_PAGE_NEGATIVE);
             if (pageSize <= 1)
                 return new Message(MessageEnum.SEARCH_PAGE_MALICE);
 
+//            System.out.println("breakpoint2");
+
             //get user-problem condition
             UserCondition userCondition=conditionService.GetUserCondition(user_id);
+//            System.out.println("breakpoint3");
             String user_problem_condition=userCondition.getProblemCondition();
+//            System.out.println("breakpoint4");
 
             ProblemReturn.Paged result =
                     problemService.getProblemListEx(
                             titleContains, hardLevel, pageIndex - 1, pageSize, user_problem_condition);
-
+//            System.out.println("breakpoint5");
             return new Message(MessageEnum.SUCCESS, result);
         }
         catch (NullPointerException e) {
             // 缺少参数（null可能无法被某些类型转换）
+            // 打印日志
+            System.out.println("GetProblemList: 缺少参数");
+            System.out.println("map: " + map);
+            System.out.println("pageIndex: " + map.get(Macros.PARAM_PAGE));
+            System.out.println("pageSize: " + map.get(Macros.PARAM_PAGE_SIZE));
+            System.out.println("titleContains: " + map.get(Macros.PARAM_TITLE_KEY));
+            System.out.println("hardLevel: " + map.get(Macros.PARAM_HARD_LEVEL));
+
             return new Message(MessageEnum.PARAM_FAIL);
         }
         catch (MessageException e) {

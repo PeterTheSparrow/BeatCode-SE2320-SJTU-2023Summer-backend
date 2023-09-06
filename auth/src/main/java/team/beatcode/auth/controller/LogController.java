@@ -175,4 +175,67 @@ public class LogController {
             return new Message(MessageEnum.PARAM_FAIL);
         }
     }
+
+
+    /**
+     * 修改用户名
+     * @param map 传入的数据
+     *             data中包含的数据：
+     *            user_id: 用户id
+     *            user_name: 新用户名
+     * @return Boolean 是否成功
+     * */
+    @RequestMapping("/updateUserNameForAuth")
+    public Boolean updateUserNameForAuth(@RequestBody Map<String, Object> map) {
+        Integer userId = (Integer) map.get(Macros.USER_CONTEXT_ID);
+        String userName = (String) map.get(Macros.USER_CONTEXT_NAME);
+
+        // 检查参数
+        if (userId == null || userName == null) {
+            return false;
+        }
+
+        // 更新user_auth表，成功更新返回成功信息，否则返回失败信息
+        UserAuth userAuth = userAuthDao.getUserAuthById(userId);
+
+
+        if (userAuth != null) {
+            userAuth.setName(userName);
+            System.out.println(userAuth);
+            userAuthDao.save(userAuth);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * 修改密码
+     * @param map 传入的数据
+     *             data中包含的数据：
+     *            user_id: 用户id
+     *            password: 新密码
+     * @return Boolean 是否成功
+     * */
+    @RequestMapping("/updatePassWordForAuth")
+    public Boolean updatePassWordForAuth(@RequestBody Map<String, Object> map) {
+        Integer userId = (Integer) map.get(Macros.USER_CONTEXT_ID);
+        String password = (String) map.get("password");
+
+        // 更新user_auth表，成功更新返回成功信息，否则返回失败信息
+        // 先调用Dao查找用户，找到以后就更新，调用Dao来save；否则返回失败信息
+        UserAuth userAuth = userAuthDao.getUserAuthById(userId);
+
+        if (userAuth != null) {
+            userAuth.setPass(password);
+            userAuthDao.save(userAuth);
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
 }
