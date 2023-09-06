@@ -61,7 +61,7 @@ public class AdminController {
      *            @CacheEvict(value = "problem", key = "'problemid' + #problemId")
      * */
     @RequestMapping("UpdateProblem")
-//    @CacheEvict(value = "problem", key = "'problemid' + #map['problemId']",beforeInvocation = true)
+    @CacheEvict(value = "problem", key = "'problemid' + #map['problemId']",beforeInvocation = true)
     public Message updateProblem(@RequestBody Map<String, Object> map) {
         try {
             Integer pid = (Integer) map.get("problemId");

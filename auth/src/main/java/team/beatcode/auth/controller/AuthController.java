@@ -53,7 +53,7 @@ public class AuthController {
         }
 
         // 身份
-        if (userAuth.getRole() == code) {
+        if (userAuth.getRole() == code || userAuth.getRole() == Macros.AUTH_CODE_ADMIN) {
             // 成功，Refresh
             tokenAuth.setLastFresh(currentTime);
             tokenAuthDao.save(tokenAuth);
