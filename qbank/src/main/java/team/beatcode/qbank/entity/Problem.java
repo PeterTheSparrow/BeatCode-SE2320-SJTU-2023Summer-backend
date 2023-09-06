@@ -1,6 +1,8 @@
 package team.beatcode.qbank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -11,7 +13,6 @@ import java.util.List;
 @Document(collection = "problem_mongo")
 public class Problem {
     @Id
-    @Field("_id")
     private String id;
 
     @Data
@@ -45,9 +46,8 @@ public class Problem {
     private List<Tag> tags;
 
     @Data
+    @NoArgsConstructor
     public static class Config {
-        @Field("type")
-        private String type;
         @Field("test_num")
         private Integer tests;
         /**
@@ -62,11 +62,11 @@ public class Problem {
         private Integer mLimit;
         @Field("output_limit")
         private Integer oLimit;
-        @Field("use_builtin_judger")
-        private String builtinJ;
-        @Field("use_builtin_checker")
-        private String builtinC;
     }
     @Field("config")
     private Config config;
+
+    @JsonIgnore
+    @Field("locked")
+    private Boolean locked;
 }

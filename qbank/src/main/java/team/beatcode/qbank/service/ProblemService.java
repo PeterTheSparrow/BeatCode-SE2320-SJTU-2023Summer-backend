@@ -12,4 +12,5 @@ public interface ProblemService {
                                          String problem_condition) throws MessageException;
 
     ProblemReturn.Detail getProblemDetail(Integer problemId);
+    int getProblemVersion(Integer problemId);
 }

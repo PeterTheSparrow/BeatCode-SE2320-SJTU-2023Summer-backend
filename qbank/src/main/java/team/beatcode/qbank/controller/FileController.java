@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import team.beatcode.qbank.utils.Macros;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 
 @RestController
 public class FileController {
     public ResponseEntity<StreamingResponseBody> getFileFromPath(String path) {
-        if (path == null) {
+        // 补充：考虑了文件不存在的情况
+        if (path == null || !new File(path).isFile()) {
             return ResponseEntity.noContent().build();
         }
 
@@ -22,7 +24,9 @@ public class FileController {
         StreamingResponseBody responseBody = outputStream -> {
             try (FileInputStream fileInputStream = new FileInputStream(path)) {
                 fileInputStream.transferTo(outputStream);
-            } catch (IOException e) {
+            } catch (FileNotFoundException e) {
+                // 文件消失，关闭输出
+                outputStream.close();
                 e.printStackTrace();
             }
         };
@@ -39,7 +43,7 @@ public class FileController {
      */
     @RequestMapping("/GetTestCase")
     public ResponseEntity<StreamingResponseBody> getTestCase(@RequestParam int pid) {
-        return getFileFromPath(Macros.getTestCaseFilePath(pid));
+        return getFileFromPath(Macros.testcaseZippedPath(pid));
     }
 
 }

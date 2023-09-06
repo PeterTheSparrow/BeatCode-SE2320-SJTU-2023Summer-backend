@@ -73,7 +73,7 @@ public class FileControllerTest {
     @Test
     public void testGetTestCase_从路径读取文件() {
         int pid = 1;
-        String expectedFilePath = Macros.getTestCaseFilePath(pid);
+        String expectedFilePath = Macros.testcaseZippedPath(pid);
 
         // 调用被测试的方法
         ResponseEntity<StreamingResponseBody> response = fileController.getTestCase(pid);
