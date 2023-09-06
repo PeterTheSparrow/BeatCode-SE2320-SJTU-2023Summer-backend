@@ -12,45 +12,45 @@ public class PushHandler extends AbstractWebSocketHandler {
 
     //******************************************公开配置
 
-    public static final String ATTRIBUTES_TOKEN_STRING = "Token";
+    public static final String ATTRIBUTES_USERID_INTEGER = "UserId";
 
     //******************************************内部配置
 
     /**
      * 兼容并行的哈希表，Key用来唯一标识一个用户，存储现存的用户连接
-     * Key存在WebSocketSession中，这里就用用户的Token当身份了
+     * Key存在WebSocketSession中，使用用户的Id当作Key
      */
-    private static final Map<String, WebSocketSession> users =
+    private static final Map<Integer, WebSocketSession> users =
             new ConcurrentHashMap<>();
 
-    private String getTokenInSession(@NonNull WebSocketSession session) {
-        Object token = session.getAttributes().get(ATTRIBUTES_TOKEN_STRING);
-        if (token == null) {
+    private Integer getUserIdInSession(@NonNull WebSocketSession session) {
+        Object uid = session.getAttributes().get(ATTRIBUTES_USERID_INTEGER);
+        if (uid == null) {
             System.out.printf(
                     "Session doesn't contain attribute %s: \n\t%s\n",
-                    ATTRIBUTES_TOKEN_STRING,
+                    ATTRIBUTES_USERID_INTEGER,
                     session);
             return null;
         }
-        else return (String) token;
+        else return (Integer) uid;
     }
 
     //******************************************独特业务
 
-    public void sendTextToUser(String token, String content) {
-        WebSocketSession session = users.get(token);
+    public void sendTextToUser(Integer uid, String content) {
+        WebSocketSession session = users.get(uid);
         if (session != null && session.isOpen()) {
             try {
                 session.sendMessage(new TextMessage(content));
             } catch (IOException e) {
                 System.out.printf(
                         "IOE when sending text to user %s\n\t\ncontent: %s",
-                        token, content);
+                        uid, content);
             }
         }
         else {
             System.out.printf("Can't find user %s and can't send %s\n",
-                    token, content);
+                    uid, content);
         }
     }
 
@@ -63,11 +63,11 @@ public class PushHandler extends AbstractWebSocketHandler {
     public void afterConnectionEstablished(@NonNull WebSocketSession session) {
         System.out.println("get connected");
         System.out.printf("Attributes: %s\n", session.getAttributes());
-        String token = getTokenInSession(session);
-        if (token != null) {
-            users.put(token, session);
-            String info = String.format("User %s connected", token);
-            sendTextToUser(token, info);
+        Integer uid = getUserIdInSession(session);
+        if (uid != null) {
+            users.put(uid, session);
+            String info = String.format("User %s connected", uid);
+            sendTextToUser(uid, info);
             System.out.println(info);
         }
     }
@@ -79,13 +79,13 @@ public class PushHandler extends AbstractWebSocketHandler {
     public void afterConnectionClosed(@NonNull WebSocketSession session,
                                       @NonNull CloseStatus status) {
         System.out.println("dis connected");
-        String token = this.getTokenInSession(session);
-        if (token != null) {
-            users.remove(token);
-            System.out.printf("User %s disconnected\n", token);
+        Integer uid = this.getUserIdInSession(session);
+        if (uid != null) {
+            users.remove(uid);
+            System.out.printf("User %s disconnected\n", uid);
         } else {
             System.out.printf(
-                    "User close session but no token\n\t%s\n",
+                    "User close session but no UserId\n\t%s\n",
                     session);
         }
     }

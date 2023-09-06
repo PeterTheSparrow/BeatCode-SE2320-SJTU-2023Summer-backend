@@ -13,7 +13,7 @@ public class SocketController {
     PushHandler pushHandler;
 
     @RequestMapping("inform")
-    public void judgeFinished(@RequestParam String token, @RequestParam String msg) {
-        pushHandler.sendTextToUser(token, msg);
+    public void judgeFinished(@RequestParam Integer uid, @RequestParam String msg) {
+        pushHandler.sendTextToUser(uid, msg);
     }
 }
