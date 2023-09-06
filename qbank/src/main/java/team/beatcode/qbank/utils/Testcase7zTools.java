@@ -1,5 +1,6 @@
 package team.beatcode.qbank.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import team.beatcode.qbank.entity.Problem;
 
@@ -17,14 +18,18 @@ import java.util.stream.Stream;
  */
 public class Testcase7zTools {
 
+    //**********************************************yml配置
+
+    @Value("${utils.extraction.executable}")
+    private static String executable7zPathYml;
+
     //**********************************************配置
 
     /**
      * 7z运行文件的地址
      */
     private static final String executable7zPath =
-            "7z"
-            .replace("/", File.separator);
+            executable7zPathYml.replace("/", File.separator);
     private static String configFilePath(String task) {
         return String.format("%s%s%s",
                 testcaseTempUnzipPath(task), File.separator, "problem.conf");

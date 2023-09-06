@@ -3,6 +3,7 @@ package team.beatcode.judge.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PreDestroy;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class FileVersionMap {
 
+    //**********************************************yml配置
+
+    @Value("${utils.fileVersion.jsonPath}")
+    private static String jsonFilePathYml;
+
     //**********************************************配置
 
     private static final Map<String, Integer> versionMap;
@@ -28,8 +34,7 @@ public class FileVersionMap {
     private static final ObjectMapper mapper;
 
     private static final String jsonFilePath =
-            "/usr/tmp/BeatCode/data/version.json"
-                    .replace("/", File.separator);
+            jsonFilePathYml.replace("/", File.separator);
 
     static {
         mapper = new ObjectMapper();
