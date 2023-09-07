@@ -2,6 +2,7 @@ package team.beatcode.judge.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,26 +24,24 @@ public class FileVersionMap {
 
     //**********************************************yml配置
 
-    private static String jsonFilePathYml;
     @Value("${utils.fileVersion.jsonPath}")
     private void setJsonFilePathYml(String s) {
-        jsonFilePathYml = s;
+        jsonFilePath = s.replace("/", File.separator);
     }
 
     //**********************************************配置
 
-    private static final Map<String, Integer> versionMap;
+    private static Map<String, Integer> versionMap;
 
-    private static final ScheduledExecutorService executorService;
+    private static ScheduledExecutorService executorService;
     private static final int executorServiceDelaySecond = 120;
 
-    private static final ObjectMapper mapper;
+    private static ObjectMapper mapper;
 
-    private static String jsonFilePath() {
-        return jsonFilePathYml.replace("/", File.separator);
-    }
+    private static String jsonFilePath;
 
-    static {
+    @PostConstruct // initialize after Bean creation
+    private void init() {
         mapper = new ObjectMapper();
         versionMap = loadFileVersionsFromJson();
 
@@ -70,7 +69,7 @@ public class FileVersionMap {
 
     private static Map<String, Integer> loadFileVersionsFromJson() {
         try {
-            File jsonFile = new File(jsonFilePath());
+            File jsonFile = new File(jsonFilePath);
             if (jsonFile.exists() && jsonFile.length() > 0)
                 return mapper.readValue(jsonFile, new TypeReference<>() {});
         } catch (IOException e) {
@@ -81,7 +80,7 @@ public class FileVersionMap {
 
     private static synchronized void saveFileVersionsToJson() {
         try {
-            mapper.writeValue(new File(jsonFilePath()), versionMap);
+            mapper.writeValue(new File(jsonFilePath), versionMap);
         } catch (IOException e) {
             e.printStackTrace();
         }
