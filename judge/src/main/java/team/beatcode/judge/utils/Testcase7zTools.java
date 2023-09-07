@@ -27,20 +27,23 @@ public class Testcase7zTools {
     /**
      * 7z运行文件的地址
      */
-    private static final String executable7zPath =
-            executable7zPathYml.replace("/", File.separator);
+    private static String executable7zPath() {
+        return executable7zPathYml.replace("/", File.separator);
+    }
 
     /**
      * 压缩包下载到的文件夹，不是最终的地址
      */
-    private static final String testcaseDownloadDirPath =
-            testcaseDownloadDirPathYml.replace("/", File.separator);
+    private static String testcaseDownloadDirPath() {
+        return testcaseDownloadDirPathYml.replace("/", File.separator);
+    }
 
     /**
      * 压缩包解压到的文件夹，工作位置
      */
-    private static final String testcaseWorkingDirPath =
-            testcaseWorkingDirPathYml.replace("/", File.separator);
+    private static String testcaseWorkingDirPath() {
+        return testcaseWorkingDirPathYml.replace("/", File.separator);
+    }
 
     /**
      * @param pid 题号
@@ -49,7 +52,7 @@ public class Testcase7zTools {
     private static String testcaseDownloadPath(int pid) {
         return String.format("%s%s%d.bin",
                 // 不带后缀名会导致极其傻逼的权限冲突
-                testcaseDownloadDirPath, File.separator, pid);
+                testcaseDownloadDirPath(), File.separator, pid);
     }
 
     /**
@@ -58,7 +61,7 @@ public class Testcase7zTools {
      */
     private static String testcaseWorkingPath(int pid) {
         return String.format("%s%s%d",
-                testcaseWorkingDirPath, File.separator, pid);
+                testcaseWorkingDirPath(), File.separator, pid);
     }
 
     //**********************************************内部工具函数
@@ -116,7 +119,7 @@ public class Testcase7zTools {
             }
 
             String[] command = {
-                    executable7zPath,
+                    executable7zPath(),
                     "x",
                     testcaseDownloadPath(pid),
                     "-o" + testcaseWorkingPath(pid),
@@ -165,16 +168,16 @@ public class Testcase7zTools {
      * @return 目标文件。不保证目标文件存在。
      */
     public static File compressed(int pid) {
-        File container = new File(testcaseDownloadDirPath);
+        File container = new File(testcaseDownloadDirPath());
         if (container.isFile()) {
             if (!container.delete()) {
-                System.out.println("Can't delete file " + testcaseDownloadDirPath);
+                System.out.println("Can't delete file " + testcaseDownloadDirPath());
                 return null;
             }
         }
         if (!container.exists()) {
             if (!container.mkdirs()) {
-                System.out.println("Can't create dir " + testcaseDownloadDirPath);
+                System.out.println("Can't create dir " + testcaseDownloadDirPath());
                 return null;
             }
         }

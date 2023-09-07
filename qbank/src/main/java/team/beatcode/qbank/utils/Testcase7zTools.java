@@ -28,8 +28,9 @@ public class Testcase7zTools {
     /**
      * 7z运行文件的地址
      */
-    private static final String executable7zPath =
-            executable7zPathYml.replace("/", File.separator);
+    private static String executable7zPath() {
+        return executable7zPathYml.replace("/", File.separator);
+    }
     private static String configFilePath(String task) {
         return String.format("%s%s%s",
                 testcaseTempUnzipPath(task), File.separator, "problem.conf");
@@ -41,7 +42,7 @@ public class Testcase7zTools {
      */
     private static String testcaseTempDirPath(String task) {
         return String.format("%s%s%s%s",
-                Macros.testcaseDirectoryPath, File.separator, "tmp", task);
+                Macros.testcaseDirectoryPath(), File.separator, "tmp", task);
     }
 
     /**
@@ -115,7 +116,7 @@ public class Testcase7zTools {
     public static boolean unzipToTmp(String task) {
         try {
             String[] command = {
-                    executable7zPath,
+                    executable7zPath(),
                     "x",
                     testcaseTempZippedPath(task),
                     "-o" + testcaseTempUnzipPath(task),

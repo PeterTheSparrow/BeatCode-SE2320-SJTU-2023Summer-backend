@@ -1,13 +1,11 @@
 package team.beatcode.qbank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sjtu.reins.web.utils.Message;
-import org.springframework.data.domain.Page;
 import team.beatcode.qbank.entity.Problem;
 import team.beatcode.qbank.entity.ProblemReturn;
 import team.beatcode.qbank.entity.UserCondition;
@@ -89,6 +87,7 @@ public class ProblemController {
             System.out.println("pageSize: " + map.get(Macros.PARAM_PAGE_SIZE));
             System.out.println("titleContains: " + map.get(Macros.PARAM_TITLE_KEY));
             System.out.println("hardLevel: " + map.get(Macros.PARAM_HARD_LEVEL));
+            e.printStackTrace();
 
             return new Message(MessageEnum.PARAM_FAIL);
         }
