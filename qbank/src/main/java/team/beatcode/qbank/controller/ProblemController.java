@@ -9,7 +9,7 @@ import sjtu.reins.web.utils.Message;
 import team.beatcode.qbank.entity.Problem;
 import team.beatcode.qbank.entity.ProblemReturn;
 import team.beatcode.qbank.entity.UserCondition;
-import team.beatcode.qbank.service.ConditionService;
+import team.beatcode.qbank.feign.UserFeign;
 import team.beatcode.qbank.service.ProblemService;
 import team.beatcode.qbank.utils.Macros;
 import team.beatcode.qbank.utils.msg.MessageEnum;
@@ -26,7 +26,7 @@ public class ProblemController {
 
     ProblemService problemService;
     @Autowired
-    ConditionService conditionService;
+    UserFeign userFeign;
 
     public ProblemController(ProblemService problemService) {
         this.problemService = problemService;
@@ -70,12 +70,14 @@ public class ProblemController {
 
 
             //get user-problem condition
-            UserCondition userCondition=conditionService.GetUserCondition(user_id);
-            String user_problem_condition=userCondition.getProblemCondition();
+            UserCondition userCondition = userFeign.getUserConditionById(user_id);
 
-            ProblemReturn.Paged result =
-                    problemService.getProblemListEx(
-                            titleContains, hardLevel, pageIndex - 1, pageSize, user_problem_condition);
+            ProblemReturn.Paged result = problemService.getProblemListEx(
+                    titleContains,
+                    hardLevel,
+                    pageIndex - 1,
+                    pageSize,
+                    userCondition.getProblemCondition());
             return new Message(MessageEnum.SUCCESS, result);
         }
         catch (NullPointerException e) {

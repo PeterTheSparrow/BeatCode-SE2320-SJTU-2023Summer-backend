@@ -6,6 +6,7 @@ import team.beatcode.qbank.entity.ProblemReturn;
 import team.beatcode.qbank.utils.msg.MessageException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProblemService {
 
@@ -13,7 +14,7 @@ public interface ProblemService {
                                          String difficulty,
                                          Integer pageIndex,
                                          Integer pageSize,
-                                         String problem_condition) throws MessageException;
+                                         Map<String, Integer> problem_condition) throws MessageException;
 
     ProblemReturn.Detail getProblemDetail(Integer problemId);
     int getProblemVersion(Integer problemId);

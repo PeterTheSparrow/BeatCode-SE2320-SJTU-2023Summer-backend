@@ -12,6 +12,7 @@ import team.beatcode.qbank.utils.msg.MessageEnum;
 import team.beatcode.qbank.utils.msg.MessageException;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProblemServiceImp implements ProblemService {
@@ -21,12 +22,12 @@ public class ProblemServiceImp implements ProblemService {
         this.problemDao = problemDao;
     }
 
-    @Override
+    @Override // Test爆了，后续再说
     public ProblemReturn.Paged getProblemListEx(String titleContains,
                                                 String difficulty,
                                                 Integer pageIndex,
                                                 Integer pageSize,
-                                                String problem_condition)
+                                                Map<String, Integer> problem_condition)
             throws MessageException {
         if (Macros.correctHardLevel(difficulty)) {
             Page<Problem> problems = problemDao.findByAll(titleContains,
@@ -35,7 +36,14 @@ public class ProblemServiceImp implements ProblemService {
                 throw new MessageException(MessageEnum.SEARCH_PAGE_FAULT);
 
             return new ProblemReturn.Paged(
-                    problems.stream().map(p -> new ProblemReturn(p, problem_condition)).toList(),
+                    problems.stream().map(
+                            p -> {
+                                Integer score = problem_condition.get(
+                                        p.getTitle().getId().toString());
+                                return new ProblemReturn(
+                                        p,
+                                        score == null ? "" : score.toString());
+                            }).toList(),
                     problems.getTotalPages());
         }
         else

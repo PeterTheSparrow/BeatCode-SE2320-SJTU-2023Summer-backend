@@ -3,8 +3,6 @@ package team.beatcode.qbank.entity;
 import lombok.*;
 
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  * 返回题库首页的题目信息
@@ -24,15 +22,7 @@ public class ProblemReturn {
         this.title = problem.getTitle().getName();
         this.tags = problem.getTags();
         this.difficulty = problem.getDifficulty();
-        //get the regex of single problem
-        String regex="<"+this.id.toString()+">([\\s\\S]*)</"+this.id.toString()+">";
-        Pattern pattern= Pattern.compile(regex);
-        Matcher matcher= pattern.matcher(problem_condition);
-        if(matcher.find())
-        {
-            condition=matcher.group(1);
-        }
-        else condition="";
+        this.condition = problem_condition;
     }
     public ProblemReturn(Problem problem) {
         this.id = problem.getTitle().getId();
