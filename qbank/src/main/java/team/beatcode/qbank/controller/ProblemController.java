@@ -114,7 +114,7 @@ public class ProblemController {
         String problemCondition = (String) map.get("problemCondition");
 
         List<Integer> ProblemIds = new ArrayList<>();
-        Pattern pattern = Pattern.compile("<(\\d+)>");
+        Pattern pattern = Pattern.compile("<(\\d+)>100</\\1>");
         Matcher matcher = pattern.matcher(problemCondition);
 
         while (matcher.find()) {

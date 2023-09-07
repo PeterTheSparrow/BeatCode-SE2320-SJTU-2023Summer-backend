@@ -10,10 +10,12 @@ import java.util.List;
 public class User_problem {
     String problemId;
     String problemTitle;
+    String problemDifficulty;
 
     public User_problem(Problem problem) {
-        this.problemId= problem.getTitle().getId().toString();
-        this.problemTitle= problem.getTitle().getName();
+        this.problemId = problem.getTitle().getId().toString();
+        this.problemTitle = problem.getTitle().getName();
+        this.problemDifficulty = problem.getDifficulty();
     }
 
     @Data

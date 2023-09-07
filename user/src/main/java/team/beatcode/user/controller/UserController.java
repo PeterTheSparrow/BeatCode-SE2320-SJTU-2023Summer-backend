@@ -179,39 +179,19 @@ public class UserController {
     @RequestMapping("/getProblemList")
     public Message getProblemList(@RequestBody Map<String, Object> map) {
         try{
-            System.out.println("breakpoint0");
             Integer pageIndex = (Integer) map.get(PAGE_INDEX);
-            System.out.println("breakpoint1, pageIndex = " + pageIndex);
             Integer pageSize = (Integer) map.get(PAGE_SIZE);
-            System.out.println("breakpoint2, pageSize = " + pageSize);
             String userId = (String) map.get(USER_CONTEXT_ID);
-            System.out.println("breakpoint3, userId = " + userId);
             if (pageIndex == null || pageSize == null)
                 return new Message(MsgEnum.FAIL);
-
-            System.out.println("breakpoint4");
-
             if (pageIndex <= 0)
                 return new Message(MsgEnum.PAGE_NEGATIVE);
-
-            System.out.println("breakpoint5");
-
             if (pageSize <= 1)
                 return new Message(MsgEnum.PAGE_MALICE);
 
-            System.out.println("breakpoint6");
-
             UserCondition userCondition = userService.getUserCondition(userId);
-
-            System.out.println("breakpoint7");
-
             String problemCondition = userCondition.getProblemCondition();
-
-            System.out.println("breakpoint8");
-
             User_problem.Paged result = userService.getProblemList(pageIndex-1, pageSize, problemCondition);
-
-            System.out.println("breakpoint9");
 
             return new Message(MsgEnum.SUCCESS, result);
         }
