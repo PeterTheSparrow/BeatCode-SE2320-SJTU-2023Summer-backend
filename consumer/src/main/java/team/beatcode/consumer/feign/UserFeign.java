@@ -46,5 +46,8 @@ public interface UserFeign {
 
     @RequestMapping("/getProblemList")
     Message getProblemList(@RequestBody Map<String, Object> map);
+
+    @RequestMapping("/getUserActivity")
+    Message getUserActivity(@RequestBody Map<String, Object> map);
 }
 

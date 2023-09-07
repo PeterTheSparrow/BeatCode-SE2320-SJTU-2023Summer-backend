@@ -28,4 +28,6 @@ public interface UserService {
     UserCondition getUserCondition(String userId);
 
     User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, String problemCondition);
+
+    List<User_activity> getUserActivity(String userActivity, String year);
 }

@@ -11,9 +11,12 @@ import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -110,4 +113,22 @@ public class UserServiceImpl implements UserService{
                 problems.stream().map(User_problem::new).toList(),
                 problems.getTotalPages());
     }
+
+    @Override
+    public List<User_activity> getUserActivity(String userActivity, String year) {
+        List<User_activity> userActivities = new ArrayList<>();
+        String regex = "<(" + year + "/[0-9]{2}/[0-9]{2})>([0-9]+)</\\1>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(userActivity);
+
+        while (matcher.find()) {
+            User_activity userActivity1 = new User_activity();
+            userActivity1.setDate(matcher.group(1));
+            userActivity1.setCount(Integer.parseInt(matcher.group(2)));
+            userActivities.add(userActivity1);
+        }
+
+        return userActivities;
+    }
+
 }

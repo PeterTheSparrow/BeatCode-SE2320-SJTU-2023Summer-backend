@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.beatcode.user.utils.MsgEnum;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,6 +193,26 @@ public class UserController {
             UserCondition userCondition = userService.getUserCondition(userId);
             String problemCondition = userCondition.getProblemCondition();
             User_problem.Paged result = userService.getProblemList(pageIndex-1, pageSize, problemCondition);
+
+            return new Message(MsgEnum.SUCCESS, result);
+        }
+        catch (Exception e){
+            return new Message(MsgEnum.FAIL);
+        }
+    }
+
+    @RequestMapping("/getUserActivity")
+    public Message getUserActivity(@RequestBody Map<String, Object> map) {
+        try {
+            String userId = (String) map.get(USER_CONTEXT_ID);
+            Calendar calendar = Calendar.getInstance();
+            int yearInt = calendar.get(Calendar.YEAR);
+            String year = Integer.toString(yearInt);
+
+            UserCondition userCondition = userService.getUserCondition(userId);
+            String userActivity = userCondition.getUserActivity();
+            System.out.println(userActivity);
+            List<User_activity> result = userService.getUserActivity(userActivity, year);
 
             return new Message(MsgEnum.SUCCESS, result);
         }

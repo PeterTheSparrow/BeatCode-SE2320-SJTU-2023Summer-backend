@@ -21,4 +21,6 @@ public class UserCondition {
     private String userName;
     @Field("ACount")
     private int ACount;
+    @Field("User_activity")
+    private String UserActivity;
 }

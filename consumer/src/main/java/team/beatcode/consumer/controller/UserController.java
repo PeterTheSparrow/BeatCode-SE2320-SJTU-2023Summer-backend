@@ -62,4 +62,7 @@ public class UserController {
 
     @RequestMapping("/getProblemList")
     public Message getProblemList(@RequestBody Map<String, Object> map){return userFeign.getProblemList(map);}
+
+    @RequestMapping("/getUserActivity")
+    public Message getUserActivity(@RequestBody Map<String, Object> map){return userFeign.getUserActivity(map);}
 }
