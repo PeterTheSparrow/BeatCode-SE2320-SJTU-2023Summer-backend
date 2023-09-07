@@ -33,8 +33,9 @@ public class FileVersionMap {
 
     private static final ObjectMapper mapper;
 
-    private static final String jsonFilePath =
-            jsonFilePathYml.replace("/", File.separator);
+    private static String jsonFilePath() {
+        return jsonFilePathYml.replace("/", File.separator);
+    }
 
     static {
         mapper = new ObjectMapper();
@@ -64,7 +65,7 @@ public class FileVersionMap {
 
     private static Map<String, Integer> loadFileVersionsFromJson() {
         try {
-            File jsonFile = new File(jsonFilePath);
+            File jsonFile = new File(jsonFilePath());
             if (jsonFile.exists() && jsonFile.length() > 0)
                 return mapper.readValue(jsonFile, new TypeReference<>() {});
         } catch (IOException e) {
@@ -75,7 +76,7 @@ public class FileVersionMap {
 
     private static synchronized void saveFileVersionsToJson() {
         try {
-            mapper.writeValue(new File(jsonFilePath), versionMap);
+            mapper.writeValue(new File(jsonFilePath()), versionMap);
         } catch (IOException e) {
             e.printStackTrace();
         }

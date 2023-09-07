@@ -41,8 +41,9 @@ public class Macros {
     /**
      题库文件存放在这个文件夹中
      */
-    public static final String testcaseDirectoryPath =
-            testcaseDirectoryPathYml.replace("/", File.separator);
+    public static String testcaseDirectoryPath() {
+        return testcaseDirectoryPathYml.replace("/", File.separator);
+    }
     /**
      * 注：7z可以自动识别文件的压缩方式和格式，不需要带后缀名。后缀名与实际格式不符会报警
      * @param pid 题号
@@ -50,6 +51,6 @@ public class Macros {
      */
     public static String testcaseZippedPath(int pid) {
         return String.format("%s%s%d",
-                testcaseDirectoryPath, File.separator, pid);
+                testcaseDirectoryPath(), File.separator, pid);
     }
 }
