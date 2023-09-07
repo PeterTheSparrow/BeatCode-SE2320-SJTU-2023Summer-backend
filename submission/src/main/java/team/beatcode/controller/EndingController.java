@@ -36,6 +36,6 @@ public class EndingController {
         // 发送WebSocket到用户
         socketFeign.judgeFinished(
                 Integer.parseInt(submission.getUserId()),
-                "Judge Finished");
+                String.format("Judge Finish: %s", submission.getProblemId()));
     }
 }
