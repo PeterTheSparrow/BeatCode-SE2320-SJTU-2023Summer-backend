@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,12 +18,16 @@ import java.util.concurrent.TimeUnit;
  * 该类用于与本地版本文件同步信息
  * 设计成了单例的
  */
+@Component
 public class FileVersionMap {
 
     //**********************************************yml配置
 
-    @Value("${utils.fileVersion.jsonPath}")
     private static String jsonFilePathYml;
+    @Value("${utils.fileVersion.jsonPath}")
+    private void setJsonFilePathYml(String s) {
+        jsonFilePathYml = s;
+    }
 
     //**********************************************配置
 

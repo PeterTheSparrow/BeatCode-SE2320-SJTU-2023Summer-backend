@@ -1,6 +1,7 @@
 package team.beatcode.judge.utils;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 
@@ -9,18 +10,28 @@ import java.io.*;
  * 获取压缩文件并解压到指定位置
  * 迁移自QBank
  */
+@Component
 public class Testcase7zTools {
 
     //**********************************************yml配置
 
-    @Value("${utils.extraction.executable}")
     private static String executable7zPathYml;
+    @Value("${utils.extraction.executable}")
+    private void setExecutable7zPathYml(String s) {
+        executable7zPathYml = s;
+    }
 
-    @Value("${utils.extraction.download}")
     private static String testcaseDownloadDirPathYml;
+    @Value("${utils.extraction.download}")
+    private void setTestcaseDownloadDirPathYml(String s) {
+        testcaseDownloadDirPathYml = s;
+    }
 
-    @Value("${utils.extraction.destination}")
     private static String testcaseWorkingDirPathYml;
+    @Value("${utils.extraction.destination}")
+    private void setTestcaseWorkingDirPathYml(String s) {
+        testcaseWorkingDirPathYml = s;
+    }
 
     //**********************************************配置
 

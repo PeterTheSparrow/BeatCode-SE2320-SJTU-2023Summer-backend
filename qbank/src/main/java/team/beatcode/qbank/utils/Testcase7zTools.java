@@ -1,6 +1,7 @@
 package team.beatcode.qbank.utils;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import team.beatcode.qbank.entity.Problem;
 
@@ -16,12 +17,16 @@ import java.util.stream.Stream;
  * 本地存储压缩版本的题目内容
  * 管理员上传新文件后，先下载到临时文件夹，解压、检查通过后更新数据库、应用新题目文件
  */
+@Component
 public class Testcase7zTools {
 
     //**********************************************yml配置
 
-    @Value("${utils.extraction.executable}")
     private static String executable7zPathYml;
+    @Value("${utils.extraction.executable}")
+    private void setExecutable7zPathYml(String s) {
+        executable7zPathYml = s;
+    }
 
     //**********************************************配置
 

@@ -1,13 +1,18 @@
 package team.beatcode.qbank.utils;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Arrays;
 
+@Component
 public class Macros {
-    @Value("${utils.fileVersion.storage}")
     private static String testcaseDirectoryPathYml;
+    @Value("${utils.fileVersion.storage}")
+    private void setTestcaseDirectoryPathYml(String s) {
+        testcaseDirectoryPathYml = s;
+    }
 
     public static final String PARAM_PAGE = "pageIndex";
     public static final String PARAM_PAGE_SIZE = "pageSize";
