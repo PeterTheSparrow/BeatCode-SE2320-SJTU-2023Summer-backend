@@ -15,7 +15,7 @@ public class UserCondition {
      * Key: 题号
      * Value: 分数
      */
-    private LinkedHashMap<Integer, Integer> problemCondition;
+    private LinkedHashMap<String, Integer> problemCondition;
     /**
      * Key: 日期
      * Value: 提交数
