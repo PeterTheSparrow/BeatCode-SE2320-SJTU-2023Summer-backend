@@ -117,16 +117,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User_activity> getUserActivity(String userActivity, String year) {
+    public List<User_activity> getUserActivity(LinkedHashMap<String,Integer> userActivity, String year) {
         List<User_activity> userActivities = new ArrayList<>();
-        String regex = "<(" + year + "/[0-9]{2}/[0-9]{2})>([0-9]+)</\\1>";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(userActivity);
-
-        while (matcher.find()) {
+        for (String key : userActivity.keySet()) {
+            Integer value = userActivity.get(key);
             User_activity userActivity1 = new User_activity();
-            userActivity1.setDate(matcher.group(1));
-            userActivity1.setCount(Integer.parseInt(matcher.group(2)));
+            userActivity1.setDate(key);
+            userActivity1.setCount(value);
             userActivities.add(userActivity1);
         }
 

@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.user.entity.UserCondition;
 import team.beatcode.user.service.ConditionService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @RestController
 public class ConditionController {
@@ -40,6 +43,7 @@ public class ConditionController {
         // todo 搬到service并处理并发锁？
         UserCondition userCondition = conditionService.GetUserCondition(user_id);
 
+        //modify the problem condition
         LinkedHashMap<String, Integer> pCond = userCondition.getProblemCondition();
         Integer originScore = pCond.get(problem_id);
         if (originScore == null || originScore < score) {
@@ -47,12 +51,16 @@ public class ConditionController {
             userCondition.setProblemCondition(pCond);
         }
 
-        LinkedHashMap<String, Integer> uAct = userCondition.getUserActivity();
-        uAct.merge(date, 1, Integer::sum);
-        userCondition.setUserActivity(uAct);
 
         if ((originScore == null || originScore != 100) && score == 100)
             userCondition.setACount(userCondition.getACount() + 1);
+
+        //add to activity
+        LinkedHashMap<String, Integer> uAct = userCondition.getUserActivity();
+        String formattedDate = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                                                    .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        uAct.merge(formattedDate, 1, Integer::sum);
+        userCondition.setUserActivity(uAct);
 
         conditionService.saveUserCondition(userCondition);
     }

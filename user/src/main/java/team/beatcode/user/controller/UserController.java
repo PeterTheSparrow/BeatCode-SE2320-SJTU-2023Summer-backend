@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.beatcode.user.utils.MsgEnum;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static team.beatcode.user.utils.Macros.*;
 
@@ -215,7 +212,7 @@ public class UserController {
             String year = Integer.toString(yearInt);
 
             UserCondition userCondition = userService.getUserCondition(userId);
-            String userActivity = userCondition.getUserActivity();
+            LinkedHashMap<String,Integer> userActivity = userCondition.getUserActivity();
             System.out.println(userActivity);
             List<User_activity> result = userService.getUserActivity(userActivity, year);
 

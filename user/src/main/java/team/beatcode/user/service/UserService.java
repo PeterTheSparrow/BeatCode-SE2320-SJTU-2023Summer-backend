@@ -2,6 +2,7 @@ package team.beatcode.user.service;
 
 import team.beatcode.user.entity.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public interface UserService {
@@ -29,5 +30,5 @@ public interface UserService {
 
     User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, UserCondition problemCondition);
 
-    List<User_activity> getUserActivity(String userActivity, String year);
+    List<User_activity> getUserActivity(LinkedHashMap<String,Integer> userActivity, String year);
 }
