@@ -15,11 +15,8 @@ import team.beatcode.qbank.utils.Macros;
 import team.beatcode.qbank.utils.msg.MessageEnum;
 import team.beatcode.qbank.utils.msg.MessageException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 public class ProblemController {
@@ -112,18 +109,8 @@ public class ProblemController {
     public Page<Problem> getUserProblem(@RequestBody Map<String, Object> map){
         Integer pageIndex = (Integer) map.get("pageIndex");
         Integer pageSize = (Integer) map.get("pageSize");
-        String problemCondition = (String) map.get("problemCondition");
-
-        List<Integer> ProblemIds = new ArrayList<>();
-        Pattern pattern = Pattern.compile("<(\\d+)>100</\\1>");
-        Matcher matcher = pattern.matcher(problemCondition);
-
-        while (matcher.find()) {
-            String numberStr = matcher.group(1);
-            Integer number = Integer.parseInt(numberStr);
-            ProblemIds.add(number);
-        }
-
-       return problemService.getUserProblem(ProblemIds, pageIndex, pageSize);
+        List<Integer> problemIds = ((List<String>) map.get("problemIds"))
+                .stream().map(Integer::parseInt).toList();
+       return problemService.getUserProblem(problemIds, pageIndex, pageSize);
     }
 }

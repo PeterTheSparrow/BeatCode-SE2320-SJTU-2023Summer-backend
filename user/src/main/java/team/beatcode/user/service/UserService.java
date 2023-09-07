@@ -27,7 +27,7 @@ public interface UserService {
 
     UserCondition getUserCondition(String userId);
 
-    User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, String problemCondition);
+    User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, UserCondition problemCondition);
 
     List<User_activity> getUserActivity(String userActivity, String year);
 }

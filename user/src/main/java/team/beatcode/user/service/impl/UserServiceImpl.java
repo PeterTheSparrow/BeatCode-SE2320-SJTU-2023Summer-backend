@@ -11,10 +11,7 @@ import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -98,11 +95,16 @@ public class UserServiceImpl implements UserService{
     public UserCondition getUserCondition(String userId) {return userDao.getUserCondition(userId);}
 
     @Override
-    public User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, String problemCondition) {
+    public User_problem.Paged getProblemList(Integer pageIndex, Integer pageSize, UserCondition problemCondition) {
         Map<String, Object> map = new HashMap<>();
         map.put("pageIndex", pageIndex);
         map.put("pageSize", pageSize);
-        map.put("problemCondition", problemCondition);
+        LinkedHashMap<String, Integer> problemIds = problemCondition.getProblemCondition();
+        List<String> list = new ArrayList<>();
+        problemIds.forEach((k, v) -> {
+            if (v == 100) list.add(k);
+        });
+        map.put("problemIds", list);
         Page<Problem> problems = qbankFeign.getUserProblem(map);
 
         if(problems==null){

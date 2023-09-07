@@ -197,8 +197,7 @@ public class UserController {
                 return new Message(MsgEnum.PAGE_MALICE);
 
             UserCondition userCondition = userService.getUserCondition(userId);
-            String problemCondition = userCondition.getProblemCondition();
-            User_problem.Paged result = userService.getProblemList(pageIndex-1, pageSize, problemCondition);
+            User_problem.Paged result = userService.getProblemList(pageIndex - 1, pageSize, userCondition);
 
             return new Message(MsgEnum.SUCCESS, result);
         }
