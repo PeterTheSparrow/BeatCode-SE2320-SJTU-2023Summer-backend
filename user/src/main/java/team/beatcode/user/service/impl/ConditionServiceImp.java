@@ -33,5 +33,7 @@ public class ConditionServiceImp implements ConditionService {
         Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
         return conditionDao.findAll(pageable);
     }
+    @Override
+    public UserCondition SaveUserCondition(UserCondition userCondition){return conditionDao.SaveUserCondition(userCondition);}
 
 }

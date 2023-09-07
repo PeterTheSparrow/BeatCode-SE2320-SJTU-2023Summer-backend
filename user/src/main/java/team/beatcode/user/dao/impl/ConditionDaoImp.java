@@ -20,4 +20,6 @@ public class ConditionDaoImp implements ConditionDao {
     }
     @Override
     public Page<UserCondition> findAll(Pageable pageable){return conditionRepository.findAll(pageable);}
+    @Override
+    public UserCondition SaveUserCondition(UserCondition userCondition){return conditionRepository.save(userCondition);}
 }
