@@ -32,4 +32,15 @@ public class UserCondition {
      */
     @Field("User_activity")
     private LinkedHashMap<String, Integer> UserActivity;
+
+    public UserCondition(String UserId, String UserName)
+    {
+        userId=UserId;
+        userName=UserName;
+        ACount=0;
+    }
+    public UserCondition()
+    {
+        ACount=0;
+    }
 }

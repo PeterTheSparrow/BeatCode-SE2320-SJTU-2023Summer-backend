@@ -3,6 +3,7 @@ package team.beatcode.user.controller;
 import sjtu.reins.web.utils.Message;
 import team.beatcode.user.entity.*;
 import team.beatcode.user.feign.AuthFeign;
+import team.beatcode.user.service.ConditionService;
 import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ConditionService conditionService;
 
     @Autowired
     private AuthFeign authFeign;
@@ -39,6 +42,9 @@ public class UserController {
         String phone = (String) data.get(USER_CONTEXT_PHONE);
 
         userService.register(userId, userName, email, phone);
+
+        UserCondition userCondition=new UserCondition(userId.toString(),userName);
+        conditionService.saveUserCondition(userCondition);
     }
 
     @RequestMapping("/ranks")
@@ -268,5 +274,6 @@ public class UserController {
             return new Message(MsgEnum.CODE_EXPIRED);
         }
     }
+
 }
 
