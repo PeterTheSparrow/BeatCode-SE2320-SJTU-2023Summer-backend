@@ -3,7 +3,6 @@ package team.beatcode.user.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 import team.beatcode.user.dao.ConditionDao;
 import team.beatcode.user.entity.UserCondition;
@@ -20,4 +19,9 @@ public class ConditionDaoImp implements ConditionDao {
     }
     @Override
     public Page<UserCondition> findAll(Pageable pageable){return conditionRepository.findAll(pageable);}
+
+    @Override
+    public void saveUserCondition(UserCondition userCondition) {
+        conditionRepository.save(userCondition);
+    }
 }

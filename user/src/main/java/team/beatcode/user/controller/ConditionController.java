@@ -19,4 +19,14 @@ public class ConditionController {
     {
         return conditionService.getPaginatedRanking(data);
     }
+
+    @RequestMapping("getUserConditionById")
+    public UserCondition getUserConditionById(@RequestBody String user_id) {
+        return conditionService.GetUserCondition(user_id);
+    }
+
+    @RequestMapping("saveUserCondition")
+    public void saveUserCondition(@RequestBody UserCondition condition) {
+        conditionService.saveUserCondition(condition);
+    }
 }
