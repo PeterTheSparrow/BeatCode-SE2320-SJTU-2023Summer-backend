@@ -1,9 +1,14 @@
 package team.beatcode.qbank.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.File;
 import java.util.Arrays;
 
 public class Macros {
+    @Value("${utils.fileVersion.storage}")
+    private static String testcaseDirectoryPathYml;
+
     public static final String PARAM_PAGE = "pageIndex";
     public static final String PARAM_PAGE_SIZE = "pageSize";
     public static final String PARAM_TITLE_KEY = "titleContains";
@@ -37,7 +42,7 @@ public class Macros {
      题库文件存放在这个文件夹中
      */
     public static final String testcaseDirectoryPath =
-            "D:/Test/Testcases".replace("/", File.separator);
+            testcaseDirectoryPathYml.replace("/", File.separator);
     /**
      * 注：7z可以自动识别文件的压缩方式和格式，不需要带后缀名。后缀名与实际格式不符会报警
      * @param pid 题号

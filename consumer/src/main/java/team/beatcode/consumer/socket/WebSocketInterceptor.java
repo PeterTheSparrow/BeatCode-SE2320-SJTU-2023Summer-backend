@@ -32,9 +32,11 @@ public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {
         if (request instanceof ServletServerHttpRequest serverHttpRequest) {
             // 获取参数
             String token = serverHttpRequest.getServletRequest().getParameter("Token");
+            System.out.printf("token: %s\n",token);
             if (token != null) {
-                UserContextHolder.setToken(token);
+                UserContextHolder.setToken(token.replace('-', '+').replace('_', '/'));
                 Message rt = authFeign.checkUser();
+                System.out.println(rt);
                 UserContextHolder.clearToken();
                 if (rt == null || rt.getStatus() == MessageEnum.AUTH_AUTH_ERROR.getStatus()) {
                     System.out.println("Auth-app Boom!");

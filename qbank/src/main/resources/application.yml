@@ -29,10 +29,14 @@ spring:
           auto: validate
         dialect: org.hibernate.dialect.MySQLDialect
 
-
 eureka:
   client:
     service-url:
       # where the registry server is
       defaultZone: http://localhost:8761/eureka
 
+utils:
+  fileVersion:
+    storage: /usr/tmp/BeatCode/QBank
+  extraction:
+    executable: 7z

@@ -3,15 +3,13 @@ package team.beatcode.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team.beatcode.entity.Submission;
 import team.beatcode.entity.UserCondition;
+import team.beatcode.feign.SocketFeign;
 import team.beatcode.service.ConditionService;
 import team.beatcode.service.SubmissionService;
 
-import javax.lang.model.util.Elements;
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,10 +20,17 @@ public class EndingController {
     SubmissionService submissionService;
     @Autowired
     ConditionService conditionService;
+    @Autowired
+    SocketFeign socketFeign;
     @RequestMapping("WindUp")
-    public void WindUp(@RequestParam("sid") String sid)
+    public void WindUp(@RequestBody Submission submission)
     {
-        Submission submission=submissionService.getSubmission(sid);
+        System.out.println("saved submission in windup1:");
+        System.out.println(submission);
+        submissionService.saveSubmission(submission);
+        System.out.println("saved submission in windup2:");
+        System.out.println(submission);
+
         String userId=submission.getUserId();
         String problemId=submission.getProblemId();
         String problemScore=submission.getResult_score();
@@ -59,5 +64,9 @@ public class EndingController {
         userCondition.setProblemCondition(condition);
         userCondition.setACount(count);
         conditionService.SaveUserCondition(userCondition);
+        // 发送WebSocket到用户
+        socketFeign.judgeFinished(
+                Integer.parseInt(submission.getUserId()),
+                "Judge Finished");
     }
 }

@@ -19,9 +19,17 @@ eureka:
     service-url:
       # where the registry server is
       defaultZone: http://localhost:8761/eureka
+
 judge:
   judgeDirectory: /usr/tmp/BeatCode/judge/1
-  dataDirectory: /usr/tmp/BeatCode/data
+  # dataDirectory: /usr/tmp/BeatCode/data # 未找到调用者，暂且注释掉
   judgerDirectory: /usr/tmp/BeatCode/judger
 
+utils:
+  fileVersion:
+    jsonPath: /usr/tmp/BeatCode/data/version.json
+  extraction:
+    executable: 7z
+    download: /usr/tmp/BeatCode/Download
+    destination: /usr/tmp/BeatCode/data
 

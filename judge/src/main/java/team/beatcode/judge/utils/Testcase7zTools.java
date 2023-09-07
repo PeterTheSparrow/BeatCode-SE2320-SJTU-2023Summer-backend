@@ -1,5 +1,7 @@
 package team.beatcode.judge.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.*;
 
 /**
@@ -9,28 +11,36 @@ import java.io.*;
  */
 public class Testcase7zTools {
 
+    //**********************************************yml配置
+
+    @Value("${utils.extraction.executable}")
+    private static String executable7zPathYml;
+
+    @Value("${utils.extraction.download}")
+    private static String testcaseDownloadDirPathYml;
+
+    @Value("${utils.extraction.destination}")
+    private static String testcaseWorkingDirPathYml;
+
     //**********************************************配置
 
     /**
      * 7z运行文件的地址
      */
     private static final String executable7zPath =
-            "D:/MyBox/7-Zip/7z.exe"
-            .replace("/", File.separator);
+            executable7zPathYml.replace("/", File.separator);
 
     /**
      * 压缩包下载到的文件夹，不是最终的地址
      */
     private static final String testcaseDownloadDirPath =
-            "D:/Test/TempDownload"
-                    .replace("/", File.separator);
+            testcaseDownloadDirPathYml.replace("/", File.separator);
 
     /**
      * 压缩包解压到的文件夹，工作位置
      */
     private static final String testcaseWorkingDirPath =
-            "D:/Test/JudgeWorking"
-                    .replace("/", File.separator);
+            testcaseWorkingDirPathYml.replace("/", File.separator);
 
     /**
      * @param pid 题号
