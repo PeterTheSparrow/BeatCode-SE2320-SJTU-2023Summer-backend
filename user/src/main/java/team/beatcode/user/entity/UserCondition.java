@@ -38,6 +38,8 @@ public class UserCondition {
         userId=UserId;
         userName=UserName;
         ACount=0;
+        problemCondition=new LinkedHashMap<>();
+        UserActivity=new LinkedHashMap<>();
     }
     public UserCondition()
     {

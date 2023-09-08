@@ -158,6 +158,8 @@ public class LogController {
             Integer id = auth.getId();
             byte[] token = TokenUtils.generate();
             saveLogin(token, id);
+            
+
 
             // 调用user服务记录更多信息
             map.remove(KEY_PASSWORD);

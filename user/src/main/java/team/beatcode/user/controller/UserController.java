@@ -180,6 +180,15 @@ public class UserController {
         }
     }
 
+    /**
+     * 获得某个用户通过的题目列表
+     * @param map 传入的数据
+     *            data中包含的数据：
+     *            userId: 用户id
+     *            pageIndex: 当前页数，从1开始
+     *            pageSize: 每页的记录数目
+     * @return Message 信息
+     * */
     @RequestMapping("/getProblemList")
     public Message getProblemList(@RequestBody Map<String, Object> map) {
         try{
