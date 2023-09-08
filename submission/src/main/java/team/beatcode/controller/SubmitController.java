@@ -90,4 +90,9 @@ public class SubmitController {
         //pageSize: size of per page
         return submissionService.getPaginatedSubmissions(data);
     }
+    @RequestMapping("GetProblemSubmissions")
+    public Page<Submission> GetProblemSubmissions(@RequestBody Map<String,String>data)
+    {
+        return submissionService.getPaginatedProblemSubmissions(data);
+    }
 }

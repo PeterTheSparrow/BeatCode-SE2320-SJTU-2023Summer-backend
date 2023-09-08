@@ -20,5 +20,6 @@ public interface SubmissionDao {
 
     Page<Submission> findByUnameAndPidAndPname(String uname,String pid,String pname, Pageable pageable);
     Page<Submission> findAll(Pageable pageable);
+    Page<Submission> findByStateAndProblemId(String state,String problem_id,Pageable pageable);
 
 }

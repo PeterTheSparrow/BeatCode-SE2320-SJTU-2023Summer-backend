@@ -53,4 +53,9 @@ public class SubmissionDaoImpl implements SubmissionDao {
     @Override
     public Page<Submission> findAll(Pageable pageable)
     {return submissionRepository.findAll(pageable);}
+    @Override
+    public Page<Submission> findByStateAndProblemId(String state,String problem_id,Pageable pageable)
+    {
+        return submissionRepository.findAllByStateAndProblemId(state,problem_id,pageable);
+    }
 }

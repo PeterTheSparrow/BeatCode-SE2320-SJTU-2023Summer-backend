@@ -85,4 +85,20 @@ public class SubmissionServiceImpl implements SubmissionService {
             return submissionDao.findAll(pageable);
         }
     }
+    @Override
+    public Page<Submission> getPaginatedProblemSubmissions(Map<String,String> SearchMaps) {
+        String sortDirection = "asc";
+        String sortBy = "result_time";
+
+        String problem_id = SearchMaps.get("problem_id");
+        String state = "Accepted";
+
+        int page = Integer.parseInt(SearchMaps.get("page"));
+        int pageSize = Integer.parseInt(SearchMaps.get("pageSize"));
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
+
+        return submissionDao.findByStateAndProblemId(state, problem_id, pageable);
+    }
 }
