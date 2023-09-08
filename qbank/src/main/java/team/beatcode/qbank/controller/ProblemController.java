@@ -32,9 +32,9 @@ public class ProblemController {
 
     /**
      * 题库主界面：接收的前端的参数，进行筛选，返回符合条件的题目
-     * pageIndex: 当前页数，从1开始，可以是字符串或整数
+     * pageIndex: 当前页数，从1开始
      * pageSize: 每页的记录数目
-     * problemId: 题号，有内容时按照题号搜索
+     * problemId: 题号，有内容时按照题号搜索，可以是字符串或整数
      * titleContains: 标题包含此关键词。不能不填，可以是空串
      * hardLevel: 难度。不能不填，只能是空串或者Macros里规定的几个值，否则会报错
      * user_id: 用户id，与做题情况有关
