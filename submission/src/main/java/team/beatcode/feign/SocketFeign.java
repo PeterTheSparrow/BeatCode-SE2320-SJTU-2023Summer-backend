@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestParam;
         {FeignClientsConfiguration.class})
 public interface SocketFeign {
     @RequestMapping("/socket/inform")
-    void judgeFinished(@RequestParam Integer uid, @RequestParam String msg);
+    void judgeFinished(@RequestParam Integer uid, @RequestParam String pid);
 }
