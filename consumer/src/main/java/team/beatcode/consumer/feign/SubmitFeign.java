@@ -19,6 +19,8 @@ public interface SubmitFeign {
     Map<String,Object> GetFullSubmission(@RequestBody Map<String,Object> data);
     @RequestMapping("GetSubmissions")
     Map<String,Object> GetSubmissions(@RequestBody Map<String,String> data);
+    @RequestMapping("GetProblemSubmissions")
+    Map<String,Object> GetProblemSubmissions(@RequestBody Map<String,String> data);
     @RequestMapping("WindUp")
     void WindUp(@RequestParam("sid") String sid);
 }

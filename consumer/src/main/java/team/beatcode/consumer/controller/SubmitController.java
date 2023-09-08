@@ -44,4 +44,10 @@ System.out.println("created submission id "+sid);
     {
         return submitFeign.GetSubmissions(data);
     }
+    @RequestMapping("GetProblemSubmissions")
+    @RequireLogin(type = RequireLogin.Type.USER)
+    public Map<String,Object> GetProblemSubmissions(@RequestBody Map<String,String> data)
+    {
+        return submitFeign.GetProblemSubmissions(data);
+    }
 }
