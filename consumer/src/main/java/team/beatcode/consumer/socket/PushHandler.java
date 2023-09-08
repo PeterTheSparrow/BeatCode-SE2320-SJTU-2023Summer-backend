@@ -44,7 +44,7 @@ public class PushHandler extends AbstractWebSocketHandler {
                 session.sendMessage(new TextMessage(content));
             } catch (IOException e) {
                 System.out.printf(
-                        "IOE when sending text to user %s\n\t\ncontent: %s",
+                        "IOE when sending text to user %s\n\tcontent: %s\n",
                         uid, content);
             }
         }

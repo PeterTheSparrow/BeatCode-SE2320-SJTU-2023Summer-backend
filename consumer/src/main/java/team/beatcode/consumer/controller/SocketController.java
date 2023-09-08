@@ -15,12 +15,12 @@ public class SocketController {
     PushHandler pushHandler;
 
     @RequestMapping("inform")
-    public void judgeFinished(@RequestParam Integer uid, @RequestParam String pid) {
+    public void judgeFinished(@RequestParam Integer uid, @RequestParam String sid) {
         pushHandler.sendTextToUser(uid,
                 String.format(
-                        "{\"user\": %d, \"problem\": %s}",
+                        "{\"user\": %d, \"submission\": %s}",
                         uid,
-                        pid
+                        sid
                         ));
     }
 }
