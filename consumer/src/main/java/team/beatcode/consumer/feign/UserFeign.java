@@ -5,9 +5,9 @@ import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sjtu.reins.web.utils.Message;
-import team.beatcode.user.entity.Person_info;
-import team.beatcode.user.entity.User;
-import team.beatcode.user.entity.User_record;
+import team.beatcode.consumer.entity.Person_info;
+import team.beatcode.consumer.entity.User;
+import team.beatcode.consumer.entity.User_record;
 
 import java.util.List;
 import java.util.Map;

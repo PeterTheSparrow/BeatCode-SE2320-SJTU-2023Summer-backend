@@ -1,9 +1,9 @@
 package team.beatcode.user.service.impl;
 
 import org.springframework.data.domain.Page;
-import team.beatcode.qbank.entity.Problem;
-import team.beatcode.qbank.utils.msg.MessageEnum;
-import team.beatcode.qbank.utils.msg.MessageException;
+import team.beatcode.user.entity.Problem;
+import team.beatcode.user.utils.msg.MessageEnum;
+import team.beatcode.user.utils.msg.MessageException;
 import team.beatcode.user.dao.UserDao;
 import team.beatcode.user.entity.*;
 import team.beatcode.user.feign.QbankFeign;

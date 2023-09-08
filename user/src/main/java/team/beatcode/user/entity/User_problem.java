@@ -2,7 +2,7 @@ package team.beatcode.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import team.beatcode.qbank.entity.Problem;
+import team.beatcode.user.entity.Problem;
 
 import java.util.List;
 

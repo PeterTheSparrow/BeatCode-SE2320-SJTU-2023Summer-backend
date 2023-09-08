@@ -49,7 +49,8 @@ public class ProblemControllerTest {
 
         // 模拟 problemService.getProblemListEx() 方法返回问题列表
         ProblemReturn.Paged mockedResult = new ProblemReturn.Paged(new ArrayList<>(), 2);
-        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt(),""))
+        LinkedHashMap<String,Integer> problemCondition=new LinkedHashMap<>();
+        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt(),problemCondition))
                 .thenReturn(mockedResult);
 
         // 发送 POST 请求
@@ -101,7 +102,8 @@ public class ProblemControllerTest {
         requestParams.put("hardLevel", "无效"); // 无效的难度值
 
         // 模拟 problemService.getProblemListEx() 方法抛出消息异常
-        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt(),""))
+        LinkedHashMap<String,Integer> problemCondition=new LinkedHashMap<>();
+        when(problemService.getProblemListEx(anyString(), anyString(), anyInt(), anyInt(),problemCondition))
                 .thenThrow(new MessageException(MessageEnum.SEARCH_DIFFICULTY_UNKNOWN));
 
         // 发送 POST 请求
@@ -157,13 +159,13 @@ public class ProblemControllerTest {
 
         // 设置config属性
         Problem.Config config = new Problem.Config();
-        config.setType("类型");
+//        config.setType("类型");
         config.setTests(5);
         config.setTLimit(1000);
         config.setMLimit(256);
         config.setOLimit(1024);
-        config.setBuiltinJ("使用内置判题机");
-        config.setBuiltinC("使用内置检查器");
+//        config.setBuiltinJ("使用内置判题机");
+//        config.setBuiltinC("使用内置检查器");
 
         problem.setConfig(config);
         // 模拟 problemService.getProblemDetail() 方法返回题目详情
