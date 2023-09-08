@@ -50,6 +50,17 @@ public class ProblemServiceImp implements ProblemService {
             throw new MessageException(MessageEnum.SEARCH_DIFFICULTY_UNKNOWN);
     }
 
+    @Override
+    public ProblemReturn getProblem(Integer problemId) {
+        Problem p = problemDao.findProblemById(problemId);
+
+        if (p == null)
+            return null;
+        else {
+            return new ProblemReturn(p);
+        }
+    }
+
     /**
      * 试验：加入缓存
      *

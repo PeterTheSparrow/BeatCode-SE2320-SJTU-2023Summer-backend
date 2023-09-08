@@ -16,6 +16,7 @@ public interface ProblemService {
                                          Integer pageSize,
                                          Map<String, Integer> problem_condition) throws MessageException;
 
+    ProblemReturn getProblem(Integer problemId);
     ProblemReturn.Detail getProblemDetail(Integer problemId);
     int getProblemVersion(Integer problemId);
 
