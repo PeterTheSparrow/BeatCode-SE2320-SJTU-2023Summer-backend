@@ -21,7 +21,7 @@ public class Macros {
     public static final String PARAM_USER_ID = "user_id";
 
     private static final String[] HARD_LEVEL_LIST = {
-            "简单", "中等", "困难"
+            "简单", "中等", "困难","入门","竞赛"
     };
     public static boolean correctHardLevel(String hardLevel) {
         if (hardLevel == null)
