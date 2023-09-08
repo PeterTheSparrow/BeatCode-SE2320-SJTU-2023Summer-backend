@@ -15,6 +15,7 @@ import team.beatcode.qbank.utils.Macros;
 import team.beatcode.qbank.utils.msg.MessageEnum;
 import team.beatcode.qbank.utils.msg.MessageException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +34,10 @@ public class ProblemController {
      * 题库主界面：接收的前端的参数，进行筛选，返回符合条件的题目
      * pageIndex: 当前页数，从1开始
      * pageSize: 每页的记录数目
+     * problemId: 题号，有内容时按照题号搜索，可以是字符串或整数
      * titleContains: 标题包含此关键词。不能不填，可以是空串
      * hardLevel: 难度。不能不填，只能是空串或者Macros里规定的几个值，否则会报错
+     * user_id: 用户id，与做题情况有关
      * 填空串等于返回全部
      * */
     @RequestMapping("/GetProblemList")
@@ -42,6 +45,27 @@ public class ProblemController {
         try {
             Integer pageIndex = (Integer) map.get(Macros.PARAM_PAGE);
             Integer pageSize = (Integer) map.get(Macros.PARAM_PAGE_SIZE);
+
+            Object pidObj = map.get(Macros.PARAM_PROB_ID);
+            if (pidObj != null && !"".equals(pidObj)) {
+                try {
+                    int pid = pidObj instanceof String ?
+                            Integer.parseInt((String) pidObj) :
+                            (Integer) pidObj;
+                    List<ProblemReturn> list = new ArrayList<>();
+                    ProblemReturn p = problemService.getProblem(pid);
+                    if (p != null) list.add(p);
+                    return new Message(
+                            MessageEnum.SUCCESS,
+                            new ProblemReturn.Paged(list, p == null ? 0 : 1)
+                            );
+                }
+                catch (NumberFormatException e) {
+                    System.out.printf(
+                            "GetProblemList: %s can't be an int\n",
+                            pidObj);
+                }
+            }
 
             String titleContains = (String) map.get(Macros.PARAM_TITLE_KEY);
             String hardLevel = (String) map.get(Macros.PARAM_HARD_LEVEL);
@@ -104,6 +128,7 @@ public class ProblemController {
     public Integer getVersion(@RequestBody Integer pid) {
         return problemService.getProblemVersion(pid);
     }
+
 
     @RequestMapping("/getUserProblem")
     public Page<Problem> getUserProblem(@RequestBody Map<String, Object> map){

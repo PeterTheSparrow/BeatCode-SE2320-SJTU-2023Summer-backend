@@ -15,12 +15,13 @@ public class Macros {
 
     public static final String PARAM_PAGE = "pageIndex";
     public static final String PARAM_PAGE_SIZE = "pageSize";
+    public static final String PARAM_PROB_ID = "problemId";
     public static final String PARAM_TITLE_KEY = "titleContains";
     public static final String PARAM_HARD_LEVEL = "hardLevel";
     public static final String PARAM_USER_ID = "user_id";
 
     private static final String[] HARD_LEVEL_LIST = {
-            "简单", "中等", "困难"
+            "简单", "中等", "困难","入门","竞赛"
     };
     public static boolean correctHardLevel(String hardLevel) {
         if (hardLevel == null)
