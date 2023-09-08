@@ -1,6 +1,7 @@
 package team.beatcode.user.entity;
 
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -12,7 +13,6 @@ import java.util.LinkedHashMap;
 public class UserCondition {
 
     @Id
-    @Field("_id")
     private String _id;
     @Field("user_id")
     private String userId;

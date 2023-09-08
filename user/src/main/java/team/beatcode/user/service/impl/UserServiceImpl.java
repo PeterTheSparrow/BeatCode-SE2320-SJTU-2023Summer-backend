@@ -11,6 +11,8 @@ import team.beatcode.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -120,6 +122,11 @@ public class UserServiceImpl implements UserService{
     public List<User_activity> getUserActivity(LinkedHashMap<String,Integer> userActivity, String year) {
         List<User_activity> userActivities = new ArrayList<>();
         for (String key : userActivity.keySet()) {
+            System.out.println("key:"+key);
+            String key_year=key.substring(0,4);
+            System.out.println("key_year:"+key_year);
+            if(!key_year.equals(year))
+                continue;
             Integer value = userActivity.get(key);
             User_activity userActivity1 = new User_activity();
             userActivity1.setDate(key);

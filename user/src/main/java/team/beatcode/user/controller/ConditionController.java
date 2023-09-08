@@ -41,6 +41,8 @@ public class ConditionController {
                                     @RequestParam String date,
                                     @RequestParam int score) {
         // todo 搬到service并处理并发锁？
+        System.out.println("now handling:\n"+user_id+"\n"+problem_id+"\n"+date+"\n"+score);
+
         UserCondition userCondition = conditionService.GetUserCondition(user_id);
 
         //modify the problem condition

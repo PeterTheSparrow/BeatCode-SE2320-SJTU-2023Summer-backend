@@ -10,6 +10,6 @@ import team.beatcode.qbank.entity.UserCondition;
 @FeignClient(value = "user", configuration = FeignClientsConfiguration.class)
 public interface UserFeign {
     @RequestMapping("getUserConditionById")
-    public UserCondition getUserConditionById(@RequestBody String user_id);
+    UserCondition getUserConditionById(@RequestBody String user_id);
 
 }
