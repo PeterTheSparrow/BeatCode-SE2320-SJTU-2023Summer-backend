@@ -15,6 +15,10 @@ spring:
         username: BeatCode
         password: BeatCode2023summer
         authenticationDatabase: admin
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
   datasource:
     url: jdbc:mysql://121.37.137.236:2023/beatcode_mysql?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: BeatCode

@@ -9,6 +9,10 @@ spring:
     username: BeatCode
     password: BeatCode2023summer
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
 
 eureka:
   client:
