@@ -5,11 +5,12 @@ spring:
   application:
     name: consumer
   datasource:
-    url: jdbc:mysql://121.37.162.88:1023/beatcode_mysql?serverTimeZone=UTC;
+    url: jdbc:mysql://121.37.137.236:2023/beatcode_mysql?serverTimeZone=UTC;
     username: BeatCode
     password: BeatCode2023summer
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka

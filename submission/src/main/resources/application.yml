@@ -6,8 +6,8 @@ spring:
     name: submission
   data:
     mongodb:
-      host: 121.37.162.88
-      port: 1025
+      host: 121.37.137.236
+      port: 2024
       database: BeatCode
       username: BeatCode
       password: BeatCode2023summer
