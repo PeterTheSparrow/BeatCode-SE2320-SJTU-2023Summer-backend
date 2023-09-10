@@ -1,7 +1,6 @@
 package team.beatcode.judge.controller;
 
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -115,7 +114,7 @@ System.out.println("starting judge "+sid);
         /*---------------------------------------------
         //delete directory
         ---------------------------------------------*/
-//        deleteDirectory(WorkDirectory);
+        deleteDirectory(WorkDirectory);
 
         // 结束评测，包括保存结果在内的收尾工作都交给submission服务
         submitFeign.WindUp(resSubmission);
